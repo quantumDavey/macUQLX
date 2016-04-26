@@ -1,0 +1,31 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1138\cocoasubrtf510
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww21580\viewh11400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc
+
+\f0\b\fs28 \cf0 UQLX on Mac Notes\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\fs26 \cf0 1.	Structure:\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\tx7340\tx7920\tx8460\tx9080\tx9600\tx10160\tx10720\tx11280\tx11860\tx12440\tx13000\tx13540\tx14120\tx14660\tx15180\tx15860\tx16360\tx16960\tx17500\tx18080\tx18640\tx19180\tx19780\tx20400\pardirnatural
+\cf0 \
+	
+\b0\fs24 xlmain.c: main()	calls:		unixstuff.c:SetParams()	calls:	[browse_manuals()]		calls:	qm_findx()	calls:		uxfile.c:qaddpath()	calls:	[addpath()]\
+																					uxfile.c:addpath\
+\
+														[usage()]\
+\
+														uqlx_cfg.c:QMParams()	calls:	unixstuff.c:qm_findx()	calls:		uxfile.c:qaddpath()	calls:	[addpath()]\
+																					uxfile.c:qaddpath()	calls:	[addpath()]\
+																					[lopen()]\
+																					strim()\
+\
+														[Xscreen.c:parse_screen()]\
+\
+														[toggle_hog()]\
+							\
+							\
+							unixstuff.c:uqlxInit()\
+							unixstuff.c:QLRun()}

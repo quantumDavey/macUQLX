@@ -1,0 +1,10 @@
+Code Epochs:
+
+01-10:	General Tidying Up
+
+11:		Pre-redesign of instruction map set up
+
+		REDESIGN STEPS
+		1.	Move table defs outside executeloop() in iexl_general.c
+		2.	New table set up using optab.dat input file in InitCpu()
+		3.  Removed inclusion of Init.c in iexl_general.c

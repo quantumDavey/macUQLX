@@ -1,0 +1,46 @@
+10 REM UQLX
+100 OPEN#4,con_512x256a0x0
+110 BORDER#4,2,4,2
+120 PAPER#4,2:INK#4,7
+130 CLS#4
+140 AT#4, 1,9
+150 CSIZE#4, 3,1
+160 PRINT#4, "Welcome to UQLX"
+170 CSIZE#4,0,0
+180 PRINT#4
+190 PRINT_RELEASE
+200 PRINT#4
+210 PRINT#4
+220 PRINT#4, "Date",DATE$,"QDOS version:",VER$
+230 PRINT#4
+240 PRINT#4, "running benchmarks(see README):"
+250 PRINT#4
+260 PRINT#4,"B1:"
+270 t=DATE:lim=1000
+280 FOR i=1 TO 50000:a=SIN(1)
+290 d=DATE-t
+420 PRINT#4, "....takes",d;"s"
+430 PRINT#4
+500 PRINT#4,"Done !!"
+510 CSIZE#4,0,0
+520 PRINT#4:PRINT#4,".... UQLX will kill itself after a while to report exact user/system times"
+530 a$=INKEY$(#2,2*50)
+540 CLS#0:CLS#1:CLS#2
+550 CLOSE#4
+560 Kill_UQLX 0
+570 :
+580 DEFine PROCedure PRINT_RELEASE
+590  REMark OPEN_IN#5,'mdv1_.._version.c'
+600  REMark INPUT#5,a$
+610  REMark INPUT#5,a$
+620  REMark INPUT#5,a$
+630  REMark a$=a$('"'INSTR a$ TO LEN(a$)-1)
+640  STRIP#4,0
+650  AT#4,4,14
+660  PRINT#4,"release"!!UQLX_RELEASE$
+670  STRIP#4,2
+680 END DEFine 
+690 :
+700 DEFine PROCedure sa
+710  SAVE_O 'mdv1_.._bench1'
+720 END DEFine 

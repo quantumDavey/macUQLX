@@ -1,0 +1,376 @@
+	// New SetTable Syntax:
+	
+	// SetTable( theTable, binarymask, function to call, mnemonic, key for source, key for dest )
+	
+	// All bit field specifiers:
+	//		R:nm 	R=addressing mode
+	//				:nm = field of bits  n to n+m of instruction word  incl counting from right
+	
+	//	key syntax:
+	//	B		immed	extension word  - Low order byte significant (xL)
+	//	W		immed	extension word  - Full word significant (HL)
+	//	L		immed	2 exctension words - 2 Full Words (4 bytes HLHL )
+	//	T		mask	16 bit register mask [A7...D0]
+	//	S		mask	16 bit register mask [D0...A7] (movem to from -(An), (An)+)
+	//	Z		4bits	4 bit field (trap instruction)
+	//	Q		3 bits  3 bit field (...Q instructions)
+	//	K		8 bits  8 bit field (MOVEQ instructions)
+	//	P		d(PC)	16 bit signed displacement from PC
+	//	G		disp	8 bit displacement (=0 +16bit extension word, =255 +32 bit extension long word)
+	//	!xxx..  literal actual literal to display 
+	//	A:nm	direct  Addr reg defined by bit n to bit n+m incl
+	//	D:nm	direct  Data reg defined by bit n to bit n+m incl
+	//	E:nm	ea		EA [MMMRRR] defined by bit n to bit n+m incl + opt extension words
+	//	F:nm	ea		EA [RRRMMM] defined by bit n to bit n+m incl + opt extension words
+	//	d:nm	d(An)	displacement extension word [0=D,1=A][idx][0=W,1=L][sc][0][8 bit signed disp]
+	//	a:nm	(An)	address reg indirect
+	//	+:nm	(An)+	address reg indirect with post-increment
+	//	-:nm	-(An)	address reg indirect with pre-decrement
+
+
+
+SetInvalEntries(itable, LR InvalidCode, "ERR", " ", " " );
+
+	SetTable(itable, "0000000000xxxxxx", LR ori_b,			"ori.b",	"B  ",		"E:05" );				
+	SetTable(itable, "0000000000111100", LR ori_to_ccr,		"ori",		"B  ",		"!CCR" );				
+	SetTable(itable, "0000000001xxxxxx", LR ori_w,			"ori.w",	"W  ",		"E:05" );				
+	SetTable(itable, "0000000001111100", LR ori_to_sr,		"ori",		"W  ",		"!SR" );				
+	SetTable(itable, "0000000010xxxxxx", LR ori_l,			"ori.l",	"L  ",		"E:05" );				
+	SetTable(itable, "0000xxx100xxxxxx", LR btst_d,			"btst",		"D:92",		"E:05" );			
+	SetTable(itable, "0000xxx101xxxxxx", LR bchg_d,			"bchg",		"D:92",		"E:05" );			
+	SetTable(itable, "0000xxx110xxxxxx", LR bclr_d,			"bclr",		"D:92",		"E:05" );			
+	SetTable(itable, "0000xxx111xxxxxx", LR bset_d,			"bset",		"D:92",		"E:05" );			
+	SetTable(itable, "0000xxx100001xxx", LR movep_w_mr,		"movep.w",	"d:02",		"D:92" );	//	
+	SetTable(itable, "0000xxx101001xxx", LR movep_l_mr,		"movep.l",	"d:02",		"D:92" );	
+	SetTable(itable, "0000xxx110001xxx", LR movep_w_rm,		"movep.w",	"D:92",		"d:02" );	
+	SetTable(itable, "0000xxx111001xxx", LR movep_l_rm,		"movep.l",	"D:92",		"d:02" );	
+	SetTable(itable, "0000001000xxxxxx", LR andi_b,			"andi.b",	"B  ",		"E:05" );			
+	SetTable(itable, "0000001001xxxxxx", LR andi_w,			"andi.w",	"W  ",		"E:05" );			
+	SetTable(itable, "0000001010xxxxxx", LR andi_l,			"andi.l",	"L  ",		"E:05" );			
+	SetTable(itable, "0000001000111100", LR andi_to_ccr,	"andi",		"B  ",		"C" );			
+	SetTable(itable, "0000001001111100", LR andi_to_sr,		"andi",		"W  ",		"S" );				
+	SetTable(itable, "0000010000xxxxxx", LR subi_b,			"subi.b",	"B  ",		"E:05" );			
+	SetTable(itable, "0000010001xxxxxx", LR subi_w,			"subi.w",	"W  ",		"E:05" );			
+	SetTable(itable, "0000010010xxxxxx", LR subi_l,			"subi.l",	"L  ",		"E:05" );			
+	SetTable(itable, "0000011000xxxxxx", LR addi_b,			"addi.b",	"B  ",		"E:05" );			
+	SetTable(itable, "0000011001xxxxxx", LR addi_w,			"addi.w",	"W  ",		"E:05" );			
+	SetTable(itable, "0000011010xxxxxx", LR addi_l,			"addi.l",	"L  ",		"E:05" );			
+	SetTable(itable, "0000100000xxxxxx", LR btst_s,			"btst.s",	"B  ",		"E:05" );			
+	SetTable(itable, "0000100001xxxxxx", LR bchg_s,			"bchg.s",	"B  ",		"E:05" );			
+	SetTable(itable, "0000100010xxxxxx", LR bclr_s,			"bclr.s",	"B  ",		"E:05" );			
+	SetTable(itable, "0000100011xxxxxx", LR bset_s,			"bset.s",	"B  ",		"E:05" );			
+	SetTable(itable, "0000101000xxxxxx", LR eori_b,			"eori.b",	"B  ",		"E:05" );			
+	SetTable(itable, "0000101001xxxxxx", LR eori_w,			"eori.w",	"W  ",		"E:05" );			
+	SetTable(itable, "0000101010xxxxxx", LR eori_l,			"eori.l",	"L  ",		"E:05" );			//	
+	SetTable(itable, "0000101000111100", LR eori_to_ccr,	"eori",		"W  ",		"C" );			
+	SetTable(itable, "0000101001111100", LR eori_to_sr,		"eori",		"W  ",		"S" );				
+	SetTable(itable, "0000110000xxxxxx", LR cmpi_b,			"cmpi.b",	"B  ",		"E:05" );			
+	SetTable(itable, "0000110001xxxxxx", LR cmpi_w,			"cmpi.w",	"W  ",		"E:05" );			
+	SetTable(itable, "0000110010xxxxxx", LR cmpi_l,			"cmpi.l",	"L  ",		"E:05" );			
+	SetTable(itable, "0001xxxxxxxxxxxx", LR move_b,			"move.b",	"E:05",		"F:65" );			
+	SetTable(itable, "0001xxxxxx000xxx", LR move_b_from_dn,	"move.b",	"D:02",		"F:65" ); 
+	SetTable(itable, "0001xxx000xxxxxx", LR move_b_to_dn,	"move.b",	"E:05",		"D:92" );	
+	SetTable(itable, "0001xxx000000xxx", LR move_b_reg,		"move.b",	"D:02",		"D:92" );		
+	SetTable(itable, "0010xxxxxxxxxxxx", LR move_l,			"move.l",	"E:05",		"F:65" );			
+	SetTable(itable, "0010xxxxxx000xxx", LR move_l_from_dn,	"move.l",	"D:02",		"F:65" );	
+	SetTable(itable, "0010xxx000xxxxxx", LR move_l_to_dn,	"move.l",	"E:05",		"D:92" );   
+	SetTable(itable, "0010xxx000000xxx", LR move_l_reg,		"move.l",	"D:02",		"D:92" );     
+	SetTable(itable, "0010xxx001xxxxxx", LR movea_l,		"movea.l",	"A:92",		"E:05" );       
+	SetTable(itable, "0010xxx001001xxx", LR movea_l_an,		"movea.l",	"A:02",		"A:92" );    //  
+	SetTable(itable, "0011xxxxxxxxxxxx", LR move_w,			"move.w",	"E:05",		"F:65" );			
+	SetTable(itable, "0011xxxxxx000xxx", LR move_w_from_dn,	"move.w",	"D:02",		"F:65" ); 
+	SetTable(itable, "0011xxx000xxxxxx", LR move_w_to_dn,	"move.w",	"E:05",		"D:92" );   
+	SetTable(itable, "0011xxx000000xxx", LR move_w_reg,		"move.w",	"D:02",		"D:92" );		
+	SetTable(itable, "0011xxx001xxxxxx", LR movea_w,		"movea.w",	"E:05",		"D:92" );       
+	SetTable(itable, "0100000000xxxxxx", LR negx_b,			"negx.b",	"E:05",		" " );			
+	SetTable(itable, "0100000001xxxxxx", LR negx_w,			"negx.w",	"E:05",		" " );			
+	SetTable(itable, "0100000010xxxxxx", LR negx_l,			"negx.l",	"E:05",		" " );			
+	SetTable(itable, "0100000011xxxxxx", LR move_from_sr,	"move",		"S",		"E:05" );		
+	SetTable(itable, "0100xxx110xxxxxx", LR chk,			"chk.w",	"E:05",		"D:92" );				
+	SetTable(itable, "0100xxx111xxxxxx", LR lea,			"lea",		"E:05",		"D:92" );				
+	/**/
+	SetTable(itable, "0100001000xxxxxx", LR clr_b,			"clr.b",	"E:05",		" " );				
+	SetTable(itable, "0100001001xxxxxx", LR clr_w,			"clr.w",	"E:05",		" " );				
+	SetTable(itable, "0100001010xxxxxx", LR clr_l,			"clr.l",	"E:05",		" " );				
+	SetTable(itable, "0100001011xxxxxx", LR move_from_ccr,	"move",		"C",		"E:05");		
+	SetTable(itable, "0100010000xxxxxx", LR neg_b,			"neg.b",	"E:05",		" " );				
+	SetTable(itable, "0100010001xxxxxx", LR neg_w,			"neg.w",	"E:05",		" " );				
+	SetTable(itable, "0100010010xxxxxx", LR neg_l,			"neg.l",	"E:05",		" " );				
+	SetTable(itable, "0100010011xxxxxx", LR move_to_ccr,	"move",		"E:05",		"C" );			
+	SetTable(itable, "0100011000xxxxxx", LR not_b,			"not.b",	"E:05",		" " );				
+	SetTable(itable, "0100011001xxxxxx", LR not_w,			"not.w",	"E:05",		" " );				
+	SetTable(itable, "0100011010xxxxxx", LR not_l,			"not.l",	"E:05",		" " );				
+	SetTable(itable, "0100011011xxxxxx", LR move_to_sr,		"move",		"E:05",		"S" );			
+	SetTable(itable, "0100100000xxxxxx", LR nbcd,			"nbcd",		"E:05",		" " );				
+	SetTable(itable, "0100100001xxxxxx", LR pea,			"pea",		"E:05",		" " );					
+	SetTable(itable, "0100100001000xxx", LR swap,			"swap",		"D:02",		" " );				
+	SetTable(itable, "0100100010xxxxxx", LR movem_save_w,	"movem.w",	"S",		"E:05" );		
+	SetTable(itable, "0100100010011xxx", LR movem_save_w,	"movem.w",	"T",		"+:02" );		
+	SetTable(itable, "0100100010100xxx", LR movem_save_w,	"movem.w",	"T",		"-:02" );		
+	SetTable(itable, "0100100010000xxx", LR ext_w,			"ext.w",	"D:02",		" "  );				
+	SetTable(itable, "0100100011xxxxxx", LR movem_save_l,	"movem.l",	"S",		"E:05" );		
+	SetTable(itable, "0100100011011xxx", LR movem_save_l,	"movem.l",	"T",		"+:02" );		
+	SetTable(itable, "0100100011100xxx", LR movem_save_l,	"movem.l",	"T",		"-:02" );		
+	SetTable(itable, "0100100011000xxx", LR ext_l,			"ext.l",	"D:02",		" " );				
+	SetTable(itable, "0100101000xxxxxx", LR tst_b,			"tst.b",	"E:05",		" " );				
+	SetTable(itable, "0100101001xxxxxx", LR tst_w,			"tst.w",	"E:05",		" " );				
+	SetTable(itable, "0100101010xxxxxx", LR tst_l,			"tst.l",	"E:05",		" " );				
+	SetTable(itable, "0100101011xxxxxx", LR tas,			"tas",		"E:05",		" " );					
+	SetTable(itable, "0100101011111xxx", LR InvalidCode,	"Invalid",	" ",		" " );		
+	SetTable(itable, "010010101111100x", LR tas,			"tas",		"E:05",		" " );					
+	SetTable(itable, "0100101011111100", LR illegal,		"illegal",	" ",		" " );				
+	SetTable(itable, "0100110010xxxxxx", LR movem_load_w,	"movem.w",	"E:05",		"S" );		
+	SetTable(itable, "0100110010011xxx", LR movem_load_w,	"movem.w",	"+:02",		"T" );		
+	SetTable(itable, "0100110010100xxx", LR movem_load_w,	"movem.w",	"-:02",		"T" );		
+	SetTable(itable, "0100110011xxxxxx", LR movem_load_l,	"movem.l",	"E:05",		"S" );		
+	SetTable(itable, "0100110011011xxx", LR movem_load_l,	"movem.l",	"+:02",		"T" );		
+	SetTable(itable, "0100110011100xxx", LR movem_load_l,	"movem.l",	"-:02",		"T" );		
+	SetTable(itable, "010011100100xxxx", LR trap,			"trap",		"Z03",		" " );					
+#ifndef IE_XL_II
+	SetTable(itable, "0100111001000000", LR trap0,			"trap#0",	" ",		" " );				
+	SetTable(itable, "0100111001000001", LR trap1,			"trap#1",	" ",		" " );				
+	SetTable(itable, "0100111001000010", LR trap2,			"trap#2",	" ",		" " );				
+	SetTable(itable, "0100111001000011", LR trap3,			"trap#3",	" ",		" " );				
+#if 0
+	SetTable(itable, "0100111001000100", LR trap4,			"trap#4",	" ",		" " );				
+#endif 
+#endif
+	SetTable(itable, "0100111001010xxx", LR link,			"link",		"A:02",		"W  " );				
+	SetTable(itable, "0100111001011xxx", LR unlk,			"unlk",		"A:02",		" " );				
+	SetTable(itable, "0100111001100xxx", LR move_to_usp,	"move",		"A:02",		"U" );			
+	SetTable(itable, "0100111001101xxx", LR move_from_usp,	"move",		"U",		"A:02" );		
+	SetTable(itable, "0100111001110000", LR reset,			"reset",	" ",		" " );					
+	SetTable(itable, "0100111001110001", LR nop,			"nop",		" ",		" " );						
+	SetTable(itable, "0100111001110010", LR stop,			"stop",		" ",		" " );					
+	SetTable(itable, "0100111001110011", LR rte,			"rte",		" ",		" " );						
+	SetTable(itable, "0100111001110101", LR rts,			"rts",		" ",		" " );						
+	SetTable(itable, "0100111001110110", LR trapv,			"trapv" );							
+	SetTable(itable, "0100111001110111", LR rtr,			"rtr",		" ",		" " );						
+	SetTable(itable, "0100111010xxxxxx", LR jsr,			"jsr",		"E:05",		" " );					
+	SetTable(itable, "0100111010111010", LR jsr_displ,		"jsr",		"P",		" " );				
+	SetTable(itable, "0100111011xxxxxx", LR jmp,			"jmp",		"E:05",		" " );					
+	SetTable(itable, "0101xxx000xxxxxx", LR addq_b,			"addq.b",	"Q:92",		"E:05" );			
+	SetTable(itable, "0101xxx001xxxxxx", LR addq_w,			"addq.w",	"Q:92",		"E:05" );			
+	SetTable(itable, "0101xxx010xxxxxx", LR addq_l,			"addq.l",	"Q:92",		"E:05" );			
+	SetTable(itable, "0101xxx001001xxx", LR addq_an,		"addq.w",	"Q:92",		"A:02" );		
+	SetTable(itable, "0101xxx010001xxx", LR addq_an,		"addq.l",	"Q:92",		"A:02" );		
+	SetTable(itable, "0101100001001xxx", LR addq_4_an,		"addq.w",	"!#4",		"A:02" );		
+	SetTable(itable, "0101100010001xxx", LR addq_4_an,		"addq.l",	"!#4",		"A:02" );		
+	/**/
+	SetTable(itable, "0101xxxx11xxxxxx", LR scc,			"sCC",		"E:05",		" " );					
+	SetTable(itable, "0101000011xxxxxx", LR st,				"st",		"E:05",		" " );					
+	SetTable(itable, "0101000111xxxxxx", LR sf,				"sf",		"E:05",		" " );					
+	SetTable(itable, "0101001011xxxxxx", LR scc,			"shi",		"E:05",		" " );					
+	SetTable(itable, "0101001111xxxxxx", LR scc,			"sls",		"E:05",		" " );					
+	SetTable(itable, "0101010011xxxxxx", LR scc,			"scc",		"E:05",		" " );					
+	SetTable(itable, "0101010111xxxxxx", LR scc,			"scs",		"E:05",		" " );					
+	SetTable(itable, "0101011011xxxxxx", LR scc,			"sne",		"E:05",		" " );					
+	SetTable(itable, "0101011111xxxxxx", LR scc,			"seq",		"E:05",		" " );					
+	SetTable(itable, "0101100011xxxxxx", LR scc,			"svc",		"E:05",		" " );					
+	SetTable(itable, "0101100111xxxxxx", LR scc,			"svs",		"E:05",		" " );					
+	SetTable(itable, "0101101011xxxxxx", LR scc,			"spl",		"E:05",		" " );					
+	SetTable(itable, "0101101111xxxxxx", LR scc,			"smi",		"E:05",		" " );					
+	SetTable(itable, "0101110011xxxxxx", LR scc,			"sge",		"E:05",		" " );					
+	SetTable(itable, "0101110111xxxxxx", LR scc,			"slt",		"E:05",		" " );					
+	SetTable(itable, "0101111011xxxxxx", LR scc,			"sgt",		"E:05",		" " );					
+	SetTable(itable, "0101111111xxxxxx", LR scc,			"sle",		"E:05",		" " );					
+	SetTable(itable, "0101xxxx11001xxx", LR dbcc,			"dbcc",		"D:02",		"W  " );				
+	SetTable(itable, "0101000011001xxx", LR dbcc,			"dbt",		"D:02",		"W  " );					
+	SetTable(itable, "0101000111001xxx", LR dbf,			"dbf",		"D:02",		"W  " );					
+	SetTable(itable, "0101001011001xxx", LR dbcc,			"dbhi",		"D:02",		"W  " );				
+	SetTable(itable, "0101001111001xxx", LR dbcc,			"dbls",		"D:02",		"W  " );				
+	SetTable(itable, "0101010011001xxx", LR dbcc,			"dbcc",		"D:02",		"W  " );				
+	SetTable(itable, "0101010111001xxx", LR dbcc,			"dbcs",		"D:02",		"W  " );				
+	SetTable(itable, "0101011011001xxx", LR dbcc,			"dbne",		"D:02",		"W  " );				
+	SetTable(itable, "0101011111001xxx", LR dbcc,			"dbeq",		"D:02",		"W  " );				
+	SetTable(itable, "0101100011001xxx", LR dbcc,			"dbvc",		"D:02",		"W  " );				
+	SetTable(itable, "0101100111001xxx", LR dbcc,			"dbvs",		"D:02",		"W  " );				
+	SetTable(itable, "0101101011001xxx", LR dbcc,			"dbpl",		"D:02",		"W  " );				
+	SetTable(itable, "0101101111001xxx", LR dbcc,			"dbmi",		"D:02",		"W  " );				
+	SetTable(itable, "0101110011001xxx", LR dbcc,			"dbge",		"D:02",		"W  " );				
+	SetTable(itable, "0101110111001xxx", LR dbcc,			"dblt",		"D:02",		"W  " );				
+	SetTable(itable, "0101111011001xxx", LR dbcc,			"dbgt",		"D:02",		"W  " );				
+	SetTable(itable, "0101111111001xxx", LR dbcc,			"dble",		"D:02",		"W  " );				
+	SetTable(itable, "0101xxx100xxxxxx", LR subq_b,			"subq.b",	"Q:92",		"E:05" );			
+	SetTable(itable, "0101xxx101xxxxxx", LR subq_w,			"subq.w",	"Q:92",		"E:05" );			
+	SetTable(itable, "0101xxx110xxxxxx", LR subq_l,			"subq.l",	"Q:92",		"E:05" );			
+	SetTable(itable, "0101xxx101001xxx", LR subq_an,		"subq.w",	"Q:92",		"A:02" );		
+	SetTable(itable, "0101xxx110001xxx", LR subq_an,		"subq.l",	"Q:92",		"A:02" );		
+	SetTable(itable, "0101100101001xxx", LR subq_4_an,		"subq.w",	"!#4",		"A:02" );		
+	SetTable(itable, "0101100110001xxx", LR subq_4_an,		"subq.w",	"!#4",		"A:02" );		
+	SetTable(itable, "0110xxxxxxxxxxx0", LR bcc_s,			"bcc.s",	"G:07",		" " );				
+	SetTable(itable, "0110xxxxxxxxxxx1", LR bcc_bad,		"bcc_BAD",	" ",		" " );				
+	SetTable(itable, "01100010xxxxxxx0", LR bcc_s,			"bhi.s",	"G:07",		" " );				
+	SetTable(itable, "01100011xxxxxxx0", LR bcc_s,			"bls.s",	"G:07",		" " );				
+	SetTable(itable, "01100100xxxxxxx0", LR bccc_s,			"bccc.s",	"G:07",		" " );			
+	SetTable(itable, "01100101xxxxxxx0", LR bcs_s,			"bcs.s",	"G:07",		" " );				
+	SetTable(itable, "01100110xxxxxxx0", LR bne_s,			"bne.s",	"G:07",		" " );				
+	SetTable(itable, "01100111xxxxxxx0", LR beq_s,			"beq.s",	"G:07",		" " );				
+	SetTable(itable, "01101000xxxxxxx0", LR bcc_s,			"bvc.s",	"G:07",		" " );				
+	SetTable(itable, "01101001xxxxxxx0", LR bcc_s,			"bvs.s",	"G:07",		" " );				
+	SetTable(itable, "01101010xxxxxxx0", LR bpl_s,			"bpl.s",	"G:07",		" " );				
+	SetTable(itable, "01101011xxxxxxx0", LR bmi_s,			"bmi.s",	"G:07",		" " );				
+	SetTable(itable, "01101100xxxxxxx0", LR bge_s,			"bge.s",	"G:07",		" " );				
+	SetTable(itable, "01101101xxxxxxx0", LR blt_s,			"blt.s",	"G:07",		" " );				
+	SetTable(itable, "01101110xxxxxxx0", LR bgt_s,			"bgt.s",	"G:07",		" " );				
+	SetTable(itable, "01101111xxxxxxx0", LR ble_s,			"ble.s",	"G:07",		" " );				
+	SetTable(itable, "0110xxxx00000000", LR bcc_l,			"bcc.l",	"G:07",		" " );				
+	SetTable(itable, "0110001000000000", LR bcc_l,			"bhi.s",	"G:07",		" " );				
+	SetTable(itable, "0110001100000000", LR bcc_l,			"bls.s",	"G:07",		" " );				
+	SetTable(itable, "0110010000000000", LR bcc_l,			"bccc.s",	"G:07",		" " );				
+	SetTable(itable, "0110010100000000", LR bcc_l,			"bcs.s",	"G:07",		" " );				
+	SetTable(itable, "0110011000000000", LR bne_l,			"bne.l",	"G:07",		" " );				
+	SetTable(itable, "0110011100000000", LR beq_l,			"beq.l",	"G:07",		" " );				
+	SetTable(itable, "0110100000000000", LR bcc_l,			"bvc.s",	"G:07",		" " );				
+	SetTable(itable, "0110100100000000", LR bcc_l,			"bvs.s",	"G:07",		" " );				
+	SetTable(itable, "0110101000000000", LR bcc_l,			"bpl.s",	"G:07",		" " );				
+	SetTable(itable, "0110101100000000", LR bcc_l,			"bmi.s",	"G:07",		" " );				
+	SetTable(itable, "0110110000000000", LR bcc_l,			"bge.s",	"G:07",		" " );				
+	SetTable(itable, "0110110100000000", LR bcc_l,			"blt.s",	"G:07",		" " );				
+	SetTable(itable, "0110111000000000", LR bcc_l,			"bgt.s",	"G:07",		" " );				
+	SetTable(itable, "0110111100000000", LR bcc_l,			"ble.s",	"G:07",		" " );				
+	SetTable(itable, "01100000xxxxxxx0", LR bra_s,			"bra.s",	"G:07",		" " );				
+	SetTable(itable, "0110000000000000", LR bra_l,			"bra.l",	"G:07",		" " );				
+	SetTable(itable, "01100001xxxxxxxx", LR bsr,			"bsr",		"G:07",		" " );					
+	SetTable(itable, "0111xxx0xxxxxxxx", LR moveq,			"moveq",	"D:92",		"K" );				
+	SetTable(itable, "1000xxx000xxxxxx", LR or_b_dn,		"or.b",		"E:05",		"D:92" );			
+	SetTable(itable, "1000xxx001xxxxxx", LR or_w_dn,		"or.w",		"E:05",		"D:92" );			
+	SetTable(itable, "1000xxx010xxxxxx", LR or_l_dn,		"or.l",		"E:05",		"D:92" );			
+	SetTable(itable, "1000xxx100xxxxxx", LR or_b_ea,		"or.b",		"D:92",		"E:05" );			
+	SetTable(itable, "1000xxx101xxxxxx", LR or_w_ea,		"or.w",		"D:92",		"E:05" );			
+	SetTable(itable, "1000xxx110xxxxxx", LR or_l_ea,		"or.l",		"D:92",		"E:05" );			
+	SetTable(itable, "1000xxx011xxxxxx", LR divu,			"divu.w",	"E:05",		"D:92" );			
+	SetTable(itable, "1000xxx100000xxx", LR sbcd,			"sbcd",		"D:02",		"D:92" );				
+	SetTable(itable, "1000xxx100001xxx", LR sbcd,			"sbcd",		"-:02",		"-:92" );				
+	SetTable(itable, "1000xxx111xxxxxx", LR divs,			"divs.w",	"E:05",		"D:92" );			
+	SetTable(itable, "1001xxx000xxxxxx", LR sub_b_dn,		"sub.b",	"E:05",		"D:92" );		
+	SetTable(itable, "1001xxx001xxxxxx", LR sub_w_dn,		"sub.w",	"E:05",		"D:92" );		
+	SetTable(itable, "1001xxx010xxxxxx", LR sub_l_dn,		"sub.l",	"E:05",		"D:92" );		
+	SetTable(itable, "1001xxx100xxxxxx", LR sub_b_ea,		"sub.b",	"D:92",		"E:05" );		
+	SetTable(itable, "1001xxx101xxxxxx", LR sub_w_ea,		"sub.w",	"D:92",		"E:05" );		
+	SetTable(itable, "1001xxx110xxxxxx", LR sub_l_ea,		"sub.l",	"D:92",		"E:05" );		
+	SetTable(itable, "1001xxx011xxxxxx", LR sub_w_an,		"sub.w",	"E:05",		"D:92" );		
+	SetTable(itable, "1001xxx111xxxxxx", LR sub_l_an,		"sub.l",	"E:05",		"D:92" );		
+	SetTable(itable, "1001xxx100000xxx", LR subx_b_r,		"subx.b",	"D:02",		"D:92" );		
+	SetTable(itable, "1001xxx101000xxx", LR subx_w_r,		"subx.w",	"D:02",		"D:92" );		
+	SetTable(itable, "1001xxx110000xxx", LR subx_l_r,		"subx.l",	"D:02",		"D:92" );		
+	SetTable(itable, "1001xxx100001xxx", LR subx_b_m,		"subx.b",	"-:02",		"-:92" );		
+	SetTable(itable, "1001xxx101001xxx", LR subx_w_m,		"subx.w",	"-:02",		"-:92" );		
+	SetTable(itable, "1001xxx110001xxx", LR subx_l_m,		"subx.l",	"-:02",		"-:92" );		
+	SetTable(itable, "1011xxx000xxxxxx", LR cmp_b,			"cmp.b",	"E:02",		"D:92" );			
+	SetTable(itable, "1011xxx001xxxxxx", LR cmp_w,			"cmp.w", 	"E:02",		"D:92" );
+	SetTable(itable, "1011xxx010xxxxxx", LR cmp_l,			"cmp.l", 	"E:02",		"D:92" );
+	SetTable(itable, "1011xxx000000xxx", LR cmp_b_dn,		"cmp.b",	"D:02",		"D:92" );
+	SetTable(itable, "1011xxx000101xxx", LR cmp_b_dan,		"cmp.b",	"d:02",		"D:92" );
+	SetTable(itable, "1011xxx001000xxx", LR cmp_w_dn,		"cmp.w",	"D:02",		"D:92" );
+	SetTable(itable, "1011xxx010000xxx", LR cmp_l_dn,		"cmp.l",	"D:02",		"D:92" );
+	SetTable(itable, "1011xxx011xxxxxx", LR cmpa_w,			"cmpa.w",	"E:05",		"A:92" );
+	SetTable(itable, "1011xxx111xxxxxx", LR cmpa_l,			"cmpa.l",	"E:05",		"A:92" );
+	SetTable(itable, "1011xxx111001xxx", LR cmpa_l_an,		"cmpa.l",	"A:02",		"A:92" );
+	SetTable(itable, "1011xxx100xxxxxx", LR eor_b,			"eor.b" );
+	SetTable(itable, "1011xxx101xxxxxx", LR eor_w,			"eor.w" );
+	SetTable(itable, "1011xxx110xxxxxx", LR eor_l,			"eor.l" );
+	/**/
+	  SetTable(itable, "1011xxx100001xxx", LR cmpm_b,		"cmpm.b" );
+	SetTable(itable, "1011xxx101001xxx", LR cmpm_w,			"cmpm.w" );
+	SetTable(itable, "1011xxx110001xxx", LR cmpm_l,			"cmpm.l" );
+	SetTable(itable, "1100xxx000xxxxxx", LR and_b_dn,		"and.b_dn" );
+	SetTable(itable, "1100xxx001xxxxxx", LR and_w_dn,		"and.w_dn" );
+	SetTable(itable, "1100xxx010xxxxxx", LR and_l_dn,		"and.l_dn" );
+	SetTable(itable, "1100xxx010000xxx", LR and_l_dn_dn,	"and.l",		"D",		"D" );
+	SetTable(itable, "1100xxx100xxxxxx", LR and_b_ea,		"and.b_ea" );
+	SetTable(itable, "1100xxx101xxxxxx", LR and_w_ea,		"and.w_ea" );
+	SetTable(itable, "1100xxx110xxxxxx", LR and_l_ea,		"and.l_ea" );
+	SetTable(itable, "1100xxx011xxxxxx", LR mulu,			"mulu" );
+	SetTable(itable, "1100xxx10000xxxx", LR abcd,			"abcd" );
+	SetTable(itable, "1100xxx101000xxx", LR exg_d,			"exg_d" );
+	SetTable(itable, "1100xxx101001xxx", LR exg_a,			"exg_a" );
+	SetTable(itable, "1100xxx110001xxx", LR exg_ad,			"exg_ad" );
+	SetTable(itable, "1100xxx111xxxxxx", LR muls,			"muls" );
+	SetTable(itable, "1101xxx000xxxxxx", LR add_b_dn,		"add.b_dn" );
+	SetTable(itable, "1101xxx001xxxxxx", LR add_w_dn,		"add.w_dn" );
+	SetTable(itable, "1101xxx010xxxxxx", LR add_l_dn,		"add.l_dn" );
+	SetTable(itable, "1101xxx000000xxx", LR add_b_dn_dn,	"add.b",		"D",		"D" );
+	SetTable(itable, "1101xxx001000xxx", LR add_w_dn_dn,	"add.w",		"D",		"D" );
+	SetTable(itable, "1101xxx010000xxx", LR add_l_dn_dn,	"add.l",		"D",		"D" );
+	SetTable(itable, "1101xxx100xxxxxx", LR add_b_ea,		"add.b_ea" );
+	SetTable(itable, "1101xxx101xxxxxx", LR add_w_ea,		"add.w_ea" );
+	SetTable(itable, "1101xxx110xxxxxx", LR add_l_ea,		"add.l_ea" );
+	SetTable(itable, "1101xxx011xxxxxx", LR add_w_an,		"add.w_an" );
+	SetTable(itable, "1101xxx111xxxxxx", LR add_l_an,		"add.l_an" );
+	SetTable(itable, "1101xxx011000xxx", LR add_w_an_dn,	"add.w",		"A",		"D" );
+	SetTable(itable, "1101xxx111000xxx", LR add_l_an_dn,	"add.l",		"A",		"D" );
+	SetTable(itable, "1101xxx100000xxx", LR addx_b_r,		"addx.b_r" );
+	SetTable(itable, "1101xxx101000xxx", LR addx_w_r,		"addx.w_r" );
+	SetTable(itable, "1101xxx110000xxx", LR addx_l_r,		"addx.l_r" );
+	SetTable(itable, "1101xxx100001xxx", LR addx_b_m,		"addx.b_m" );
+	SetTable(itable, "1101xxx101001xxx", LR addx_w_m,		"addx.w_m" );
+	SetTable(itable, "1101xxx110001xxx", LR addx_l_m,		"addx.l_m" );
+	/**/
+
+
+	SetTable(itable, "1110xxx000001xxx", LR lsr_b_i,		"lsr.b_i" );
+	SetTable(itable, "1110xxx100001xxx", LR lsl_b_i,		"lsl.b_i" );
+	SetTable(itable, "1110001000001xxx", LR lsr1_b,			"lsr1.b" );
+	SetTable(itable, "1110001100001xxx", LR lsl1_b,			"lsl1.b" );
+	SetTable(itable, "1110xxx001001xxx", LR lsr_w_i,		"lsr.w_i" );
+	SetTable(itable, "1110xxx101001xxx", LR lsl_w_i,		"lsl.w_i" );
+	SetTable(itable, "1110001001001xxx", LR lsr1_w,			"lsr1.w" );
+	SetTable(itable, "1110001101001xxx", LR lsl1_w,			"lsl1.w" );
+	SetTable(itable, "1110xxx010001xxx", LR lsr_l_i,		"lsr.l_i" );
+	SetTable(itable, "1110xxx110001xxx", LR lsl_l_i,		"lsl.l_i" );
+	SetTable(itable, "1110001010001xxx", LR lsr1_l,			"lsr1.l" );
+	SetTable(itable, "1110001110001xxx", LR lsl1_l,			"lsl1.l" );
+	SetTable(itable, "1110010110001xxx", LR lsl2_l,			"lsl2_l" );
+	SetTable(itable, "1110xxx000101xxx", LR lsr_b_r,		"lsr.b_r" );
+	SetTable(itable, "1110xxx100101xxx", LR lsl_b_r,		"lsl.b_r" );
+	SetTable(itable, "1110xxx001101xxx", LR lsr_w_r,		"lsr.w_r" );
+	SetTable(itable, "1110xxx101101xxx", LR lsl_w_r,		"lsl.w_r" );
+	SetTable(itable, "1110xxx010101xxx", LR lsr_l_r,		"lsr.l_r" );
+	SetTable(itable, "1110xxx110101xxx", LR lsl_l_r,		"lsl.l_r" );
+	SetTable(itable, "1110xxx000000xxx", LR asr_b_i,		"asr.b_i" );
+	SetTable(itable, "1110xxx100000xxx", LR asl_b_i,		"asl.b_i" );
+	SetTable(itable, "1110xxx001000xxx", LR asr_w_i,		"asr.w_i" );
+	SetTable(itable, "1110xxx101000xxx", LR asl_w_i,		"asl.w_i" );
+	SetTable(itable, "1110xxx010000xxx", LR asr_l_i,		"asr.l_i" );
+	SetTable(itable, "1110xxx110000xxx", LR asl_l_i,		"asl.l_i" );
+	SetTable(itable, "1110xxx000100xxx", LR asr_b_r,		"asr.b_r" );
+	SetTable(itable, "1110xxx100100xxx", LR asl_b_r,		"asl.b_r" );
+	SetTable(itable, "1110xxx001100xxx", LR asr_w_r,		"asr.w_r" );
+	SetTable(itable, "1110xxx101100xxx", LR asl_w_r,		"asl.w_r" );
+	SetTable(itable, "1110xxx010100xxx", LR asr_l_r,		"asr.l_r" );
+	SetTable(itable, "1110xxx110100xxx", LR asl_l_r,		"asl.l_r" );
+	SetTable(itable, "1110xxx000010xxx", LR roxr_b_i,		"roxr.b_i" );
+	SetTable(itable, "1110xxx100010xxx", LR roxl_b_i,		"roxl.b_i" );
+	SetTable(itable, "1110xxx001010xxx", LR roxr_w_i,		"roxr.w_i" );
+	SetTable(itable, "1110xxx101010xxx", LR roxl_w_i,		"roxl.w_i" );
+	SetTable(itable, "1110xxx010010xxx", LR roxr_l_i,		"roxr.l_i" );
+	SetTable(itable, "1110xxx110010xxx", LR roxl_l_i,		"roxl.l_i" );
+	SetTable(itable, "1110xxx000110xxx", LR roxr_b_r,		"roxr.b_r" );
+	SetTable(itable, "1110xxx100110xxx", LR roxl_b_r,		"roxl.b_r" );
+	SetTable(itable, "1110xxx001110xxx", LR roxr_w_r,		"roxr.w_r" );
+	SetTable(itable, "1110xxx101110xxx", LR roxl_w_r,		"roxl.w_r" );
+	SetTable(itable, "1110xxx010110xxx", LR roxr_l_r,		"roxr.l_r" );
+	SetTable(itable, "1110xxx110110xxx", LR roxl_l_r,		"roxl.l_r" );
+	SetTable(itable, "1110xxx000011xxx", LR ror_b_i,		"ror.b_i" );
+	SetTable(itable, "1110xxx100011xxx", LR rol_b_i,		"rol.b_i" );
+	SetTable(itable, "1110xxx001011xxx", LR ror_w_i,		"ror.w_i" );
+	SetTable(itable, "1110xxx101011xxx", LR rol_w_i,		"rol.w_i" );
+	SetTable(itable, "1110xxx010011xxx", LR ror_l_i,		"ror.l_i" );
+	SetTable(itable, "1110xxx110011xxx", LR rol_l_i,		"rol.l_i" );
+	SetTable(itable, "1110xxx000111xxx", LR ror_b_r,		"ror.b_r" );
+	SetTable(itable, "1110xxx100111xxx", LR rol_b_r,		"rol.b_r" );
+	SetTable(itable, "1110xxx001111xxx", LR ror_w_r,		"ror.w_r" );
+	SetTable(itable, "1110xxx101111xxx", LR rol_w_r,		"rol.w_r" );
+	SetTable(itable, "1110xxx010111xxx", LR ror_l_r,		"ror.l_r" );
+	SetTable(itable, "1110xxx110111xxx", LR rol_l_r,		"rol.l_r" );
+	SetTable(itable, "1110000011xxxxxx", LR asr_m,			"asr_m" ); 
+	SetTable(itable, "1110000111xxxxxx", LR asl_m,			"asl_m" );
+	SetTable(itable, "1110001011xxxxxx", LR lsr_m,			"lsr_m" );
+	SetTable(itable, "1110001111xxxxxx", LR lsl_m,			"lsl_m" );
+	SetTable(itable, "1110010011xxxxxx", LR roxr_m,			"roxr_m" );
+	SetTable(itable, "1110010111xxxxxx", LR roxl_m,			"roxl_m" );
+	SetTable(itable, "1110011011xxxxxx", LR ror_m,			"ror_m" );
+	SetTable(itable, "1110011111xxxxxx", LR rol_m,			"rol_m" );
+	SetTable(itable, "1010xxxxxxxxxxxx", LR code1010,		"code1010",		" ",		" " );
+	SetTable(itable, "1111xxxxxxxxxxxx", LR code1111,		"code1111",		" ",		" " );

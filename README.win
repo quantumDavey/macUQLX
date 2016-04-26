@@ -1,0 +1,38 @@
+***************************** UQLX for Windows ********************************
+
+Quickstart: Edit ".uqlxrc", then double-click on "uqlx.bat"
+
+Note: "uqlx.bat" starts an X Server. Unless you use fullscreen mode, you need
+to manually shutdown the X Server after using UQLX. Doubleclick on the "X" in
+the system tray.
+
+*******************************************************************************
+
+UQLX for Windows specific files:
+
+uqlx.bat: Batchfile to start UQLX for Windows
+qm.exe: Precompiled UQLX executable
+
+Selected files from the Cygwin release version 1.3.22-1:
+
+cygwin1.dll, cygz.dll, libX11.dll, XWin.exe
+
+The complete Cygwin release is at http://www.cygwin.com
+
+
+*******************************************************************************
+
+To rebuild UQLX under Windows NT 4.0:
+
+1. Setup a Cygwin environment:
+http://www.cygwin.com
+
+2. Get the latest UQLX sourcecode from http://linux-q40.sourceforge.net/uqlx
+
+4. Unpack it and type
+
+make config
+make
+
+5. Now you should have the executable "qm.exe"
+

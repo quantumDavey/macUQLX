@@ -1,0 +1,1835 @@
+Tqm
+v7
+r1
+
+N/Applications/Xcode326/usr/llvm-gcc-4.2/include/gcc/darwin/4.2/stdint.h
+c000000004D08842A000000000000190C
+t1292403754
+s6412
+
+N/Applications/Xcode326/usr/llvm-gcc-4.2/lib/gcc/i686-apple-darwin10/4.2.1/include/limits.h
+c000000004D087E9F0000000000000D03
+t1292402335
+s3331
+i"syslimits.h"
+
+N/Applications/Xcode326/usr/llvm-gcc-4.2/lib/gcc/i686-apple-darwin10/4.2.1/include/stdarg.h
+c000000004D087E9F00000000000010DD
+t1292402335
+s4317
+
+N/Applications/Xcode326/usr/llvm-gcc-4.2/lib/gcc/i686-apple-darwin10/4.2.1/include/stddef.h
+c000000004D087E9F0000000000003197
+t1292402335
+s12695
+i<machine/ansi.h>
+i<sys/_types.h>
+
+N/Applications/Xcode326/usr/llvm-gcc-4.2/lib/gcc/i686-apple-darwin10/4.2.1/include/syslimits.h
+c000000004D087D760000000000000155
+t1292402038
+s341
+
+N/Users/dave/Development/Xcode Projects/MacQL/./QDisk.c
+c0000000048300701000000000000E1A9
+t1211107073
+s57769
+i"QL68000.h"
+i<sys/types.h>
+i<sys/stat.h>
+i<time.h>
+i<fcntl.h>
+i<unistd.h>
+i<stdlib.h>
+i<unistd.h>
+i<errno.h>
+i<stdio.h>
+i<string.h>
+i"QDisk.h"
+i"QFilesPriv.h"
+i"QL.h"
+i"QL_config.h"
+i"unix.h"
+i"emudisk.h"
+i"QDOS.h"
+i"qx_proto.h"
+i"uqlx_cfg.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/./QL_basext.c
+c00000000483007000000000000002D63
+t1211107072
+s11619
+i"QL68000.h"
+i<stdio.h>
+i<dirent.h>
+i<unistd.h>
+i<stdlib.h>
+i<X11/Xos.h>
+i<X11/Xatom.h>
+i<X11/Xlib.h>
+i<X11/Xutil.h>
+i<X11/cursorfont.h>
+i"QL.h"
+i"QLfiles.h"
+i"QFilesPriv.h"
+i"QInstAddr.h"
+i"QDisk.h"
+i"unix.h"
+i"driver.h"
+i"QDOS.h"
+i"qx_proto.h"
+i"xcodes.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/./QL_boot.c
+c00000000483007000000000000000A83
+t1211107072
+s2691
+i"QL68000.h"
+i<stdio.h>
+i<stdlib.h>
+i<unistd.h>
+i<string.h>
+i<ctype.h>
+i<stddef.h>
+i<fcntl.h>
+i<sys/types.h>
+i<dirent.h>
+i"QL.h"
+i"QLfiles.h"
+i"QFilesPriv.h"
+i"QInstAddr.h"
+i"QDisk.h"
+i"unix.h"
+i"driver.h"
+i"QDOS.h"
+i"qx_proto.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/./QL_cconv.c
+c00000000483007000000000000000F0E
+t1211107072
+s3854
+i"QL68000.h"
+i<stdio.h>
+i<string.h>
+i"QL_config.h"
+i"QInstAddr.h"
+i"qx_proto.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/./QL_config.c
+c00000000483007000000000000002DA3
+t1211107072
+s11683
+i"QL68000.h"
+i"QL.h"
+i<stdio.h>
+i"xcodes.h"
+i"QDOS.h"
+i"QL_config.h"
+i"unix.h"
+i"QColor.h"
+i"QSound.h"
+i"QDisk.h"
+i"QSerial.h"
+i<string.h>
+i"QFilesPriv.h"
+i"uqlx_cfg.h"
+i"qx_proto.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/./QL_driver.c
+c00000000483007000000000000005CE9
+t1211107072
+s23785
+i"QL68000.h"
+i<fcntl.h>
+i<errno.h>
+i<stdlib.h>
+i<unistd.h>
+i<stdio.h>
+i<ctype.h>
+i<string.h>
+i<dirent.h>
+i"QL.h"
+i"xcodes.h"
+i"driver.h"
+i"QDOS.h"
+i"QInstAddr.h"
+i"unix.h"
+i"uqlx_cfg.h"
+i"qx_proto.h"
+i"QLfiles.h"
+i"QFilesPriv.h"
+i"QVFS.h"
+i"QLip.h"
+i"QL_sound.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/./QL_files.c
+c000000004830070000000000000054DC
+t1211107072
+s21724
+i"QL68000.h"
+i<stdio.h>
+i<string.h>
+i<fcntl.h>
+i<stdlib.h>
+i<unistd.h>
+i<sys/types.h>
+i<dirent.h>
+i<sys/stat.h>
+i"QL.h"
+i"QLfiles.h"
+i"QFilesPriv.h"
+i"QSerial.h"
+i"QInstAddr.h"
+i"QDisk.h"
+i"unix.h"
+i"QDOS.h"
+i"qx_proto.h"
+i"emudisk.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/./QL_hardware.c
+c00000000483007000000000000002431
+t1211107072
+s9265
+i"QL68000.h"
+i"QL.h"
+i"xcodes.h"
+i"QDOS.h"
+i"QSound.h"
+i"QL_config.h"
+i"QInstAddr.h"
+i"qx_proto.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/./QL_poll.c
+c00000000483007000000000000000404
+t1211107072
+s1028
+i"QL68000.h"
+i"xcodes.h"
+i"QL.h"
+i"QDOS.h"
+i"QInstAddr.h"
+i"unix.h"
+i"qx_proto.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/./QL_screen.c
+c000000004830070000000000000037F4
+t1211107072
+s14324
+i"QL68000.h"
+i<stdio.h>
+i<stdlib.h>
+i<string.h>
+i<sys/param.h>
+i<sys/types.h>
+i<sys/times.h>
+i<time.h>
+i<X11/Xos.h>
+i<X11/Xatom.h>
+i<X11/Xlib.h>
+i<X11/Xutil.h>
+i<X11/cursorfont.h>
+i<X11/extensions/XShm.h>
+i"unix.h"
+i"uqlx_cfg.h"
+i"qx_proto.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/./QL_serial.c
+c000000004833F01E0000000000001A00
+t1211363358
+s6656
+i"QL68000.h"
+i<stdio.h>
+i<stdlib.h>
+i<string.h>
+i<ctype.h>
+i<stddef.h>
+i<fcntl.h>
+i"QL.h"
+i"QInstAddr.h"
+i"unix.h"
+i"QSerial.h"
+i"uqlx_cfg.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/./QL_sound.c
+c00000000483006FF00000000000028AC
+t1211107071
+s10412
+i<unistd.h>
+i<stdlib.h>
+i<string.h>
+i<sys/ioctl.h>
+i<fcntl.h>
+i<linux/soundcard.h>
+i"QL68000.h"
+i"qx_proto.h"
+i"util.h"
+i"driver.h"
+i"QL_sound.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/./QLip.c
+c00000000483006FF00000000000084D8
+t1211107071
+s34008
+i"QL68000.h"
+i<stdio.h>
+i<sys/types.h>
+i<sys/stat.h>
+i<errno.h>
+i<string.h>
+i<stdlib.h>
+i<unistd.h>
+i<fcntl.h>
+i<signal.h>
+i<sys/time.h>
+i<netdb.h>
+i<netinet/in.h>
+i<sys/types.h>
+i<sys/socket.h>
+i<arpa/inet.h>
+i<sys/ioctl.h>
+i"QSerial.h"
+i"QDOS.h"
+i"driver.h"
+i"uqlx_cfg.h"
+i"util.h"
+i"iptraps.h"
+i"QLip.h"
+i"xc68.h"
+i"qx_proto.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/./QLserio.c
+c00000000483006FF000000000000220A
+t1211107071
+s8714
+i"QL68000.h"
+i<stdio.h>
+i<sys/types.h>
+i<sys/stat.h>
+i<sys/ioctl.h>
+i<errno.h>
+i<term.h>
+i<termios.h>
+i<string.h>
+i<stdlib.h>
+i<unistd.h>
+i<fcntl.h>
+i<signal.h>
+i<sys/time.h>
+i<sys/termio.h>
+i"QSerial.h"
+i"QDOS.h"
+i"driver.h"
+i"uqlx_cfg.h"
+i"qx_proto.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/./QLtraps.c
+c00000000483006FF000000000000175A
+t1211107071
+s5978
+i"QL68000.h"
+i<string.h>
+i"QL.h"
+i"QDOS.h"
+i"QSerial.h"
+i"QInstAddr.h"
+i"boot.h"
+i"QDOS.h"
+i"qx_proto.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/./QVFS.c
+c00000000483006FF00000000000010A0
+t1211107071
+s4256
+i"QL68000.h"
+i<fcntl.h>
+i<unistd.h>
+i<sys/types.h>
+i<sys/stat.h>
+i<dirent.h>
+i<errno.h>
+i<errno.h>
+i<stdlib.h>
+i<stdio.h>
+i<string.h>
+i"QL.h"
+i"xcodes.h"
+i"driver.h"
+i"QDOS.h"
+i"QInstAddr.h"
+i"unix.h"
+i"uqlx_cfg.h"
+i"QLfiles.h"
+i"QFilesPriv.h"
+i"QVFS.h"
+i"util.h"
+i"qx_proto.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/./Xscreen.c
+c00000000483006FF0000000000002740
+t1211107071
+s10048
+i"QL68000.h"
+i"QL.h"
+i<stdlib.h>
+i<stdio.h>
+i<string.h>
+i<sys/mman.h>
+i"xcodes.h"
+i"driver.h"
+i"QDOS.h"
+i"QInstAddr.h"
+i"unix.h"
+i"uqlx_cfg.h"
+i"script.h"
+i"qx_proto.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/./block.c
+c00000000483006FE000000000000364C
+t1211107070
+s13900
+i<stdlib.h>
+i<stdio.h>
+i<stdarg.h>
+i<string.h>
+i<getopt.h>
+i<inttypes.h>
+i<unistd.h>
+i<sys/mman.h>
+i<fcntl.h>
+i<signal.h>
+i<time.h>
+i<sys/types.h>
+i<sys/stat.h>
+i<unistd.h>
+i<sys/types.h>
+i<sys/stat.h>
+i<fcntl.h>
+i<sys/time.h>
+i<termios.h>
+i<sys/poll.h>
+i<errno.h>
+i<sys/wait.h>
+i<netinet/in.h>
+i"vl.h"
+i"cow.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/./dummies.c
+c00000000483006FE0000000000000A08
+t1211107070
+s2568
+i"QL68000.h"
+i<unistd.h>
+i<stdlib.h>
+i<string.h>
+i<sys/types.h>
+i"qx_proto.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/./general.c
+c00000000483006FE0000000000001D89
+t1211107070
+s7561
+i"QL68000.h"
+i"vm.h"
+i<signal.h>
+i"memaccess.h"
+i"mmodes.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/./ide.c
+c00000000483006FE000000000000D1AE
+t1211107070
+s53678
+i<stdlib.h>
+i<stdio.h>
+i<stdarg.h>
+i<string.h>
+i<getopt.h>
+i<inttypes.h>
+i<unistd.h>
+i<sys/mman.h>
+i<fcntl.h>
+i<signal.h>
+i<time.h>
+i<sys/time.h>
+i<termios.h>
+i<sys/poll.h>
+i<errno.h>
+i<sys/wait.h>
+i<netinet/in.h>
+i"vl.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/./iexl_general.c
+c00000000483006FD00000000000046CF
+t1211107069
+s18127
+i"QL68000.h"
+i<signal.h>
+i<stdio.h>
+i"vm.h"
+i"memaccess.h"
+i"mmodes.h"
+i"memaccess.h"
+i"instructions_ao.c"
+i"instructions_pz.c"
+i"Init.c"
+
+N/Users/dave/Development/Xcode Projects/MacQL/./instructions_ao.c
+c00000000483006FD000000000000A4B4
+t1211107069
+s42164
+i"QL68000.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/./instructions_pz.c
+c00000000483006FC0000000000007AD7
+t1211107068
+s31447
+i"QL68000.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/./mach_exception.c
+c00000000483006FC0000000000002A1A
+t1211107068
+s10778
+i"QL68000.h"
+i<sys/types.h>
+i<stdio.h>
+i<stdlib.h>
+i<mach/mach.h>
+i<mach/mach_error.h>
+i<mach/thread_status.h>
+i<mach/exception.h>
+i<mach/task.h>
+i<pthread.h>
+i<sys/mman.h>
+
+N/Users/dave/Development/Xcode Projects/MacQL/./pty.c
+c00000000483006FC0000000000003F79
+t1211107068
+s16249
+i"QL68000.h"
+i<stdio.h>
+i<ctype.h>
+i<signal.h>
+i<errno.h>
+i<setjmp.h>
+i<fcntl.h>
+i<termios.h>
+i<pwd.h>
+i<grp.h>
+i<string.h>
+i<stdlib.h>
+i<fcntl.h>
+i<unistd.h>
+i<sys/time.h>
+i<sys/types.h>
+i<sys/socket.h>
+i<sys/un.h>
+i<bsdtty.h>
+i<sys/types.h>
+i<sys/file.h>
+i<sys/stat.h>
+i<sys/ioctl.h>
+i<sys/wait.h>
+i<sys/time.h>
+i<stdarg.h>
+i"QL.h"
+i"driver.h"
+i"QSerial.h"
+i"qx_proto.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/./qmtrap.c
+c00000000483006FC000000000000088B
+t1211107068
+s2187
+i"QL68000.h"
+i"QL_config.h"
+i"QInstAddr.h"
+i"qx_proto.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/./rompatch.c
+c00000000483006FC00000000000001C5
+t1211107068
+s453
+i"QL68000.h"
+i<sys/types.h>
+i<sys/stat.h>
+i<sys/time.h>
+i<time.h>
+i<fcntl.h>
+i<signal.h>
+i<stdlib.h>
+i<string.h>
+i<stdio.h>
+i<unistd.h>
+i"xcodes.h"
+i"QL_config.h"
+i"QInstAddr.h"
+i"unix.h"
+i"qx_proto.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/./script.c
+c00000000483006FC0000000000000303
+t1211107068
+s771
+i<fcntl.h>
+i<unistd.h>
+i"QL68000.h"
+i"util.h"
+i"script.h"
+i"QDOS.h"
+i"qx_proto.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/./siginfo.c
+c00000000483006FC0000000000000379
+t1211107068
+s889
+i<unistd.h>
+i<sys/mman.h>
+i<signal.h>
+
+N/Users/dave/Development/Xcode Projects/MacQL/./trace.c
+c00000000483006FB0000000000000DB8
+t1211107067
+s3512
+i"QL68000.h"
+i<stdio.h>
+
+N/Users/dave/Development/Xcode Projects/MacQL/./unixstuff.c
+c00000000483006FB00000000000066BB
+t1211107067
+s26299
+i"QL68000.h"
+i<sys/types.h>
+i<sys/mman.h>
+i<sys/stat.h>
+i<sys/time.h>
+i<time.h>
+i<fcntl.h>
+i<signal.h>
+i<stdlib.h>
+i<string.h>
+i<stdio.h>
+i<unistd.h>
+i"xcodes.h"
+i"QL_config.h"
+i"QInstAddr.h"
+i"unix.h"
+i"boot.h"
+i"qx_proto.h"
+i"QL_sound.h"
+i<sys/wait.h>
+i<X11/Xos.h>
+i<X11/Xatom.h>
+i<X11/Xlib.h>
+i<X11/Xutil.h>
+i<X11/cursorfont.h>
+i"uqlx_cfg.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/./uqlx_cfg.c
+c00000000483006FB0000000000002D6D
+t1211107067
+s11629
+i"QL68000.h"
+i<sys/types.h>
+i<sys/stat.h>
+i<stdio.h>
+i<string.h>
+i<stdlib.h>
+i<stdarg.h>
+i<ctype.h>
+i<unistd.h>
+i<dirent.h>
+i"unix.h"
+i"qx_proto.h"
+i"emudisk.h"
+i"uqlx_cfg.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/./util.c
+c00000000483006FB0000000000000513
+t1211107067
+s1299
+i"QL68000.h"
+i<stdio.h>
+i<sys/types.h>
+i<sys/stat.h>
+i<errno.h>
+i<string.h>
+i<stdlib.h>
+i<unistd.h>
+i<fcntl.h>
+i<signal.h>
+i<sys/time.h>
+i<netdb.h>
+i<netinet/in.h>
+i<sys/types.h>
+i<sys/socket.h>
+i<arpa/inet.h>
+i<sys/ioctl.h>
+i"QSerial.h"
+i"QDOS.h"
+i"driver.h"
+i"uqlx_cfg.h"
+i"util.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/./uxfile.c
+c00000000483006FB0000000000007A24
+t1211107067
+s31268
+i"QL68000.h"
+i<fcntl.h>
+i<unistd.h>
+i<sys/stat.h>
+i<sys/types.h>
+i<dirent.h>
+i<errno.h>
+i<utime.h>
+i<ctype.h>
+i<sys/time.h>
+i<string.h>
+i<stdio.h>
+i"unix.h"
+i"QL.h"
+i"QLfiles.h"
+i"QFilesPriv.h"
+i"QSerial.h"
+i"QInstAddr.h"
+i"QDisk.h"
+i"emudisk.h"
+i"QDOS.h"
+i"qx_proto.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/./version.c
+c00000000483006FB0000000000000031
+t1211107067
+s49
+i"QL68000.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/./vl.c
+c00000000483006FB0000000000001272
+t1211107067
+s4722
+i<stdlib.h>
+i<stdio.h>
+i<stdarg.h>
+i<string.h>
+i<ctype.h>
+i<getopt.h>
+i<inttypes.h>
+i<unistd.h>
+i<sys/mman.h>
+i<fcntl.h>
+i<signal.h>
+i<time.h>
+i<sys/time.h>
+i<termios.h>
+i<sys/poll.h>
+i<errno.h>
+i<sys/wait.h>
+i<sys/ioctl.h>
+i<sys/socket.h>
+i"vl.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/./vm.c
+c00000000483006FA0000000000000869
+t1211107066
+s2153
+i"QL68000.h"
+i"vm.h"
+i"unix.h"
+i"xcodes.h"
+i<signal.h>
+i<unistd.h>
+i<stdlib.h>
+i<stdio.h>
+i<string.h>
+i"qx_proto.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/./vm_linux.c
+c00000000483006FA0000000000000024
+t1211107066
+s36
+
+N/Users/dave/Development/Xcode Projects/MacQL/./x.c
+c00000000483006FA00000000000046F2
+t1211107066
+s18162
+i"QL68000.h"
+i<stdio.h>
+i<stdlib.h>
+i<string.h>
+i<sys/param.h>
+i<sys/types.h>
+i<sys/times.h>
+i<time.h>
+i<X11/Xos.h>
+i<X11/Xatom.h>
+i<X11/Xlib.h>
+i<X11/Xutil.h>
+i<X11/cursorfont.h>
+i<X11/Intrinsic.h>
+i"unix.h"
+i"uqlx_cfg.h"
+i"qx_proto.h"
+i<sys/types.h>
+i<sys/ipc.h>
+i<sys/shm.h>
+i<X11/extensions/XShm.h>
+
+N/Users/dave/Development/Xcode Projects/MacQL/./xc68.c
+c00000000483006FA0000000000000ABB
+t1211107066
+s2747
+i"xc68.h"
+i<errno.h>
+i<stdio.h>
+
+N/Users/dave/Development/Xcode Projects/MacQL/./xcodes.c
+c00000000483006FA00000000000001E2
+t1211107066
+s482
+i"QL68000.h"
+i"QL.h"
+i"xcodes.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/./xipc.c
+c00000000483006FA000000000000167B
+t1211107066
+s5755
+i"QL68000.h"
+i<string.h>
+i<sys/types.h>
+i<sys/socket.h>
+i<sys/stat.h>
+i<unistd.h>
+i<stdlib.h>
+i<errno.h>
+i<fcntl.h>
+i<stdio.h>
+i<sys/un.h>
+i<netinet/in.h>
+i"util.h"
+i"xipc.h"
+i"qx_proto.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/./xlmain.c
+c00000000483006FA00000000000002A6
+t1211107066
+s678
+i"QL68000.h"
+i<sys/types.h>
+i<sys/mman.h>
+i<sys/stat.h>
+i<sys/time.h>
+i<time.h>
+i<fcntl.h>
+i<signal.h>
+i<stdlib.h>
+i<string.h>
+i<stdio.h>
+i<unistd.h>
+i"QL_config.h"
+i"QInstAddr.h"
+i"unix.h"
+i"boot.h"
+i"qx_proto.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/./xqlkey.c
+c00000000483006F90000000000003B52
+t1211107065
+s15186
+i"QL68000.h"
+i<stdlib.h>
+i<stdio.h>
+i<ctype.h>
+i<X11/Xos.h>
+i<X11/Xatom.h>
+i<X11/Xlib.h>
+i<X11/Xutil.h>
+i<X11/keysym.h>
+i"QL_config.h"
+i"QInstAddr.h"
+i"uqlx_cfg.h"
+i"qx_proto.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/./xqlmouse.c
+c00000000483006F90000000000002453
+t1211107065
+s9299
+i"QL68000.h"
+i<stdio.h>
+i<stdlib.h>
+i<string.h>
+i<sys/param.h>
+i<sys/times.h>
+i<signal.h>
+i<time.h>
+i<unistd.h>
+i<X11/Intrinsic.h>
+i<X11/StringDefs.h>
+i<X11/Xos.h>
+i<X11/Xatom.h>
+i<X11/Xlib.h>
+i<X11/Xutil.h>
+i"xcodes.h"
+i"QL.h"
+i"QDOS.h"
+i"QInstAddr.h"
+i"unix.h"
+i"uqlx_cfg.h"
+i"qx_proto.h"
+i"util.h"
+i"xipc.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/Init.c
+c00000000483006F9000000000000AF6D
+t1211107065
+s44909
+i"QL68000.h"
+i<string.h>
+
+N/Users/dave/Development/Xcode Projects/MacQL/Init3.c
+c000000004836E4CB0000000000029010
+t1211557067
+s167952
+i"QL68000.h"
+i<string.h>
+i"funcdefs.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/QDOS.h
+c0000000048300701000000000000048F
+t1211107073
+s1167
+
+N/Users/dave/Development/Xcode Projects/MacQL/QDisk.h
+c000000004830070100000000000000E9
+t1211107073
+s233
+
+N/Users/dave/Development/Xcode Projects/MacQL/QFilesPriv.h
+c00000000483007000000000000001902
+t1211107072
+s6402
+
+N/Users/dave/Development/Xcode Projects/MacQL/QInstAddr.h
+c000000004830070000000000000001B3
+t1211107072
+s435
+
+N/Users/dave/Development/Xcode Projects/MacQL/QL.h
+c0000000048300700000000000000035E
+t1211107072
+s862
+
+N/Users/dave/Development/Xcode Projects/MacQL/QL68000.h
+c000000004833EA8A0000000000003664
+t1211361930
+s13924
+i"cond.h"
+i"trace.h"
+i"iexl.h"
+i"QDOS.h"
+i"QL_screen.h"
+i<stdio.h>
+i<stdlib.h>
+i"misdefs.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/QL_config.h
+c0000000048300700000000000000005C
+t1211107072
+s92
+
+N/Users/dave/Development/Xcode Projects/MacQL/QL_screen.h
+c00000000483006FF00000000000000C8
+t1211107071
+s200
+
+N/Users/dave/Development/Xcode Projects/MacQL/QL_sound.h
+c00000000483006FF00000000000002A1
+t1211107071
+s673
+
+N/Users/dave/Development/Xcode Projects/MacQL/QLfiles.h
+c00000000483006FF00000000000000B7
+t1211107071
+s183
+
+N/Users/dave/Development/Xcode Projects/MacQL/QLip.h
+c00000000483006FF0000000000000320
+t1211107071
+s800
+i<sys/types.h>
+i<sys/socket.h>
+i<arpa/inet.h>
+i<netinet/in.h>
+
+N/Users/dave/Development/Xcode Projects/MacQL/QSerial.h
+c00000000483006FF00000000000005D0
+t1211107071
+s1488
+i<sys/types.h>
+
+N/Users/dave/Development/Xcode Projects/MacQL/QSound.h
+c00000000483006FF0000000000000105
+t1211107071
+s261
+
+N/Users/dave/Development/Xcode Projects/MacQL/QVFS.h
+c00000000483006FF00000000000001AA
+t1211107071
+s426
+
+N/Users/dave/Development/Xcode Projects/MacQL/boot.h
+c00000000483006FE000000000000009D
+t1211107070
+s157
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/Default/qm
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/Init3.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/QDisk.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/QL_basext.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/QL_boot.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/QL_cconv.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/QL_config.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/QL_driver.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/QL_files.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/QL_hardware.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/QL_poll.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/QL_screen.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/QL_serial.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/QL_sound.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/QLip.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/QLserio.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/QLtraps.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/QVFS.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/Xscreen.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/block.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/dummies.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/general.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/ide.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/iexl_general.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/instructions_ao.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/instructions_pz.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/mach_exception.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/pty.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/qm.LinkFileList
+c00000000000000000000000000000000
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/qmtrap.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/rompatch.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/script.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/siginfo.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/trace.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/unixstuff.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/uqlx_cfg.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/util.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/uxfile.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/version.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/vl.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/vm.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/vm_linux.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/x.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/xc68.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/xcodes.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/xipc.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/xlmain.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/xqlkey.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/build/MacQL.build/Default/qm.build/Objects-normal/i386/xqlmouse.o
+t2
+s0
+
+N/Users/dave/Development/Xcode Projects/MacQL/cond.h
+c00000000483006FE000000000000052F
+t1211107070
+s1327
+
+N/Users/dave/Development/Xcode Projects/MacQL/cow.h
+c00000000483006FE000000000000010B
+t1211107070
+s267
+
+N/Users/dave/Development/Xcode Projects/MacQL/driver.h
+c00000000483006FE0000000000000CA8
+t1211107070
+s3240
+
+N/Users/dave/Development/Xcode Projects/MacQL/emudisk.h
+c00000000483006FE0000000000000570
+t1211107070
+s1392
+
+N/Users/dave/Development/Xcode Projects/MacQL/iexl.h
+c00000000483006FD0000000000000070
+t1211107069
+s112
+
+N/Users/dave/Development/Xcode Projects/MacQL/instructions_ao.c
+c00000000483006FD000000000000A4B4
+t1211107069
+s42164
+i"QL68000.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/instructions_pz.c
+c00000000483006FC0000000000007AD7
+t1211107068
+s31447
+i"QL68000.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/iptraps.h
+c00000000483006FC0000000000000611
+t1211107068
+s1553
+
+N/Users/dave/Development/Xcode Projects/MacQL/memaccess.h
+c00000000483006FC0000000000002D66
+t1211107068
+s11622
+
+N/Users/dave/Development/Xcode Projects/MacQL/misdefs.h
+c00000000483006FC000000000000009D
+t1211107068
+s157
+
+N/Users/dave/Development/Xcode Projects/MacQL/mmodes.h
+c00000000483006FC0000000000002A06
+t1211107068
+s10758
+
+N/Users/dave/Development/Xcode Projects/MacQL/qx_proto.h
+c00000000483006FC0000000000000D3F
+t1211107068
+s3391
+i"QSerial.h"
+i"QFilesPriv.h"
+
+N/Users/dave/Development/Xcode Projects/MacQL/script.h
+c00000000483006FC00000000000000B2
+t1211107068
+s178
+
+N/Users/dave/Development/Xcode Projects/MacQL/trace.h
+c00000000483006FB00000000000000A4
+t1211107067
+s164
+
+N/Users/dave/Development/Xcode Projects/MacQL/unix.h
+c00000000483006FB000000000000026C
+t1211107067
+s620
+
+N/Users/dave/Development/Xcode Projects/MacQL/uqlx_cfg.h
+c00000000483006FB00000000000004C2
+t1211107067
+s1218
+i"emudisk.h"
+i<stddef.h>
+i<limits.h>
+
+N/Users/dave/Development/Xcode Projects/MacQL/util.h
+c00000000483006FB00000000000000A4
+t1211107067
+s164
+
+N/Users/dave/Development/Xcode Projects/MacQL/vl.h
+c00000000483006FB00000000000026DA
+t1211107067
+s9946
+i"QL68000.h"
+i<byteswap.h>
+
+N/Users/dave/Development/Xcode Projects/MacQL/vm.h
+c00000000483006FA0000000000000023
+t1211107066
+s35
+
+N/Users/dave/Development/Xcode Projects/MacQL/xc68.h
+c00000000483006FA0000000000002726
+t1211107066
+s10022
+
+N/Users/dave/Development/Xcode Projects/MacQL/xcodes.h
+c00000000483006FA0000000000000A1E
+t1211107066
+s2590
+
+N/Users/dave/Development/Xcode Projects/MacQL/xipc.h
+c00000000483006FA000000000000055D
+t1211107066
+s1373
+
+N/usr/X11R6/include/X11/Composite.h
+c000000004F83A93D0000000000000DA5
+t1334028605
+s3493
+
+N/usr/X11R6/include/X11/Constraint.h
+c000000004F83A93D0000000000000A0D
+t1334028605
+s2573
+
+N/usr/X11R6/include/X11/Core.h
+c000000004F83A93D0000000000000A38
+t1334028605
+s2616
+
+N/usr/X11R6/include/X11/Intrinsic.h
+c000000004F83A93D000000000000F836
+t1334028605
+s63542
+i<X11/Xlib.h>
+i<X11/Xutil.h>
+i<X11/Xresource.h>
+i<X11/Xfuncproto.h>
+i<X11/Xos.h>
+i<X11/Xosdefs.h>
+i<string.h>
+i<stddef.h>
+i<X11/Core.h>
+i<X11/Composite.h>
+i<X11/Constraint.h>
+i<X11/Object.h>
+i<X11/RectObj.h>
+
+N/usr/X11R6/include/X11/Object.h
+c000000004F83A93D0000000000000A0C
+t1334028605
+s2572
+
+N/usr/X11R6/include/X11/RectObj.h
+c000000004F83A93D0000000000000A0B
+t1334028605
+s2571
+
+N/usr/X11R6/include/X11/StringDefs.h
+c000000004F83A93D00000000000076D5
+t1334028605
+s30421
+
+N/usr/X11R6/include/X11/X.h
+c000000004EDD4DCD0000000000004EED
+t1323126221
+s20205
+i<X11/Xmd.h>
+
+N/usr/X11R6/include/X11/Xarch.h
+c000000004EDD4DCC0000000000000B87
+t1323126220
+s2951
+i<sys/types.h>
+i<sys/byteorder.h>
+i<sys/types.h>
+i<machine/endian.h>
+i<endian.h>
+i<endian.h>
+i<sys/isa_defs.h>
+
+N/usr/X11R6/include/X11/Xatom.h
+c000000004EDD4DCC00000000000009D6
+t1323126220
+s2518
+
+N/usr/X11R6/include/X11/Xfuncproto.h
+c000000004EDD4DCB00000000000012F9
+t1323126219
+s4857
+
+N/usr/X11R6/include/X11/Xlib.h
+c000000004F83A8AD0000000000018510
+t1334028461
+s99600
+i<sys/types.h>
+i<stdint.h>
+i<X11/X.h>
+i<X11/Xfuncproto.h>
+i<X11/Xosdefs.h>
+i<stddef.h>
+i<stdlib.h>
+
+N/usr/X11R6/include/X11/Xmd.h
+c000000004EDD4DCD00000000000018C2
+t1323126221
+s6338
+i<sys/isa_defs.h>
+
+N/usr/X11R6/include/X11/Xos.h
+c000000004EDD4DCD00000000000010CC
+t1323126221
+s4300
+i<X11/Xosdefs.h>
+i<sys/types.h>
+i<stdint.h>
+i<string.h>
+i<strings.h>
+i<fcntl.h>
+i<unistd.h>
+i<X11/Xw32defs.h>
+i<sys/file.h>
+i<fcntl.h>
+i<unistd.h>
+i<sys/time.h>
+i<time.h>
+i<sys/timeb.h>
+i<sys/time.h>
+i<time.h>
+i<X11/Xarch.h>
+
+N/usr/X11R6/include/X11/Xosdefs.h
+c000000004EDD4DCD0000000000000C2B
+t1323126221
+s3115
+
+N/usr/X11R6/include/X11/Xresource.h
+c000000004F83A8AD0000000000002984
+t1334028461
+s10628
+i<X11/Xlib.h>
+
+N/usr/X11R6/include/X11/Xutil.h
+c000000004F83A8AD0000000000005220
+t1334028461
+s21024
+i<X11/Xlib.h>
+i<X11/keysym.h>
+
+N/usr/X11R6/include/X11/Xw32defs.h
+c000000004EDD4DCE0000000000000776
+t1323126222
+s1910
+
+N/usr/X11R6/include/X11/cursorfont.h
+c000000004F83A8AD0000000000000C2E
+t1334028461
+s3118
+
+N/usr/X11R6/include/X11/extensions/XShm.h
+c000000004F83A8CE0000000000000E9F
+t1334028494
+s3743
+i<X11/Xfuncproto.h>
+i<X11/extensions/shm.h>
+
+N/usr/X11R6/include/X11/extensions/shm.h
+c000000004EDD4D03000000000000066D
+t1323126019
+s1645
+
+N/usr/X11R6/include/X11/keysym.h
+c000000004EDD4DCC0000000000000AD6
+t1323126220
+s2774
+i<X11/keysymdef.h>
+
+N/usr/X11R6/include/X11/keysymdef.h
+c000000004EDD4DCC000000000002A906
+t1323126220
+s174342
+
+N/usr/include/arpa/inet.h
+c000000004EB335550000000000001533
+t1320367445
+s5427
+
+N/usr/include/ctype.h
+c000000004F4454C40000000000002C18
+t1329878212
+s11288
+
+N/usr/include/dirent.h
+c000000004F4454C40000000000001707
+t1329878212
+s5895
+
+N/usr/include/errno.h
+c000000004F4454C400000000000003EB
+t1329878212
+s1003
+
+N/usr/include/fcntl.h
+c000000004F4454C400000000000003EA
+t1329878212
+s1002
+
+N/usr/include/getopt.h
+c000000004F4454C40000000000000CBC
+t1329878212
+s3260
+
+N/usr/include/grp.h
+c000000004F4454C40000000000001195
+t1329878212
+s4501
+
+N/usr/include/inttypes.h
+c000000004F4454C40000000000002674
+t1329878212
+s9844
+
+N/usr/include/mach/exception.h
+c000000004F839B4F00000000000009E2
+t1334025039
+s2530
+
+N/usr/include/mach/mach.h
+c000000004F839AB10000000000001057
+t1334024881
+s4183
+
+N/usr/include/mach/mach_error.h
+c000000004F839AB10000000000000BE3
+t1334024881
+s3043
+
+N/usr/include/mach/task.h
+c000000004F839AB100000000000005FC
+t1334024881
+s1532
+
+N/usr/include/mach/thread_status.h
+c000000004F839B510000000000000DA4
+t1334025041
+s3492
+
+N/usr/include/machine/endian.h
+c000000004F839B44000000000000067D
+t1334025028
+s1661
+
+N/usr/include/netdb.h
+c000000004EB33555000000000000307F
+t1320367445
+s12415
+
+N/usr/include/netinet/in.h
+c000000004F839B450000000000006BC5
+t1334025029
+s27589
+
+N/usr/include/pthread.h
+c000000004F4454C40000000000003CF0
+t1329878212
+s15600
+
+N/usr/include/pwd.h
+c000000004F4454C40000000000001629
+t1329878212
+s5673
+
+N/usr/include/setjmp.h
+c000000004F4454C40000000000000438
+t1329878212
+s1080
+
+N/usr/include/signal.h
+c000000004F4454C400000000000014F0
+t1329878212
+s5360
+
+N/usr/include/stdio.h
+c000000004F4454C40000000000004763
+t1329878212
+s18275
+
+N/usr/include/stdlib.h
+c000000004F4454C400000000000030A7
+t1329878212
+s12455
+
+N/usr/include/string.h
+c000000004F4454C40000000000001A3A
+t1329878212
+s6714
+
+N/usr/include/strings.h
+c000000004F4454C40000000000000F73
+t1329878212
+s3955
+
+N/usr/include/sys/_types.h
+c000000004F839B530000000000001845
+t1334025043
+s6213
+
+N/usr/include/sys/file.h
+c000000004F839B4C0000000000001060
+t1334025036
+s4192
+
+N/usr/include/sys/ioctl.h
+c000000004F839B4C000000000000116C
+t1334025036
+s4460
+
+N/usr/include/sys/ipc.h
+c000000004F839B4D0000000000001A0E
+t1334025037
+s6670
+
+N/usr/include/sys/mman.h
+c000000004F839B4F00000000000020EC
+t1334025039
+s8428
+
+N/usr/include/sys/param.h
+c000000004F839B4F00000000000027BE
+t1334025039
+s10174
+
+N/usr/include/sys/poll.h
+c000000004F839B4F000000000000123C
+t1334025039
+s4668
+
+N/usr/include/sys/shm.h
+c000000004F839B500000000000001C40
+t1334025040
+s7232
+
+N/usr/include/sys/socket.h
+c000000004F839B510000000000005ACB
+t1334025041
+s23243
+
+N/usr/include/sys/stat.h
+c000000004F839B510000000000004B2F
+t1334025041
+s19247
+
+N/usr/include/sys/time.h
+c000000004F839B510000000000001E64
+t1334025041
+s7780
+
+N/usr/include/sys/timeb.h
+c000000004F839B5100000000000010C2
+t1334025041
+s4290
+
+N/usr/include/sys/times.h
+c000000004F839B5100000000000010AB
+t1334025041
+s4267
+
+N/usr/include/sys/types.h
+c000000004F839B520000000000002905
+t1334025042
+s10501
+
+N/usr/include/sys/un.h
+c000000004F839B5200000000000010C8
+t1334025042
+s4296
+
+N/usr/include/sys/wait.h
+c000000004F839B53000000000000273C
+t1334025043
+s10044
+
+N/usr/include/term.h
+c000000004DDD3876000000000000953D
+t1306343542
+s38205
+
+N/usr/include/termios.h
+c000000004F4454C400000000000004D4
+t1329878212
+s1236
+
+N/usr/include/time.h
+c000000004F4454C4000000000000178E
+t1329878212
+s6030
+
+N/usr/include/unistd.h
+c000000004F4454C50000000000006662
+t1329878213
+s26210
+
+N/usr/include/utime.h
+c000000004F4454C40000000000000C93
+t1329878212
+s3219
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/Init3.o "/Users/dave/Development/Xcode Projects/MacQL/Init3.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/QDisk.o "/Users/dave/Development/Xcode Projects/MacQL/./QDisk.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/QL_basext.o "/Users/dave/Development/Xcode Projects/MacQL/./QL_basext.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/QL_boot.o "/Users/dave/Development/Xcode Projects/MacQL/./QL_boot.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/QL_cconv.o "/Users/dave/Development/Xcode Projects/MacQL/./QL_cconv.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/QL_config.o "/Users/dave/Development/Xcode Projects/MacQL/./QL_config.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/QL_driver.o "/Users/dave/Development/Xcode Projects/MacQL/./QL_driver.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/QL_files.o "/Users/dave/Development/Xcode Projects/MacQL/./QL_files.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/QL_hardware.o "/Users/dave/Development/Xcode Projects/MacQL/./QL_hardware.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/QL_poll.o "/Users/dave/Development/Xcode Projects/MacQL/./QL_poll.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/QL_screen.o "/Users/dave/Development/Xcode Projects/MacQL/./QL_screen.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/QL_serial.o "/Users/dave/Development/Xcode Projects/MacQL/./QL_serial.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/QL_sound.o "/Users/dave/Development/Xcode Projects/MacQL/./QL_sound.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/QLip.o "/Users/dave/Development/Xcode Projects/MacQL/./QLip.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/QLserio.o "/Users/dave/Development/Xcode Projects/MacQL/./QLserio.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/QLtraps.o "/Users/dave/Development/Xcode Projects/MacQL/./QLtraps.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/QVFS.o "/Users/dave/Development/Xcode Projects/MacQL/./QVFS.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/Xscreen.o "/Users/dave/Development/Xcode Projects/MacQL/./Xscreen.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/block.o "/Users/dave/Development/Xcode Projects/MacQL/./block.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/dummies.o "/Users/dave/Development/Xcode Projects/MacQL/./dummies.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/general.o "/Users/dave/Development/Xcode Projects/MacQL/./general.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/ide.o "/Users/dave/Development/Xcode Projects/MacQL/./ide.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/iexl_general.o "/Users/dave/Development/Xcode Projects/MacQL/./iexl_general.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/instructions_ao.o "/Users/dave/Development/Xcode Projects/MacQL/./instructions_ao.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/instructions_pz.o "/Users/dave/Development/Xcode Projects/MacQL/./instructions_pz.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/mach_exception.o "/Users/dave/Development/Xcode Projects/MacQL/./mach_exception.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/pty.o "/Users/dave/Development/Xcode Projects/MacQL/./pty.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/qmtrap.o "/Users/dave/Development/Xcode Projects/MacQL/./qmtrap.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/rompatch.o "/Users/dave/Development/Xcode Projects/MacQL/./rompatch.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/script.o "/Users/dave/Development/Xcode Projects/MacQL/./script.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/siginfo.o "/Users/dave/Development/Xcode Projects/MacQL/./siginfo.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/trace.o "/Users/dave/Development/Xcode Projects/MacQL/./trace.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/unixstuff.o "/Users/dave/Development/Xcode Projects/MacQL/./unixstuff.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/uqlx_cfg.o "/Users/dave/Development/Xcode Projects/MacQL/./uqlx_cfg.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/util.o "/Users/dave/Development/Xcode Projects/MacQL/./util.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/uxfile.o "/Users/dave/Development/Xcode Projects/MacQL/./uxfile.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/version.o "/Users/dave/Development/Xcode Projects/MacQL/./version.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/vl.o "/Users/dave/Development/Xcode Projects/MacQL/./vl.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/vm.o "/Users/dave/Development/Xcode Projects/MacQL/./vm.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/vm_linux.o "/Users/dave/Development/Xcode Projects/MacQL/./vm_linux.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/x.o "/Users/dave/Development/Xcode Projects/MacQL/./x.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/xc68.o "/Users/dave/Development/Xcode Projects/MacQL/./xc68.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/xcodes.o "/Users/dave/Development/Xcode Projects/MacQL/./xcodes.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/xipc.o "/Users/dave/Development/Xcode Projects/MacQL/./xipc.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/xlmain.o "/Users/dave/Development/Xcode Projects/MacQL/./xlmain.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/xqlkey.o "/Users/dave/Development/Xcode Projects/MacQL/./xqlkey.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CCompileC build/MacQL.build/Default/qm.build/Objects-normal/i386/xqlmouse.o "/Users/dave/Development/Xcode Projects/MacQL/./xqlmouse.c" normal i386 c com.apple.compilers.llvmgcc42
+r0
+
+CLd "/Users/dave/Development/Xcode Projects/MacQL/build/Default/qm" normal i386
+r0
+

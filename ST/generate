@@ -1,0 +1,3 @@
+awk -f generate.awk -v DATE="$(date +%d/%m/%Y\ %H:%M:%S)" Init.c
+cp optab.dat /Library/Application\ Support/MacQL/optab.dat
+cp optab.h ..

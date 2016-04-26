@@ -1,0 +1,89 @@
+*Title: UQLX
+*Author: Richard Zidlicky
+
+
+The real documentation containing build and installation instructions
+is in the |docs| subdirectory, refer to this if you have any problems.
+
+Yow will need gnu make, X and gcc to build anything, |MAKE=gnu-make| is
+assumed here. 
+Type
+	make docs
+
+to build the documentation in dvi and html format - depending on whatever
+formatting software is installed locally. 
+_Texi2html_ is recommended to build the docs, you may get it from
+
+http://www.mathematik.uni-kl.de/~obachman/Texi2html/
+
+although it should be bundled with most distributions.
+
+View the documentation either with
+	xdvi docs/uqlx
+or the html docs
+	$BROWSER docs/uqlx_toc.html
+
+If you do not have the necessary software to build the documentation files
+or downloaded the package without documentation, very old version of the HTML
+documentation can be found at : 
+   http://www.geocities.com/SiliconValley/Bay/2602/uqlx_main.html
+
+Short instructions for building it:
+
+on Linux:
+	./MK.all
+	make install
+else
+	make config
+	make
+	make install
+
+Get Jonathan Hudson's _GUI_ from http://www.bigfoot.com/~jrhudson
+if you like GUI's
+
+Windows and Mac versions are neither compiled nor tested by me.
+I would be happy to hear reports from exotic architectures.
+
+* COPYRIGHT, DISCLAIMER
+
+See file |COPYRIGHT|. If you didn't receive it, email
+
+[|rz@linux-m68k.org|(mailto:rz@linux-m68k.org)]
+
+Do not use any part of _UQLX_ for whichever purpose without reading and 
+acknowledging the COPYRIGHT.
+
+* RELEASE NOTES
+
+gcc-4.0.2 has been tested and works well.
+
+gcc-3.[[123]] on all architectures with enabled global registers optimisation
+(anything except x86) has known problems with global register variables, 
+see PR 7871. UQLX uses a workaround, the appended patch fixes gcc.
+
+On _ShoeString_  Linux use gcc2723 or gcc303 to compile. 
+
+config script attempts to guess affected compilers and disables the
+optimisation by default (-DBROKEN_GREGS), this will result in slightly
+slower code. gcc-3.4 and later do not suffer from this bug.
+
+---------
+
+^<<
+--- gcc-3.2-cvs/gcc/flow.c.rz	Thu Apr 18 16:21:09 2002
++++ gcc-3.2-cvs/gcc/flow.c	Wed Aug 21 22:49:01 2002
+@@ -1770,8 +1770,11 @@
+ 	     so they are made live.  */
+ 	  for (i = 0; i < FIRST_PSEUDO_REGISTER; i++)
+ 	    if (global_regs[i])
+-	      mark_used_reg (pbi, gen_rtx_REG (reg_raw_mode[i], i),
+-			     cond, insn);
++	      {
++		SET_REGNO_REG_SET (pbi->reg_live, i);
++		mark_used_reg (pbi, gen_rtx_REG (reg_raw_mode[i], i),
++			       cond, insn);
++	      }
+ 	}
+     }
+^>> 
+

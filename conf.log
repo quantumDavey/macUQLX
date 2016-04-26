@@ -1,0 +1,3 @@
+zmtest.c: In function 'main':
+zmtest.c:15: warning: incompatible implicit declaration of built-in function 'exit'
+zmtest.c:18: warning: incompatible implicit declaration of built-in function 'memset'

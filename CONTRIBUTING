@@ -1,0 +1,9 @@
+Newly contributed code should be licensed GPL with additional special
+permissions:
+
+-  to link and use with UQLX code under the terms of the old COPYRIGHT. 
+   This is probably necessary because older contributions were made under
+   the old copyright.
+
+-  to link with any 3rd party library or emulation engine which is licensed
+   under any OSDL approved "open source" license.

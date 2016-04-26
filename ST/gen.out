@@ -1,0 +1,2091 @@
+*** Processing SetTable calls in source file 'Init.c' to expand EAs ***
+Caching Records...DONE
+There are 584 source entries to process.
+@0001 Write Non Call (0002): /*
+@0002 Write Non Call (0003):  * (c) UQLX - see COPYRIGHT
+@0003 Write Non Call (0004):  */
+@0004 Write Non Call (0005): 
+@0005 Write Non Call (0006): 
+@0006 Write Non Call (0007): #ifndef IE_XL
+@0007 Write Non Call (0008): #include "QL68000.h"
+@0008 Write Non Call (0009): #include <string.h>
+@0009 Write Non Call (0010): #include "funcdefs.h"
+@0010 Write Non Call (0011): char *OpCodePtr(char *);
+@0011 Write Non Call (0012): #endif  /* IE_XL */
+@0012 Write Non Call (0013): 
+@0013 Write Non Call (0014): #ifdef IE_XL
+@0014 Write Non Call (0015): #define LR  &&
+@0015 Write Non Call (0016): #else
+@0016 Write Non Call (0017): #define LR
+@0017 Write Non Call (0018): #endif
+@0018 Write Non Call (0019): 
+@0019 Write Non Call (0020): #ifndef IE_XL
+@0020 Write Non Call (0021): void SetTable(void (**otbl)(void), syntab *stbl, char *mask,void (*f)(void), char *mnem, int smask, int dmask)
+@0021 Write Non Call (0022): {
+@0022 Write Non Call (0023): 	long c;
+@0023 Write Non Call (0024): 	long m,m0;
+@0024 Write Non Call (0025):    	Cond multiplo=false;
+@0025 Write Non Call (0026):    	register void (**p)(void);
+@0026 Write Non Call (0027): 	register syntab *q;
+@0027 Write Non Call (0028): 	
+@0028 Write Non Call (0029):    	short i,c1,c2;
+@0029 Write Non Call (0030): 	
+@0030 Write Non Call (0031): 	if(V4) printf("SetTable: %s, insns %s, *code %x\n",OpCodePtr(mnem),mask,f);
+@0031 Write Non Call (0032): 	
+@0032 Write Non Call (0033):    	m=0x08000; c=0;
+@0033 Write Non Call (0034): 	
+@0034 Write Non Call (0035):    	for(i=0;i<16;i++)
+@0035 Write Non Call (0036):    	{
+@0036 Write Non Call (0037): 		if(mask[i]=='1') c+=m;
+@0037 Write Non Call (0038):    		if(mask[i]=='x') multiplo=true;
+@0038 Write Non Call (0039):    		m>>=1;
+@0039 Write Non Call (0040):    	}
+@0040 Write Non Call (0041): 	
+@0041 Write Non Call (0042):    	if(!multiplo)
+@0042 Write Non Call (0043): 	{
+@0043 Write Non Call (0044): 		otbl[c]=f;
+@0044 Write Non Call (0045): 		stbl[c].m=OpCodePtr(mnem);
+@0045 Write Non Call (0046): 		stbl[c].s=smask; stbl[c].d=dmask; stbl[c].x=0;
+@0046 Write Non Call (0047): 		return;
+@0047 Write Non Call (0048): 	}
+@0048 Write Non Call (0049): 	
+@0049 Write Non Call (0050):    	m0=1; i=15; c1=1;
+@0050 Write Non Call (0051): 	
+@0051 Write Non Call (0052):    	while(mask[i]!='x') { m0<<=1; i--; }
+@0052 Write Non Call (0053): 	
+@0053 Write Non Call (0054):    	while(mask[i--]=='x') c1<<=1;
+@0054 Write Non Call (0055): 	
+@0055 Write Non Call (0056):    	while(i&&mask[i]!='x') i--;
+@0056 Write Non Call (0057): 	
+@0057 Write Non Call (0058):    	if(i)
+@0058 Write Non Call (0059):    	{
+@0059 Write Non Call (0060): 		c2=2;
+@0060 Write Non Call (0061): 		m=0x08000>>i;
+@0061 Write Non Call (0062): 		while(mask[--i]=='x') c2<<=1;
+@0062 Write Non Call (0063): 		
+@0063 Write Non Call (0064): 	   	while(c2--)
+@0064 Write Non Call (0065): 		{
+@0065 Write Non Call (0066): 			p=otbl+c;
+@0066 Write Non Call (0067): 			q=stbl+c;
+@0067 Write Non Call (0068): 			i=c1;
+@0068 Write Non Call (0069): 			
+@0069 Write Non Call (0070): 			while(i--)
+@0070 Write Non Call (0071): 			{
+@0071 Write Non Call (0072): 				*p=f;
+@0072 Write Non Call (0073): 				q->m=OpCodePtr(mnem);
+@0073 Write Non Call (0074): 				q->s=smask; q->d=dmask; q->x=0;
+@0074 Write Non Call (0075): 				p+=m0;
+@0075 Write Non Call (0076): 				q+=m0;
+@0076 Write Non Call (0077): 			}
+@0077 Write Non Call (0078): 			
+@0078 Write Non Call (0079): 			c+=m;
+@0079 Write Non Call (0080): 		}
+@0080 Write Non Call (0081):    	}
+@0081 Write Non Call (0082):    	else
+@0082 Write Non Call (0083):    	{
+@0083 Write Non Call (0084): 		p=otbl+c;
+@0084 Write Non Call (0085): 		q=stbl+c;
+@0085 Write Non Call (0086): 		
+@0086 Write Non Call (0087): 		while(c1--)
+@0087 Write Non Call (0088): 		{
+@0088 Write Non Call (0089): 			*p=f;
+@0089 Write Non Call (0090): 			q->m=OpCodePtr(mnem);
+@0090 Write Non Call (0091): 			q->s=smask; q->d=dmask; q->x=0;
+@0091 Write Non Call (0092): 			p+=m0;
+@0092 Write Non Call (0093): 			q+=m0;
+@0093 Write Non Call (0094): 		}
+@0094 Write Non Call (0095): 	}
+@0095 Write Non Call (0096): }
+@0096 Write Non Call (0097): 
+@0097 Write Non Call (0098): #endif
+@0098 Write Non Call (0099): 
+@0099 Write Non Call (0100): #ifndef IE_XL
+@0100 Write Non Call (0101): void SetInvalEntries(void (**instbl)(void), syntab syntbl[], void *code, char *mnemonic, int arg1mask, int arg2mask)
+@0101 Write Non Call (0102): {
+@0102 Write Non Call (0103): 	long i;
+@0103 Write Non Call (0104): 	
+@0104 Write Non Call (0105): 	for(i=8;i<61440;i++)
+@0105 Write Non Call (0106): 	{
+@0106 Write Non Call (0107): 		instbl[i]= code;
+@0107 Write Non Call (0108): 		syntbl[i].m=(char *)OpCodePtr(mnemonic);
+@0108 Write Non Call (0109): 		syntbl[i].s=arg1mask;syntbl[i].d=arg2mask;syntbl[i].x=0;
+@0109 Write Non Call (0110): 		
+@0110 Write Non Call (0111): 	}
+@0111 Write Non Call (0112): }
+@0112 Write Non Call (0113): #endif
+@0113 Write Non Call (0114): 
+@0114 Write Non Call (0115): 
+@0115 Write Non Call (0116): #ifndef IE_XL
+@0116 Write Non Call (0117): static void SetTabEntries(void (**instbl)(void), syntab syntbl[])
+@0117 Write Non Call (0118): #endif
+@0118 Write Non Call (0119): 
+@0119 Write Non Call (0120): #if defined(IE_XL_II) || (!defined(IE_XL))
+@0120 Write Non Call (0121): {   
+@0121 Write Non Call (0122): 	
+@0122 Write Non Call (0123): 	// New SetTable Syntax:
+@0123 Write Non Call (0124): 	//
+@0124 Write Non Call (0125): 	// SetTable( theTable, binarymask, function to call, mnemonic, key for source, key for dest )
+@0125 Write Non Call (0126): 	//
+@0126 Write Non Call (0127): 	// All bit field specifiers:
+@0127 Write Non Call (0128): 	//		R:nm 	R=addressing mode
+@0128 Write Non Call (0129): 	//				:nm = field of bits  n to n+m of instruction word  incl counting from right
+@0129 Write Non Call (0130): 	//
+@0130 Write Non Call (0131): 	//	operand mask syntax encoding:
+@0131 Write Non Call (0132): 	//
+@0132 Write Non Call (0133): 	//	ttttmmmmmmmmmmmm	Bitfield definition		t=operand type, m=bitmask for value
+@0133 Write Non Call (0134): 	//	1111000000000iii	Literal string,			iii=index into literal string array:
+@0134 Write Non Call (0135): 	//
+@0135 Write Non Call (0136): 	//	fieldmask			code	mnem	mode	description
+@0136 Write Non Call (0137): 	//
+@0137 Write Non Call (0138): 	//	0000mmmmmmmmmmmm	0xxx	EAMR	ea		EA [MMMRRR] defined by bit 0 to bit 5 + opt extension words
+@0138 Write Non Call (0139): 	//												0x003F "E05"
+@0139 Write Non Call (0140): 	//
+@0140 Write Non Call (0141): 	//	0001mmmmmmmmmmmm	1xxx	EARM	ea		EA [RRRMMM] defined by bit 6 to bit 11 + opt extension words
+@0141 Write Non Call (0142): 	//												0x1FC0 "F65"
+@0142 Write Non Call (0143): 	//
+@0143 Write Non Call (0144): 	//	0010mmmmmmmmmmmm	2xxx	D:nm	direct  Data reg defined by bit n to bit n+m incl:
+@0144 Write Non Call (0145): 	//												0x2007 "D02"
+@0145 Write Non Call (0146): 	//												0x2E00 "D92"
+@0146 Write Non Call (0147): 	//
+@0147 Write Non Call (0148): 	//	0011mmmmmmmmmmmm	3xxx	A:nm	direct  Addr reg defined by bit n to bit n+m incl
+@0148 Write Non Call (0149): 	//												0x3007 "A02"
+@0149 Write Non Call (0150): 	//												0x3E00 "A92"
+@0150 Write Non Call (0151): 	//
+@0151 Write Non Call (0152): 	//	0100mmmmmmmmmmmm	4xxx	a:nm	(An)	address reg indirect
+@0152 Write Non Call (0153): 	//												0x4007 "a02"
+@0153 Write Non Call (0154): 	//												0x4E00 "a92"
+@0154 Write Non Call (0155): 	//
+@0155 Write Non Call (0156): 	//	0101mmmmmmmmmmmm	5x0x	d:nm  d16(An)	An + displacement defined by extword 16 Bit signed
+@0156 Write Non Call (0157): 	//									 			0x5007 "d02"
+@0157 Write Non Call (0158): 	//												0x5E00 "d92"
+@0158 Write Non Call (0159): 	//
+@0159 Write Non Call (0160): 	//	0101mmmmmmmmmmmm	5x1x	d:nm d8(An,Xn)	An + 8bit displacement + index register
+@0160 Write Non Call (0161): 	//												defined by extword [0=D,1=A][idx][0=W,1=L][sc][0][signddisp]
+@0161 Write Non Call (0162): 	//									 			0x5017 "d02"
+@0162 Write Non Call (0163): 	//												0x5E10 "d92"
+@0163 Write Non Call (0164): 	//
+@0164 Write Non Call (0165): 	//	0110mmmmmmmmmmmm	6xxx	+:nm	(An)+	address reg indirect with post-increment
+@0165 Write Non Call (0166): 	//												0x6007 "+02"
+@0166 Write Non Call (0167): 	//												0x6E00 "+92"
+@0167 Write Non Call (0168): 	//
+@0168 Write Non Call (0169): 	//	0111mmmmmmmmmmmm	7xxx	-:nm	-(An)	address reg indirect with pre-decrement
+@0169 Write Non Call (0170): 	//												0x7007 "-02"
+@0170 Write Non Call (0171): 	//												0x7E00 "-92"
+@0171 Write Non Call (0172): 	//
+@0172 Write Non Call (0173): 	//	1000mmmmmmmmmmmm	8x0x	P		d(PC)	PC + 16bit signed displacement defined by extword
+@0173 Write Non Call (0174): 	//
+@0174 Write Non Call (0175): 	//	1000mmmmmmmmmmmm	8x1x	P	d8(PC,Xn)	PC + 8bit displacement + index register
+@0175 Write Non Call (0176): 	//												defined by extword [0=D,1=A][idx][0=W,1=L][sc][0][signddisp]
+@0176 Write Non Call (0177): 	//
+@0177 Write Non Call (0178): 	//	1001mmmmmmmmmmmm	9xxx	G		disp	8 bit disp (=0 +16 bit extword, =255 +32 bit extword)
+@0178 Write Non Call (0179): 	//
+@0179 Write Non Call (0180): 	//	1010mmmmmmmmmmmm	Axxx	I:nm	immed	immediate data in instruction
+@0180 Write Non Call (0181): 	//
+@0181 Write Non Call (0182): 	//	1011000000000000	B000	S		ABS S	SRC EA - Absolute short (16 bit Extword)
+@0182 Write Non Call (0183): 	//
+@0183 Write Non Call (0184): 	//	1011000000000001	B001	L		ABS L	SRC EA - Absoulte long (32 bit Extword)
+@0184 Write Non Call (0185): 	//
+@0185 Write Non Call (0186): 	//	1011000100000001	B100	S		ABS L	DEST EA - Absoulte long (32 bit Extword)
+@0186 Write Non Call (0187): 	//
+@0187 Write Non Call (0188): 	//	1011000100000001	B101	L		ABS L	DEST EA - Absoulte long (32 bit Extword)
+@0188 Write Non Call (0189): 	//
+@0189 Write Non Call (0190): 	//	1110000100000000	E100	Extword immed	Byte (Next word, LSB significant only)
+@0190 Write Non Call (0191): 	//												0xE100 "X"
+@0191 Write Non Call (0192): 	//
+@0192 Write Non Call (0193): 	//	1110001000000000	E200	Extword immed	Word (Next word, whole word siginificant)
+@0193 Write Non Call (0194): 	//												0xE200 "XX"
+@0194 Write Non Call (0195): 	//
+@0195 Write Non Call (0196): 	//	1110001100000000	E300	Extword immed	Long (Next 2 words, whole long significant)
+@0196 Write Non Call (0197): 	//												0xE300 "XXXX"
+@0197 Write Non Call (0198): 	//
+@0198 Write Non Call (0199): 	//	1110100000000000	E800	MA-D	immed	Word Register Spec Mask [A7...D0]
+@0199 Write Non Call (0200): 	//
+@0200 Write Non Call (0201): 	//	1110100100000000	E900	MD-A	immed	Word Register Spec Mask [D0...A7]
+@0201 Write Non Call (0202): 	//
+@0202 Write Non Call (0203): 	//	1111000000000iii	F00x	Literal	string	iii=index into literal string array:
+@0203 Write Non Call (0204): 	//													0xF000 "" ""
+@0204 Write Non Call (0205): 	//													0xF001 "#1"
+@0205 Write Non Call (0206): 	//													0xF002 "#2"
+@0206 Write Non Call (0207): 	//													0xF003 "#4"
+@0207 Write Non Call (0208): 	//													0xF004 "CCR"
+@0208 Write Non Call (0209): 	//													0xF005 "SR"
+@0209 Write Non Call (0210): 	//													0xF006 "USP"
+@0210 Write Non Call (0211): 
+@0211 Write Non Call (0212): 	SetInvalEntries(instbl, syntbl, LR InvalidCode, "Invalid", 0xF000, 0xF000 );
+@0212 Write Non Call (0213): 	
+
+@0213 Not Generated Header (0214-0217)
+@0213 Not Generated Call (0218): 	SetTable(instbl, syntbl, "1111111111111111", LR InvalidCode, "Invalid", 0xF000, 0xF000 );   
+
+@0214 0000000000xxxxxx ---> 0000000000000xxx          ori_b   ori.b:	OK, Writing 0219
+                            0000000000010xxx          ori_b   ori.b:	OK, Writing 0220
+                            0000000000011xxx          ori_b   ori.b:	OK, Writing 0221
+                            0000000000100xxx          ori_b   ori.b:	OK, Writing 0222
+                            0000000000101xxx          ori_b   ori.b:	OK, Writing 0223
+                            0000000000110xxx          ori_b   ori.b:	OK, Writing 0224
+                            0000000000111000          ori_b   ori.b:	OK, Writing 0225
+                            0000000000111001          ori_b   ori.b:	OK, Writing 0226
+
+@0215 Not Generated Header (0227-0230)
+@0215 Not Generated Call (0231): 	SetTable(instbl, syntbl, "0000000000111100", LR ori_to_ccr, "ori", 0xE100, 0xF004 );   
+
+@0216 0000000001xxxxxx ---> 0000000001000xxx          ori_w   ori.w:	OK, Writing 0232
+                            0000000001010xxx          ori_w   ori.w:	OK, Writing 0233
+                            0000000001011xxx          ori_w   ori.w:	OK, Writing 0234
+                            0000000001100xxx          ori_w   ori.w:	OK, Writing 0235
+                            0000000001101xxx          ori_w   ori.w:	OK, Writing 0236
+                            0000000001110xxx          ori_w   ori.w:	OK, Writing 0237
+                            0000000001111000          ori_w   ori.w:	OK, Writing 0238
+                            0000000001111001          ori_w   ori.w:	OK, Writing 0239
+
+@0217 Not Generated Header (0240-0243)
+@0217 Not Generated Call (0244): 	SetTable(instbl, syntbl, "0000000001111100", LR ori_to_sr, "ori", 0xE200, 0xF005 );   
+
+@0218 0000000010xxxxxx ---> 0000000010000xxx          ori_l   ori.l:	OK, Writing 0245
+                            0000000010010xxx          ori_l   ori.l:	OK, Writing 0246
+                            0000000010011xxx          ori_l   ori.l:	OK, Writing 0247
+                            0000000010100xxx          ori_l   ori.l:	OK, Writing 0248
+                            0000000010101xxx          ori_l   ori.l:	OK, Writing 0249
+                            0000000010110xxx          ori_l   ori.l:	OK, Writing 0250
+                            0000000010111000          ori_l   ori.l:	OK, Writing 0251
+                            0000000010111001          ori_l   ori.l:	OK, Writing 0252
+
+@0219 0000xxx100xxxxxx ---> 0000xxx100000xxx         btst_d    btst:	OK, Writing 0253
+                            0000xxx100010xxx         btst_d    btst:	OK, Writing 0254
+                            0000xxx100011xxx         btst_d    btst:	OK, Writing 0255
+                            0000xxx100100xxx         btst_d    btst:	OK, Writing 0256
+                            0000xxx100101xxx         btst_d    btst:	OK, Writing 0257
+                            0000xxx100110xxx         btst_d    btst:	OK, Writing 0258
+                            0000xxx100111000         btst_d    btst:	OK, Writing 0259
+                            0000xxx100111001         btst_d    btst:	OK, Writing 0260
+                            0000xxx100111011         btst_d    btst:	OK, Writing 0261
+                            0000xxx100111100         btst_d    btst:	OK, Writing 0262
+
+@0220 0000xxx101xxxxxx ---> 0000xxx101000xxx         bchg_d    bchg:	OK, Writing 0263
+                            0000xxx101010xxx         bchg_d    bchg:	OK, Writing 0264
+                            0000xxx101011xxx         bchg_d    bchg:	OK, Writing 0265
+                            0000xxx101100xxx         bchg_d    bchg:	OK, Writing 0266
+                            0000xxx101101xxx         bchg_d    bchg:	OK, Writing 0267
+                            0000xxx101110xxx         bchg_d    bchg:	OK, Writing 0268
+                            0000xxx101111000         bchg_d    bchg:	OK, Writing 0269
+                            0000xxx101111001         bchg_d    bchg:	OK, Writing 0270
+
+@0221 0000xxx110xxxxxx ---> 0000xxx110000xxx         bclr_d    bclr:	OK, Writing 0271
+                            0000xxx110010xxx         bclr_d    bclr:	OK, Writing 0272
+                            0000xxx110011xxx         bclr_d    bclr:	OK, Writing 0273
+                            0000xxx110100xxx         bclr_d    bclr:	OK, Writing 0274
+                            0000xxx110101xxx         bclr_d    bclr:	OK, Writing 0275
+                            0000xxx110110xxx         bclr_d    bclr:	OK, Writing 0276
+                            0000xxx110111000         bclr_d    bclr:	OK, Writing 0277
+                            0000xxx110111001         bclr_d    bclr:	OK, Writing 0278
+
+@0222 0000xxx111xxxxxx ---> 0000xxx111000xxx         bset_d    bset:	OK, Writing 0279
+                            0000xxx111010xxx         bset_d    bset:	OK, Writing 0280
+                            0000xxx111011xxx         bset_d    bset:	OK, Writing 0281
+                            0000xxx111100xxx         bset_d    bset:	OK, Writing 0282
+                            0000xxx111101xxx         bset_d    bset:	OK, Writing 0283
+                            0000xxx111110xxx         bset_d    bset:	OK, Writing 0284
+                            0000xxx111111000         bset_d    bset:	OK, Writing 0285
+                            0000xxx111111001         bset_d    bset:	OK, Writing 0286
+
+@0223 Not Generated Header (0287-0290)
+@0223 Not Generated Call (0291): 	SetTable(instbl, syntbl, "0000xxx100001xxx", LR movep_w_mr, "movep.w", 0x5007, 0x2E00 );   
+@0224 Not Generated Call (0292): 	SetTable(instbl, syntbl, "0000xxx101001xxx", LR movep_l_mr, "movep.l", 0x5007, 0x2E00 );   
+@0225 Not Generated Call (0293): 	SetTable(instbl, syntbl, "0000xxx110001xxx", LR movep_w_rm, "movep.w", 0x2E00, 0x5007 );   
+@0226 Not Generated Call (0294): 	SetTable(instbl, syntbl, "0000xxx111001xxx", LR movep_l_rm, "movep.l", 0x2E00, 0x5007 );   
+
+@0227 0000001000xxxxxx ---> 0000001000000xxx         andi_b  andi.b:	OK, Writing 0295
+                            0000001000010xxx         andi_b  andi.b:	OK, Writing 0296
+                            0000001000011xxx         andi_b  andi.b:	OK, Writing 0297
+                            0000001000100xxx         andi_b  andi.b:	OK, Writing 0298
+                            0000001000101xxx         andi_b  andi.b:	OK, Writing 0299
+                            0000001000110xxx         andi_b  andi.b:	OK, Writing 0300
+                            0000001000111000         andi_b  andi.b:	OK, Writing 0301
+                            0000001000111001         andi_b  andi.b:	OK, Writing 0302
+
+@0228 0000001001xxxxxx ---> 0000001001000xxx         andi_w  andi.w:	OK, Writing 0303
+                            0000001001010xxx         andi_w  andi.w:	OK, Writing 0304
+                            0000001001011xxx         andi_w  andi.w:	OK, Writing 0305
+                            0000001001100xxx         andi_w  andi.w:	OK, Writing 0306
+                            0000001001101xxx         andi_w  andi.w:	OK, Writing 0307
+                            0000001001110xxx         andi_w  andi.w:	OK, Writing 0308
+                            0000001001111000         andi_w  andi.w:	OK, Writing 0309
+                            0000001001111001         andi_w  andi.w:	OK, Writing 0310
+
+@0229 0000001010xxxxxx ---> 0000001010000xxx         andi_l  andi.l:	OK, Writing 0311
+                            0000001010010xxx         andi_l  andi.l:	OK, Writing 0312
+                            0000001010011xxx         andi_l  andi.l:	OK, Writing 0313
+                            0000001010100xxx         andi_l  andi.l:	OK, Writing 0314
+                            0000001010101xxx         andi_l  andi.l:	OK, Writing 0315
+                            0000001010110xxx         andi_l  andi.l:	OK, Writing 0316
+                            0000001010111000         andi_l  andi.l:	OK, Writing 0317
+                            0000001010111001         andi_l  andi.l:	OK, Writing 0318
+
+@0230 Not Generated Header (0319-0322)
+@0230 Not Generated Call (0323): 	SetTable(instbl, syntbl, "0000001000111100", LR andi_to_ccr, "andi", 0xE100, 0xF004 );   
+@0231 Not Generated Call (0324): 	SetTable(instbl, syntbl, "0000001001111100", LR andi_to_sr, "andi", 0xE200, 0xF005 );   
+
+@0232 0000010000xxxxxx ---> 0000010000000xxx         subi_b  subi.b:	OK, Writing 0325
+                            0000010000001xxx         subi_b  subi.b:	OK, Writing 0326
+                            0000010000010xxx         subi_b  subi.b:	OK, Writing 0327
+                            0000010000011xxx         subi_b  subi.b:	OK, Writing 0328
+                            0000010000100xxx         subi_b  subi.b:	OK, Writing 0329
+                            0000010000101xxx         subi_b  subi.b:	OK, Writing 0330
+                            0000010000110xxx         subi_b  subi.b:	OK, Writing 0331
+                            0000010000111000         subi_b  subi.b:	OK, Writing 0332
+                            0000010000111001         subi_b  subi.b:	OK, Writing 0333
+
+@0233 0000010001xxxxxx ---> 0000010001000xxx         subi_w  subi.w:	OK, Writing 0334
+                            0000010001001xxx         subi_w  subi.w:	OK, Writing 0335
+                            0000010001010xxx         subi_w  subi.w:	OK, Writing 0336
+                            0000010001011xxx         subi_w  subi.w:	OK, Writing 0337
+                            0000010001100xxx         subi_w  subi.w:	OK, Writing 0338
+                            0000010001101xxx         subi_w  subi.w:	OK, Writing 0339
+                            0000010001110xxx         subi_w  subi.w:	OK, Writing 0340
+                            0000010001111000         subi_w  subi.w:	OK, Writing 0341
+                            0000010001111001         subi_w  subi.w:	OK, Writing 0342
+
+@0234 0000010010xxxxxx ---> 0000010010000xxx         subi_l  subi.l:	OK, Writing 0343
+                            0000010010001xxx         subi_l  subi.l:	OK, Writing 0344
+                            0000010010010xxx         subi_l  subi.l:	OK, Writing 0345
+                            0000010010011xxx         subi_l  subi.l:	OK, Writing 0346
+                            0000010010100xxx         subi_l  subi.l:	OK, Writing 0347
+                            0000010010101xxx         subi_l  subi.l:	OK, Writing 0348
+                            0000010010110xxx         subi_l  subi.l:	OK, Writing 0349
+                            0000010010111000         subi_l  subi.l:	OK, Writing 0350
+                            0000010010111001         subi_l  subi.l:	OK, Writing 0351
+
+@0235 0000011000xxxxxx ---> 0000011000000xxx         addi_b  addi.b:	OK, Writing 0352
+                            0000011000010xxx         addi_b  addi.b:	OK, Writing 0353
+                            0000011000011xxx         addi_b  addi.b:	OK, Writing 0354
+                            0000011000100xxx         addi_b  addi.b:	OK, Writing 0355
+                            0000011000101xxx         addi_b  addi.b:	OK, Writing 0356
+                            0000011000110xxx         addi_b  addi.b:	OK, Writing 0357
+                            0000011000111000         addi_b  addi.b:	OK, Writing 0358
+                            0000011000111001         addi_b  addi.b:	OK, Writing 0359
+
+@0236 0000011001xxxxxx ---> 0000011001000xxx         addi_w  addi.w:	OK, Writing 0360
+                            0000011001010xxx         addi_w  addi.w:	OK, Writing 0361
+                            0000011001011xxx         addi_w  addi.w:	OK, Writing 0362
+                            0000011001100xxx         addi_w  addi.w:	OK, Writing 0363
+                            0000011001101xxx         addi_w  addi.w:	OK, Writing 0364
+                            0000011001110xxx         addi_w  addi.w:	OK, Writing 0365
+                            0000011001111000         addi_w  addi.w:	OK, Writing 0366
+                            0000011001111001         addi_w  addi.w:	OK, Writing 0367
+
+@0237 0000011010xxxxxx ---> 0000011010000xxx         addi_l  addi.l:	OK, Writing 0368
+                            0000011010010xxx         addi_l  addi.l:	OK, Writing 0369
+                            0000011010011xxx         addi_l  addi.l:	OK, Writing 0370
+                            0000011010100xxx         addi_l  addi.l:	OK, Writing 0371
+                            0000011010101xxx         addi_l  addi.l:	OK, Writing 0372
+                            0000011010110xxx         addi_l  addi.l:	OK, Writing 0373
+                            0000011010111000         addi_l  addi.l:	OK, Writing 0374
+                            0000011010111001         addi_l  addi.l:	OK, Writing 0375
+
+@0238 0000100000xxxxxx ---> 0000100000000xxx         btst_s  btst.s:	OK, Writing 0376
+                            0000100000010xxx         btst_s  btst.s:	OK, Writing 0377
+                            0000100000011xxx         btst_s  btst.s:	OK, Writing 0378
+                            0000100000100xxx         btst_s  btst.s:	OK, Writing 0379
+                            0000100000101xxx         btst_s  btst.s:	OK, Writing 0380
+                            0000100000110xxx         btst_s  btst.s:	OK, Writing 0381
+                            0000100000111000         btst_s  btst.s:	OK, Writing 0382
+                            0000100000111001         btst_s  btst.s:	OK, Writing 0383
+                            0000100000111011         btst_s  btst.s:	OK, Writing 0384
+                            0000100000111100         btst_s  btst.s:	OK, Writing 0385
+
+@0239 0000100001xxxxxx ---> 0000100001000xxx         bchg_s  bchg.s:	OK, Writing 0386
+                            0000100001010xxx         bchg_s  bchg.s:	OK, Writing 0387
+                            0000100001011xxx         bchg_s  bchg.s:	OK, Writing 0388
+                            0000100001100xxx         bchg_s  bchg.s:	OK, Writing 0389
+                            0000100001101xxx         bchg_s  bchg.s:	OK, Writing 0390
+                            0000100001110xxx         bchg_s  bchg.s:	OK, Writing 0391
+                            0000100001111000         bchg_s  bchg.s:	OK, Writing 0392
+                            0000100001111001         bchg_s  bchg.s:	OK, Writing 0393
+
+@0240 0000100010xxxxxx ---> 0000100010000xxx         bclr_s  bclr.s:	OK, Writing 0394
+                            0000100010010xxx         bclr_s  bclr.s:	OK, Writing 0395
+                            0000100010011xxx         bclr_s  bclr.s:	OK, Writing 0396
+                            0000100010100xxx         bclr_s  bclr.s:	OK, Writing 0397
+                            0000100010101xxx         bclr_s  bclr.s:	OK, Writing 0398
+                            0000100010110xxx         bclr_s  bclr.s:	OK, Writing 0399
+                            0000100010111000         bclr_s  bclr.s:	OK, Writing 0400
+                            0000100010111001         bclr_s  bclr.s:	OK, Writing 0401
+
+@0241 0000100011xxxxxx ---> 0000100011000xxx         bset_s  bset.s:	OK, Writing 0402
+                            0000100011010xxx         bset_s  bset.s:	OK, Writing 0403
+                            0000100011011xxx         bset_s  bset.s:	OK, Writing 0404
+                            0000100011100xxx         bset_s  bset.s:	OK, Writing 0405
+                            0000100011101xxx         bset_s  bset.s:	OK, Writing 0406
+                            0000100011110xxx         bset_s  bset.s:	OK, Writing 0407
+                            0000100011111000         bset_s  bset.s:	OK, Writing 0408
+                            0000100011111001         bset_s  bset.s:	OK, Writing 0409
+
+@0242 0000101000xxxxxx ---> 0000101000000xxx         eori_b  eori.b:	OK, Writing 0410
+                            0000101000010xxx         eori_b  eori.b:	OK, Writing 0411
+                            0000101000011xxx         eori_b  eori.b:	OK, Writing 0412
+                            0000101000100xxx         eori_b  eori.b:	OK, Writing 0413
+                            0000101000101xxx         eori_b  eori.b:	OK, Writing 0414
+                            0000101000110xxx         eori_b  eori.b:	OK, Writing 0415
+                            0000101000111000         eori_b  eori.b:	OK, Writing 0416
+                            0000101000111001         eori_b  eori.b:	OK, Writing 0417
+
+@0243 0000101001xxxxxx ---> 0000101001000xxx         eori_w  eori.w:	OK, Writing 0418
+                            0000101001010xxx         eori_w  eori.w:	OK, Writing 0419
+                            0000101001011xxx         eori_w  eori.w:	OK, Writing 0420
+                            0000101001100xxx         eori_w  eori.w:	OK, Writing 0421
+                            0000101001101xxx         eori_w  eori.w:	OK, Writing 0422
+                            0000101001110xxx         eori_w  eori.w:	OK, Writing 0423
+                            0000101001111000         eori_w  eori.w:	OK, Writing 0424
+                            0000101001111001         eori_w  eori.w:	OK, Writing 0425
+
+@0244 0000101010xxxxxx ---> 0000101010000xxx         eori_l  eori.l:	OK, Writing 0426
+                            0000101010010xxx         eori_l  eori.l:	OK, Writing 0427
+                            0000101010011xxx         eori_l  eori.l:	OK, Writing 0428
+                            0000101010100xxx         eori_l  eori.l:	OK, Writing 0429
+                            0000101010101xxx         eori_l  eori.l:	OK, Writing 0430
+                            0000101010110xxx         eori_l  eori.l:	OK, Writing 0431
+                            0000101010111000         eori_l  eori.l:	OK, Writing 0432
+                            0000101010111001         eori_l  eori.l:	OK, Writing 0433
+
+@0245 Not Generated Header (0434-0437)
+@0245 Not Generated Call (0438): 	SetTable(instbl, syntbl, "0000101000111100", LR eori_to_ccr, "eori", 0xE200, 0xF004 );   
+@0246 Not Generated Call (0439): 	SetTable(instbl, syntbl, "0000101001111100", LR eori_to_sr, "eori", 0xE200, 0xF005 );   
+
+@0247 0000110000xxxxxx ---> 0000110000000xxx         cmpi_b  cmpi.b:	OK, Writing 0440
+                            0000110000010xxx         cmpi_b  cmpi.b:	OK, Writing 0441
+                            0000110000011xxx         cmpi_b  cmpi.b:	OK, Writing 0442
+                            0000110000100xxx         cmpi_b  cmpi.b:	OK, Writing 0443
+                            0000110000101xxx         cmpi_b  cmpi.b:	OK, Writing 0444
+                            0000110000110xxx         cmpi_b  cmpi.b:	OK, Writing 0445
+                            0000110000111000         cmpi_b  cmpi.b:	OK, Writing 0446
+                            0000110000111001         cmpi_b  cmpi.b:	OK, Writing 0447
+                            0000110000111011         cmpi_b  cmpi.b:	OK, Writing 0448
+                            0000110000111100         cmpi_b  cmpi.b:	OK, Writing 0449
+
+@0248 0000110001xxxxxx ---> 0000110001000xxx         cmpi_w  cmpi.w:	OK, Writing 0450
+                            0000110001010xxx         cmpi_w  cmpi.w:	OK, Writing 0451
+                            0000110001011xxx         cmpi_w  cmpi.w:	OK, Writing 0452
+                            0000110001100xxx         cmpi_w  cmpi.w:	OK, Writing 0453
+                            0000110001101xxx         cmpi_w  cmpi.w:	OK, Writing 0454
+                            0000110001110xxx         cmpi_w  cmpi.w:	OK, Writing 0455
+                            0000110001111000         cmpi_w  cmpi.w:	OK, Writing 0456
+                            0000110001111001         cmpi_w  cmpi.w:	OK, Writing 0457
+                            0000110001111011         cmpi_w  cmpi.w:	OK, Writing 0458
+                            0000110001111100         cmpi_w  cmpi.w:	OK, Writing 0459
+
+@0249 0000110010xxxxxx ---> 0000110010000xxx         cmpi_l  cmpi.l:	OK, Writing 0460
+                            0000110010010xxx         cmpi_l  cmpi.l:	OK, Writing 0461
+                            0000110010011xxx         cmpi_l  cmpi.l:	OK, Writing 0462
+                            0000110010100xxx         cmpi_l  cmpi.l:	OK, Writing 0463
+                            0000110010101xxx         cmpi_l  cmpi.l:	OK, Writing 0464
+                            0000110010110xxx         cmpi_l  cmpi.l:	OK, Writing 0465
+                            0000110010111000         cmpi_l  cmpi.l:	OK, Writing 0466
+                            0000110010111001         cmpi_l  cmpi.l:	OK, Writing 0467
+                            0000110010111011         cmpi_l  cmpi.l:	OK, Writing 0468
+                            0000110010111100         cmpi_l  cmpi.l:	OK, Writing 0469
+
+@0250 0001xxxxxxxxxxxx ---> 0001xxx000000xxx         move_b  move.b:	NOT Writing 0470,  In Source Later @0253: 0001xxx000000xxx move_b_reg    
+                            0001xxx000001xxx         move_b  move.b:	OK, Writing 0470
+                            0001xxx000010xxx         move_b  move.b:	OK, Writing 0471
+                            0001xxx000011xxx         move_b  move.b:	OK, Writing 0472
+                            0001xxx000100xxx         move_b  move.b:	OK, Writing 0473
+                            0001xxx000101xxx         move_b  move.b:	OK, Writing 0474
+                            0001xxx000110xxx         move_b  move.b:	OK, Writing 0475
+                            0001xxx000111000         move_b  move.b:	OK, Writing 0476
+                            0001xxx000111001         move_b  move.b:	OK, Writing 0477
+                            0001xxx000111010         move_b  move.b:	OK, Writing 0478
+                            0001xxx000111011         move_b  move.b:	OK, Writing 0479
+                            0001xxx000111100         move_b  move.b:	OK, Writing 0480
+                            0001xxx011000xxx         move_b  move.b:	OK, Writing 0481
+                            0001xxx011001xxx         move_b  move.b:	OK, Writing 0482
+                            0001xxx011010xxx         move_b  move.b:	OK, Writing 0483
+                            0001xxx011011xxx         move_b  move.b:	OK, Writing 0484
+                            0001xxx011100xxx         move_b  move.b:	OK, Writing 0485
+                            0001xxx011101xxx         move_b  move.b:	OK, Writing 0486
+                            0001xxx011110xxx         move_b  move.b:	OK, Writing 0487
+                            0001xxx011111000         move_b  move.b:	OK, Writing 0488
+                            0001xxx011111001         move_b  move.b:	OK, Writing 0489
+                            0001xxx011111010         move_b  move.b:	OK, Writing 0490
+                            0001xxx011111011         move_b  move.b:	OK, Writing 0491
+                            0001xxx011111100         move_b  move.b:	OK, Writing 0492
+                            0001xxx100000xxx         move_b  move.b:	OK, Writing 0493
+                            0001xxx100001xxx         move_b  move.b:	OK, Writing 0494
+                            0001xxx100010xxx         move_b  move.b:	OK, Writing 0495
+                            0001xxx100011xxx         move_b  move.b:	OK, Writing 0496
+                            0001xxx100100xxx         move_b  move.b:	OK, Writing 0497
+                            0001xxx100101xxx         move_b  move.b:	OK, Writing 0498
+                            0001xxx100110xxx         move_b  move.b:	OK, Writing 0499
+                            0001xxx100111000         move_b  move.b:	OK, Writing 0500
+                            0001xxx100111001         move_b  move.b:	OK, Writing 0501
+                            0001xxx100111010         move_b  move.b:	OK, Writing 0502
+                            0001xxx100111011         move_b  move.b:	OK, Writing 0503
+                            0001xxx100111100         move_b  move.b:	OK, Writing 0504
+                            0001xxx101000xxx         move_b  move.b:	OK, Writing 0505
+                            0001xxx101001xxx         move_b  move.b:	OK, Writing 0506
+                            0001xxx101010xxx         move_b  move.b:	OK, Writing 0507
+                            0001xxx101011xxx         move_b  move.b:	OK, Writing 0508
+                            0001xxx101100xxx         move_b  move.b:	OK, Writing 0509
+                            0001xxx101101xxx         move_b  move.b:	OK, Writing 0510
+                            0001xxx101110xxx         move_b  move.b:	OK, Writing 0511
+                            0001xxx101111000         move_b  move.b:	OK, Writing 0512
+                            0001xxx101111001         move_b  move.b:	OK, Writing 0513
+                            0001xxx101111010         move_b  move.b:	OK, Writing 0514
+                            0001xxx101111011         move_b  move.b:	OK, Writing 0515
+                            0001xxx101111100         move_b  move.b:	OK, Writing 0516
+                            0001xxx110000xxx         move_b  move.b:	OK, Writing 0517
+                            0001xxx110001xxx         move_b  move.b:	OK, Writing 0518
+                            0001xxx110010xxx         move_b  move.b:	OK, Writing 0519
+                            0001xxx110011xxx         move_b  move.b:	OK, Writing 0520
+                            0001xxx110100xxx         move_b  move.b:	OK, Writing 0521
+                            0001xxx110101xxx         move_b  move.b:	OK, Writing 0522
+                            0001xxx110110xxx         move_b  move.b:	OK, Writing 0523
+                            0001xxx110111000         move_b  move.b:	OK, Writing 0524
+                            0001xxx110111001         move_b  move.b:	OK, Writing 0525
+                            0001xxx110111010         move_b  move.b:	OK, Writing 0526
+                            0001xxx110111011         move_b  move.b:	OK, Writing 0527
+                            0001xxx110111100         move_b  move.b:	OK, Writing 0528
+                            0001000111000xxx         move_b  move.b:	OK, Writing 0529
+                            0001000111001xxx         move_b  move.b:	OK, Writing 0530
+                            0001000111010xxx         move_b  move.b:	OK, Writing 0531
+                            0001000111011xxx         move_b  move.b:	OK, Writing 0532
+                            0001000111100xxx         move_b  move.b:	OK, Writing 0533
+                            0001000111101xxx         move_b  move.b:	OK, Writing 0534
+                            0001000111110xxx         move_b  move.b:	OK, Writing 0535
+                            0001000111111000         move_b  move.b:	OK, Writing 0536
+                            0001000111111001         move_b  move.b:	OK, Writing 0537
+                            0001000111111010         move_b  move.b:	OK, Writing 0538
+                            0001000111111011         move_b  move.b:	OK, Writing 0539
+                            0001000111111100         move_b  move.b:	OK, Writing 0540
+                            0001001111000xxx         move_b  move.b:	OK, Writing 0541
+                            0001001111001xxx         move_b  move.b:	OK, Writing 0542
+                            0001001111010xxx         move_b  move.b:	OK, Writing 0543
+                            0001001111011xxx         move_b  move.b:	OK, Writing 0544
+                            0001001111100xxx         move_b  move.b:	OK, Writing 0545
+                            0001001111101xxx         move_b  move.b:	OK, Writing 0546
+                            0001001111110xxx         move_b  move.b:	OK, Writing 0547
+                            0001001111111000         move_b  move.b:	OK, Writing 0548
+                            0001001111111001         move_b  move.b:	OK, Writing 0549
+                            0001001111111010         move_b  move.b:	OK, Writing 0550
+                            0001001111111011         move_b  move.b:	OK, Writing 0551
+                            0001001111111100         move_b  move.b:	OK, Writing 0552
+
+@0251 0001xxxxxx000xxx ---> 0001xxx000000xxx move_b_from_dn  move.b:	NOT Writing 0553,  In Source Later @0253: 0001xxx000000xxx move_b_reg    
+                            0001xxx011000xxx move_b_from_dn  move.b:	OK, Writing 0553
+                            0001xxx100000xxx move_b_from_dn  move.b:	OK, Writing 0554
+                            0001xxx101000xxx move_b_from_dn  move.b:	OK, Writing 0555
+                            0001xxx110000xxx move_b_from_dn  move.b:	OK, Writing 0556
+                            0001000111000xxx move_b_from_dn  move.b:	OK, Writing 0557
+                            0001001111000xxx move_b_from_dn  move.b:	OK, Writing 0558
+
+@0252 0001xxx000xxxxxx ---> 0001xxx000000xxx   move_b_to_dn  move.b:	NOT Writing 0559,  In Source Later @0253: 0001xxx000000xxx move_b_reg    
+                            0001xxx000001xxx   move_b_to_dn  move.b:	OK, Writing 0559
+                            0001xxx000010xxx   move_b_to_dn  move.b:	OK, Writing 0560
+                            0001xxx000011xxx   move_b_to_dn  move.b:	OK, Writing 0561
+                            0001xxx000100xxx   move_b_to_dn  move.b:	OK, Writing 0562
+                            0001xxx000101xxx   move_b_to_dn  move.b:	OK, Writing 0563
+                            0001xxx000110xxx   move_b_to_dn  move.b:	OK, Writing 0564
+                            0001xxx000111000   move_b_to_dn  move.b:	OK, Writing 0565
+                            0001xxx000111001   move_b_to_dn  move.b:	OK, Writing 0566
+                            0001xxx000111010   move_b_to_dn  move.b:	OK, Writing 0567
+                            0001xxx000111011   move_b_to_dn  move.b:	OK, Writing 0568
+                            0001xxx000111100   move_b_to_dn  move.b:	OK, Writing 0569
+
+@0253 Not Generated Header (0570-0573)
+@0253 Not Generated Call (0574): 	SetTable(instbl, syntbl, "0001xxx000000xxx", LR move_b_reg, "move.b", 0x2007, 0x2E00 );   
+
+@0254 0010xxxxxxxxxxxx ---> 0010xxx000000xxx         move_l  move.l:	NOT Writing 0575,  In Source Later @0257: 0010xxx000000xxx move_l_reg    
+                            0010xxx000001xxx         move_l  move.l:	OK, Writing 0575
+                            0010xxx000010xxx         move_l  move.l:	OK, Writing 0576
+                            0010xxx000011xxx         move_l  move.l:	OK, Writing 0577
+                            0010xxx000100xxx         move_l  move.l:	OK, Writing 0578
+                            0010xxx000101xxx         move_l  move.l:	OK, Writing 0579
+                            0010xxx000110xxx         move_l  move.l:	OK, Writing 0580
+                            0010xxx000111000         move_l  move.l:	OK, Writing 0581
+                            0010xxx000111001         move_l  move.l:	OK, Writing 0582
+                            0010xxx000111010         move_l  move.l:	OK, Writing 0583
+                            0010xxx000111011         move_l  move.l:	OK, Writing 0584
+                            0010xxx000111100         move_l  move.l:	OK, Writing 0585
+                            0010xxx011000xxx         move_l  move.l:	OK, Writing 0586
+                            0010xxx011001xxx         move_l  move.l:	OK, Writing 0587
+                            0010xxx011010xxx         move_l  move.l:	OK, Writing 0588
+                            0010xxx011011xxx         move_l  move.l:	OK, Writing 0589
+                            0010xxx011100xxx         move_l  move.l:	OK, Writing 0590
+                            0010xxx011101xxx         move_l  move.l:	OK, Writing 0591
+                            0010xxx011110xxx         move_l  move.l:	OK, Writing 0592
+                            0010xxx011111000         move_l  move.l:	OK, Writing 0593
+                            0010xxx011111001         move_l  move.l:	OK, Writing 0594
+                            0010xxx011111010         move_l  move.l:	OK, Writing 0595
+                            0010xxx011111011         move_l  move.l:	OK, Writing 0596
+                            0010xxx011111100         move_l  move.l:	OK, Writing 0597
+                            0010xxx100000xxx         move_l  move.l:	OK, Writing 0598
+                            0010xxx100001xxx         move_l  move.l:	OK, Writing 0599
+                            0010xxx100010xxx         move_l  move.l:	OK, Writing 0600
+                            0010xxx100011xxx         move_l  move.l:	OK, Writing 0601
+                            0010xxx100100xxx         move_l  move.l:	OK, Writing 0602
+                            0010xxx100101xxx         move_l  move.l:	OK, Writing 0603
+                            0010xxx100110xxx         move_l  move.l:	OK, Writing 0604
+                            0010xxx100111000         move_l  move.l:	OK, Writing 0605
+                            0010xxx100111001         move_l  move.l:	OK, Writing 0606
+                            0010xxx100111010         move_l  move.l:	OK, Writing 0607
+                            0010xxx100111011         move_l  move.l:	OK, Writing 0608
+                            0010xxx100111100         move_l  move.l:	OK, Writing 0609
+                            0010xxx101000xxx         move_l  move.l:	OK, Writing 0610
+                            0010xxx101001xxx         move_l  move.l:	OK, Writing 0611
+                            0010xxx101010xxx         move_l  move.l:	OK, Writing 0612
+                            0010xxx101011xxx         move_l  move.l:	OK, Writing 0613
+                            0010xxx101100xxx         move_l  move.l:	OK, Writing 0614
+                            0010xxx101101xxx         move_l  move.l:	OK, Writing 0615
+                            0010xxx101110xxx         move_l  move.l:	OK, Writing 0616
+                            0010xxx101111000         move_l  move.l:	OK, Writing 0617
+                            0010xxx101111001         move_l  move.l:	OK, Writing 0618
+                            0010xxx101111010         move_l  move.l:	OK, Writing 0619
+                            0010xxx101111011         move_l  move.l:	OK, Writing 0620
+                            0010xxx101111100         move_l  move.l:	OK, Writing 0621
+                            0010xxx110000xxx         move_l  move.l:	OK, Writing 0622
+                            0010xxx110001xxx         move_l  move.l:	OK, Writing 0623
+                            0010xxx110010xxx         move_l  move.l:	OK, Writing 0624
+                            0010xxx110011xxx         move_l  move.l:	OK, Writing 0625
+                            0010xxx110100xxx         move_l  move.l:	OK, Writing 0626
+                            0010xxx110101xxx         move_l  move.l:	OK, Writing 0627
+                            0010xxx110110xxx         move_l  move.l:	OK, Writing 0628
+                            0010xxx110111000         move_l  move.l:	OK, Writing 0629
+                            0010xxx110111001         move_l  move.l:	OK, Writing 0630
+                            0010xxx110111010         move_l  move.l:	OK, Writing 0631
+                            0010xxx110111011         move_l  move.l:	OK, Writing 0632
+                            0010xxx110111100         move_l  move.l:	OK, Writing 0633
+                            0010000111000xxx         move_l  move.l:	OK, Writing 0634
+                            0010000111001xxx         move_l  move.l:	OK, Writing 0635
+                            0010000111010xxx         move_l  move.l:	OK, Writing 0636
+                            0010000111011xxx         move_l  move.l:	OK, Writing 0637
+                            0010000111100xxx         move_l  move.l:	OK, Writing 0638
+                            0010000111101xxx         move_l  move.l:	OK, Writing 0639
+                            0010000111110xxx         move_l  move.l:	OK, Writing 0640
+                            0010000111111000         move_l  move.l:	OK, Writing 0641
+                            0010000111111001         move_l  move.l:	OK, Writing 0642
+                            0010000111111010         move_l  move.l:	OK, Writing 0643
+                            0010000111111011         move_l  move.l:	OK, Writing 0644
+                            0010000111111100         move_l  move.l:	OK, Writing 0645
+                            0010001111000xxx         move_l  move.l:	OK, Writing 0646
+                            0010001111001xxx         move_l  move.l:	OK, Writing 0647
+                            0010001111010xxx         move_l  move.l:	OK, Writing 0648
+                            0010001111011xxx         move_l  move.l:	OK, Writing 0649
+                            0010001111100xxx         move_l  move.l:	OK, Writing 0650
+                            0010001111101xxx         move_l  move.l:	OK, Writing 0651
+                            0010001111110xxx         move_l  move.l:	OK, Writing 0652
+                            0010001111111000         move_l  move.l:	OK, Writing 0653
+                            0010001111111001         move_l  move.l:	OK, Writing 0654
+                            0010001111111010         move_l  move.l:	OK, Writing 0655
+                            0010001111111011         move_l  move.l:	OK, Writing 0656
+                            0010001111111100         move_l  move.l:	OK, Writing 0657
+
+@0255 0010xxxxxx000xxx ---> 0010xxx000000xxx move_l_from_dn  move.l:	NOT Writing 0658,  In Source Later @0257: 0010xxx000000xxx move_l_reg    
+                            0010xxx011000xxx move_l_from_dn  move.l:	OK, Writing 0658
+                            0010xxx100000xxx move_l_from_dn  move.l:	OK, Writing 0659
+                            0010xxx101000xxx move_l_from_dn  move.l:	OK, Writing 0660
+                            0010xxx110000xxx move_l_from_dn  move.l:	OK, Writing 0661
+                            0010000111000xxx move_l_from_dn  move.l:	OK, Writing 0662
+                            0010001111000xxx move_l_from_dn  move.l:	OK, Writing 0663
+
+@0256 0010xxx000xxxxxx ---> 0010xxx000000xxx   move_l_to_dn  move.l:	NOT Writing 0664,  In Source Later @0257: 0010xxx000000xxx move_l_reg    
+                            0010xxx000001xxx   move_l_to_dn  move.l:	OK, Writing 0664
+                            0010xxx000010xxx   move_l_to_dn  move.l:	OK, Writing 0665
+                            0010xxx000011xxx   move_l_to_dn  move.l:	OK, Writing 0666
+                            0010xxx000100xxx   move_l_to_dn  move.l:	OK, Writing 0667
+                            0010xxx000101xxx   move_l_to_dn  move.l:	OK, Writing 0668
+                            0010xxx000110xxx   move_l_to_dn  move.l:	OK, Writing 0669
+                            0010xxx000111000   move_l_to_dn  move.l:	OK, Writing 0670
+                            0010xxx000111001   move_l_to_dn  move.l:	OK, Writing 0671
+                            0010xxx000111010   move_l_to_dn  move.l:	OK, Writing 0672
+                            0010xxx000111011   move_l_to_dn  move.l:	OK, Writing 0673
+                            0010xxx000111100   move_l_to_dn  move.l:	OK, Writing 0674
+
+@0257 Not Generated Header (0675-0678)
+@0257 Not Generated Call (0679): 	SetTable(instbl, syntbl, "0010xxx000000xxx", LR move_l_reg, "move.l", 0x2007, 0x2E00 );   
+
+@0258 0010xxx001xxxxxx ---> 0010xxx001000xxx        movea_l movea.l:	OK, Writing 0680
+                            0010xxx001001xxx        movea_l movea.l:	NOT Writing 0681,  In Source Later @0259: 0010xxx001001xxx movea_l_an    
+                            0010xxx001010xxx        movea_l movea.l:	OK, Writing 0681
+                            0010xxx001011xxx        movea_l movea.l:	OK, Writing 0682
+                            0010xxx001100xxx        movea_l movea.l:	OK, Writing 0683
+                            0010xxx001101xxx        movea_l movea.l:	OK, Writing 0684
+                            0010xxx001110xxx        movea_l movea.l:	OK, Writing 0685
+                            0010xxx001111000        movea_l movea.l:	OK, Writing 0686
+                            0010xxx001111001        movea_l movea.l:	OK, Writing 0687
+                            0010xxx001111010        movea_l movea.l:	OK, Writing 0688
+                            0010xxx001111011        movea_l movea.l:	OK, Writing 0689
+                            0010xxx001111100        movea_l movea.l:	OK, Writing 0690
+
+@0259 Not Generated Header (0691-0694)
+@0259 Not Generated Call (0695): 	SetTable(instbl, syntbl, "0010xxx001001xxx", LR movea_l_an, "movea.l", 0x3007, 0x3E00 );   
+
+@0260 0011xxxxxxxxxxxx ---> 0011xxx000000xxx         move_w  move.w:	NOT Writing 0696,  In Source Later @0263: 0011xxx000000xxx move_w_reg    
+                            0011xxx000001xxx         move_w  move.w:	OK, Writing 0696
+                            0011xxx000010xxx         move_w  move.w:	OK, Writing 0697
+                            0011xxx000011xxx         move_w  move.w:	OK, Writing 0698
+                            0011xxx000100xxx         move_w  move.w:	OK, Writing 0699
+                            0011xxx000101xxx         move_w  move.w:	OK, Writing 0700
+                            0011xxx000110xxx         move_w  move.w:	OK, Writing 0701
+                            0011xxx000111000         move_w  move.w:	OK, Writing 0702
+                            0011xxx000111001         move_w  move.w:	OK, Writing 0703
+                            0011xxx000111010         move_w  move.w:	OK, Writing 0704
+                            0011xxx000111011         move_w  move.w:	OK, Writing 0705
+                            0011xxx000111100         move_w  move.w:	OK, Writing 0706
+                            0011xxx011000xxx         move_w  move.w:	OK, Writing 0707
+                            0011xxx011001xxx         move_w  move.w:	OK, Writing 0708
+                            0011xxx011010xxx         move_w  move.w:	OK, Writing 0709
+                            0011xxx011011xxx         move_w  move.w:	OK, Writing 0710
+                            0011xxx011100xxx         move_w  move.w:	OK, Writing 0711
+                            0011xxx011101xxx         move_w  move.w:	OK, Writing 0712
+                            0011xxx011110xxx         move_w  move.w:	OK, Writing 0713
+                            0011xxx011111000         move_w  move.w:	OK, Writing 0714
+                            0011xxx011111001         move_w  move.w:	OK, Writing 0715
+                            0011xxx011111010         move_w  move.w:	OK, Writing 0716
+                            0011xxx011111011         move_w  move.w:	OK, Writing 0717
+                            0011xxx011111100         move_w  move.w:	OK, Writing 0718
+                            0011xxx100000xxx         move_w  move.w:	OK, Writing 0719
+                            0011xxx100001xxx         move_w  move.w:	OK, Writing 0720
+                            0011xxx100010xxx         move_w  move.w:	OK, Writing 0721
+                            0011xxx100011xxx         move_w  move.w:	OK, Writing 0722
+                            0011xxx100100xxx         move_w  move.w:	OK, Writing 0723
+                            0011xxx100101xxx         move_w  move.w:	OK, Writing 0724
+                            0011xxx100110xxx         move_w  move.w:	OK, Writing 0725
+                            0011xxx100111000         move_w  move.w:	OK, Writing 0726
+                            0011xxx100111001         move_w  move.w:	OK, Writing 0727
+                            0011xxx100111010         move_w  move.w:	OK, Writing 0728
+                            0011xxx100111011         move_w  move.w:	OK, Writing 0729
+                            0011xxx100111100         move_w  move.w:	OK, Writing 0730
+                            0011xxx101000xxx         move_w  move.w:	OK, Writing 0731
+                            0011xxx101001xxx         move_w  move.w:	OK, Writing 0732
+                            0011xxx101010xxx         move_w  move.w:	OK, Writing 0733
+                            0011xxx101011xxx         move_w  move.w:	OK, Writing 0734
+                            0011xxx101100xxx         move_w  move.w:	OK, Writing 0735
+                            0011xxx101101xxx         move_w  move.w:	OK, Writing 0736
+                            0011xxx101110xxx         move_w  move.w:	OK, Writing 0737
+                            0011xxx101111000         move_w  move.w:	OK, Writing 0738
+                            0011xxx101111001         move_w  move.w:	OK, Writing 0739
+                            0011xxx101111010         move_w  move.w:	OK, Writing 0740
+                            0011xxx101111011         move_w  move.w:	OK, Writing 0741
+                            0011xxx101111100         move_w  move.w:	OK, Writing 0742
+                            0011xxx110000xxx         move_w  move.w:	OK, Writing 0743
+                            0011xxx110001xxx         move_w  move.w:	OK, Writing 0744
+                            0011xxx110010xxx         move_w  move.w:	OK, Writing 0745
+                            0011xxx110011xxx         move_w  move.w:	OK, Writing 0746
+                            0011xxx110100xxx         move_w  move.w:	OK, Writing 0747
+                            0011xxx110101xxx         move_w  move.w:	OK, Writing 0748
+                            0011xxx110110xxx         move_w  move.w:	OK, Writing 0749
+                            0011xxx110111000         move_w  move.w:	OK, Writing 0750
+                            0011xxx110111001         move_w  move.w:	OK, Writing 0751
+                            0011xxx110111010         move_w  move.w:	OK, Writing 0752
+                            0011xxx110111011         move_w  move.w:	OK, Writing 0753
+                            0011xxx110111100         move_w  move.w:	OK, Writing 0754
+                            0011000111000xxx         move_w  move.w:	OK, Writing 0755
+                            0011000111001xxx         move_w  move.w:	OK, Writing 0756
+                            0011000111010xxx         move_w  move.w:	OK, Writing 0757
+                            0011000111011xxx         move_w  move.w:	OK, Writing 0758
+                            0011000111100xxx         move_w  move.w:	OK, Writing 0759
+                            0011000111101xxx         move_w  move.w:	OK, Writing 0760
+                            0011000111110xxx         move_w  move.w:	OK, Writing 0761
+                            0011000111111000         move_w  move.w:	OK, Writing 0762
+                            0011000111111001         move_w  move.w:	OK, Writing 0763
+                            0011000111111010         move_w  move.w:	OK, Writing 0764
+                            0011000111111011         move_w  move.w:	OK, Writing 0765
+                            0011000111111100         move_w  move.w:	OK, Writing 0766
+                            0011001111000xxx         move_w  move.w:	OK, Writing 0767
+                            0011001111001xxx         move_w  move.w:	OK, Writing 0768
+                            0011001111010xxx         move_w  move.w:	OK, Writing 0769
+                            0011001111011xxx         move_w  move.w:	OK, Writing 0770
+                            0011001111100xxx         move_w  move.w:	OK, Writing 0771
+                            0011001111101xxx         move_w  move.w:	OK, Writing 0772
+                            0011001111110xxx         move_w  move.w:	OK, Writing 0773
+                            0011001111111000         move_w  move.w:	OK, Writing 0774
+                            0011001111111001         move_w  move.w:	OK, Writing 0775
+                            0011001111111010         move_w  move.w:	OK, Writing 0776
+                            0011001111111011         move_w  move.w:	OK, Writing 0777
+                            0011001111111100         move_w  move.w:	OK, Writing 0778
+
+@0261 0011xxxxxx000xxx ---> 0011xxx000000xxx move_w_from_dn  move.w:	NOT Writing 0779,  In Source Later @0263: 0011xxx000000xxx move_w_reg    
+                            0011xxx011000xxx move_w_from_dn  move.w:	OK, Writing 0779
+                            0011xxx100000xxx move_w_from_dn  move.w:	OK, Writing 0780
+                            0011xxx101000xxx move_w_from_dn  move.w:	OK, Writing 0781
+                            0011xxx110000xxx move_w_from_dn  move.w:	OK, Writing 0782
+                            0011000111000xxx move_w_from_dn  move.w:	OK, Writing 0783
+                            0011001111000xxx move_w_from_dn  move.w:	OK, Writing 0784
+
+@0262 0011xxx000xxxxxx ---> 0011xxx000000xxx   move_w_to_dn  move.w:	NOT Writing 0785,  In Source Later @0263: 0011xxx000000xxx move_w_reg    
+                            0011xxx000001xxx   move_w_to_dn  move.w:	OK, Writing 0785
+                            0011xxx000010xxx   move_w_to_dn  move.w:	OK, Writing 0786
+                            0011xxx000011xxx   move_w_to_dn  move.w:	OK, Writing 0787
+                            0011xxx000100xxx   move_w_to_dn  move.w:	OK, Writing 0788
+                            0011xxx000101xxx   move_w_to_dn  move.w:	OK, Writing 0789
+                            0011xxx000110xxx   move_w_to_dn  move.w:	OK, Writing 0790
+                            0011xxx000111000   move_w_to_dn  move.w:	OK, Writing 0791
+                            0011xxx000111001   move_w_to_dn  move.w:	OK, Writing 0792
+                            0011xxx000111010   move_w_to_dn  move.w:	OK, Writing 0793
+                            0011xxx000111011   move_w_to_dn  move.w:	OK, Writing 0794
+                            0011xxx000111100   move_w_to_dn  move.w:	OK, Writing 0795
+
+@0263 Not Generated Header (0796-0799)
+@0263 Not Generated Call (0800): 	SetTable(instbl, syntbl, "0011xxx000000xxx", LR move_w_reg, "move.w", 0x2007, 0x2E00 );   
+
+@0264 0011xxx001xxxxxx ---> 0011xxx001000xxx        movea_w movea.w:	OK, Writing 0801
+                            0011xxx001001xxx        movea_w movea.w:	OK, Writing 0802
+                            0011xxx001010xxx        movea_w movea.w:	OK, Writing 0803
+                            0011xxx001011xxx        movea_w movea.w:	OK, Writing 0804
+                            0011xxx001100xxx        movea_w movea.w:	OK, Writing 0805
+                            0011xxx001101xxx        movea_w movea.w:	OK, Writing 0806
+                            0011xxx001110xxx        movea_w movea.w:	OK, Writing 0807
+                            0011xxx001111000        movea_w movea.w:	OK, Writing 0808
+                            0011xxx001111001        movea_w movea.w:	OK, Writing 0809
+                            0011xxx001111010        movea_w movea.w:	OK, Writing 0810
+                            0011xxx001111011        movea_w movea.w:	OK, Writing 0811
+                            0011xxx001111100        movea_w movea.w:	OK, Writing 0812
+
+@0265 0100000000xxxxxx ---> 0100000000000xxx         negx_b  negx.b:	OK, Writing 0813
+                            0100000000010xxx         negx_b  negx.b:	OK, Writing 0814
+                            0100000000011xxx         negx_b  negx.b:	OK, Writing 0815
+                            0100000000100xxx         negx_b  negx.b:	OK, Writing 0816
+                            0100000000101xxx         negx_b  negx.b:	OK, Writing 0817
+                            0100000000110xxx         negx_b  negx.b:	OK, Writing 0818
+                            0100000000111000         negx_b  negx.b:	OK, Writing 0819
+                            0100000000111001         negx_b  negx.b:	OK, Writing 0820
+
+@0266 0100000001xxxxxx ---> 0100000001000xxx         negx_w  negx.w:	OK, Writing 0821
+                            0100000001010xxx         negx_w  negx.w:	OK, Writing 0822
+                            0100000001011xxx         negx_w  negx.w:	OK, Writing 0823
+                            0100000001100xxx         negx_w  negx.w:	OK, Writing 0824
+                            0100000001101xxx         negx_w  negx.w:	OK, Writing 0825
+                            0100000001110xxx         negx_w  negx.w:	OK, Writing 0826
+                            0100000001111000         negx_w  negx.w:	OK, Writing 0827
+                            0100000001111001         negx_w  negx.w:	OK, Writing 0828
+
+@0267 0100000010xxxxxx ---> 0100000010000xxx         negx_l  negx.l:	OK, Writing 0829
+                            0100000010010xxx         negx_l  negx.l:	OK, Writing 0830
+                            0100000010011xxx         negx_l  negx.l:	OK, Writing 0831
+                            0100000010100xxx         negx_l  negx.l:	OK, Writing 0832
+                            0100000010101xxx         negx_l  negx.l:	OK, Writing 0833
+                            0100000010110xxx         negx_l  negx.l:	OK, Writing 0834
+                            0100000010111000         negx_l  negx.l:	OK, Writing 0835
+                            0100000010111001         negx_l  negx.l:	OK, Writing 0836
+
+@0268 0100000011xxxxxx ---> 0100000011000xxx   move_from_sr    move:	OK, Writing 0837
+                            0100000011010xxx   move_from_sr    move:	OK, Writing 0838
+                            0100000011011xxx   move_from_sr    move:	OK, Writing 0839
+                            0100000011100xxx   move_from_sr    move:	OK, Writing 0840
+                            0100000011101xxx   move_from_sr    move:	OK, Writing 0841
+                            0100000011110xxx   move_from_sr    move:	OK, Writing 0842
+                            0100000011111000   move_from_sr    move:	OK, Writing 0843
+                            0100000011111001   move_from_sr    move:	OK, Writing 0844
+
+@0269 0100xxx110xxxxxx ---> 0100xxx110000xxx            chk   chk.w:	OK, Writing 0845
+                            0100xxx110010xxx            chk   chk.w:	OK, Writing 0846
+                            0100xxx110011xxx            chk   chk.w:	OK, Writing 0847
+                            0100xxx110100xxx            chk   chk.w:	OK, Writing 0848
+                            0100xxx110101xxx            chk   chk.w:	OK, Writing 0849
+                            0100xxx110110xxx            chk   chk.w:	OK, Writing 0850
+                            0100xxx110111000            chk   chk.w:	OK, Writing 0851
+                            0100xxx110111001            chk   chk.w:	OK, Writing 0852
+                            0100xxx110111010            chk   chk.w:	OK, Writing 0853
+                            0100xxx110111011            chk   chk.w:	OK, Writing 0854
+                            0100xxx110111100            chk   chk.w:	OK, Writing 0855
+
+@0270 0100xxx111xxxxxx ---> 0100xxx111010xxx            lea     lea:	OK, Writing 0856
+                            0100xxx111101xxx            lea     lea:	OK, Writing 0857
+                            0100xxx111110xxx            lea     lea:	OK, Writing 0858
+                            0100xxx111111000            lea     lea:	OK, Writing 0859
+                            0100xxx111111001            lea     lea:	OK, Writing 0860
+                            0100xxx111111011            lea     lea:	OK, Writing 0861
+                            0100xxx111111100            lea     lea:	OK, Writing 0862
+
+@0271 0100001000xxxxxx ---> 0100001000000xxx          clr_b   clr.b:	OK, Writing 0863
+                            0100001000010xxx          clr_b   clr.b:	OK, Writing 0864
+                            0100001000011xxx          clr_b   clr.b:	OK, Writing 0865
+                            0100001000100xxx          clr_b   clr.b:	OK, Writing 0866
+                            0100001000101xxx          clr_b   clr.b:	OK, Writing 0867
+                            0100001000110xxx          clr_b   clr.b:	OK, Writing 0868
+                            0100001000111000          clr_b   clr.b:	OK, Writing 0869
+                            0100001000111001          clr_b   clr.b:	OK, Writing 0870
+
+@0272 0100001001xxxxxx ---> 0100001001000xxx          clr_w   clr.w:	OK, Writing 0871
+                            0100001001010xxx          clr_w   clr.w:	OK, Writing 0872
+                            0100001001011xxx          clr_w   clr.w:	OK, Writing 0873
+                            0100001001100xxx          clr_w   clr.w:	OK, Writing 0874
+                            0100001001101xxx          clr_w   clr.w:	OK, Writing 0875
+                            0100001001110xxx          clr_w   clr.w:	OK, Writing 0876
+                            0100001001111000          clr_w   clr.w:	OK, Writing 0877
+                            0100001001111001          clr_w   clr.w:	OK, Writing 0878
+
+@0273 0100001010xxxxxx ---> 0100001010000xxx          clr_l   clr.l:	OK, Writing 0879
+                            0100001010010xxx          clr_l   clr.l:	OK, Writing 0880
+                            0100001010011xxx          clr_l   clr.l:	OK, Writing 0881
+                            0100001010100xxx          clr_l   clr.l:	OK, Writing 0882
+                            0100001010101xxx          clr_l   clr.l:	OK, Writing 0883
+                            0100001010110xxx          clr_l   clr.l:	OK, Writing 0884
+                            0100001010111000          clr_l   clr.l:	OK, Writing 0885
+                            0100001010111001          clr_l   clr.l:	OK, Writing 0886
+@0274 Write Non Call (0887): 
+@0275 Write Non Call (0888): //	---------------------------------------------------------------------------------------------
+@0276 Write Non Call (0889): //	SetTable(instbl, syntbl, "0100001011xxxxxx", LR move_from_ccr,	"move",		0xF004,	2x003F );
+@0277 Write Non Call (0890): //	---------------------------------------------------------------------------------------------
+@0278 Write Non Call (0891): 
+
+@0279 0100010000xxxxxx ---> 0100010000000xxx          neg_b   neg.b:	OK, Writing 0892
+                            0100010000010xxx          neg_b   neg.b:	OK, Writing 0893
+                            0100010000011xxx          neg_b   neg.b:	OK, Writing 0894
+                            0100010000100xxx          neg_b   neg.b:	OK, Writing 0895
+                            0100010000101xxx          neg_b   neg.b:	OK, Writing 0896
+                            0100010000110xxx          neg_b   neg.b:	OK, Writing 0897
+                            0100010000111000          neg_b   neg.b:	OK, Writing 0898
+                            0100010000111001          neg_b   neg.b:	OK, Writing 0899
+
+@0280 0100010001xxxxxx ---> 0100010001000xxx          neg_w   neg.w:	OK, Writing 0900
+                            0100010001010xxx          neg_w   neg.w:	OK, Writing 0901
+                            0100010001011xxx          neg_w   neg.w:	OK, Writing 0902
+                            0100010001100xxx          neg_w   neg.w:	OK, Writing 0903
+                            0100010001101xxx          neg_w   neg.w:	OK, Writing 0904
+                            0100010001110xxx          neg_w   neg.w:	OK, Writing 0905
+                            0100010001111000          neg_w   neg.w:	OK, Writing 0906
+                            0100010001111001          neg_w   neg.w:	OK, Writing 0907
+
+@0281 0100010010xxxxxx ---> 0100010010000xxx          neg_l   neg.l:	OK, Writing 0908
+                            0100010010010xxx          neg_l   neg.l:	OK, Writing 0909
+                            0100010010011xxx          neg_l   neg.l:	OK, Writing 0910
+                            0100010010100xxx          neg_l   neg.l:	OK, Writing 0911
+                            0100010010101xxx          neg_l   neg.l:	OK, Writing 0912
+                            0100010010110xxx          neg_l   neg.l:	OK, Writing 0913
+                            0100010010111000          neg_l   neg.l:	OK, Writing 0914
+                            0100010010111001          neg_l   neg.l:	OK, Writing 0915
+
+@0282 0100010011xxxxxx ---> 0100010011000xxx    move_to_ccr    move:	OK, Writing 0916
+                            0100010011010xxx    move_to_ccr    move:	OK, Writing 0917
+                            0100010011011xxx    move_to_ccr    move:	OK, Writing 0918
+                            0100010011100xxx    move_to_ccr    move:	OK, Writing 0919
+                            0100010011101xxx    move_to_ccr    move:	OK, Writing 0920
+                            0100010011110xxx    move_to_ccr    move:	OK, Writing 0921
+                            0100010011111000    move_to_ccr    move:	OK, Writing 0922
+                            0100010011111001    move_to_ccr    move:	OK, Writing 0923
+                            0100010011111010    move_to_ccr    move:	OK, Writing 0924
+                            0100010011111011    move_to_ccr    move:	OK, Writing 0925
+                            0100010011111100    move_to_ccr    move:	OK, Writing 0926
+
+@0283 0100011000xxxxxx ---> 0100011000000xxx          not_b   not.b:	OK, Writing 0927
+                            0100011000010xxx          not_b   not.b:	OK, Writing 0928
+                            0100011000011xxx          not_b   not.b:	OK, Writing 0929
+                            0100011000100xxx          not_b   not.b:	OK, Writing 0930
+                            0100011000101xxx          not_b   not.b:	OK, Writing 0931
+                            0100011000110xxx          not_b   not.b:	OK, Writing 0932
+                            0100011000111000          not_b   not.b:	OK, Writing 0933
+                            0100011000111001          not_b   not.b:	OK, Writing 0934
+
+@0284 0100011001xxxxxx ---> 0100011001000xxx          not_w   not.w:	OK, Writing 0935
+                            0100011001010xxx          not_w   not.w:	OK, Writing 0936
+                            0100011001011xxx          not_w   not.w:	OK, Writing 0937
+                            0100011001100xxx          not_w   not.w:	OK, Writing 0938
+                            0100011001101xxx          not_w   not.w:	OK, Writing 0939
+                            0100011001110xxx          not_w   not.w:	OK, Writing 0940
+                            0100011001111000          not_w   not.w:	OK, Writing 0941
+                            0100011001111001          not_w   not.w:	OK, Writing 0942
+
+@0285 0100011010xxxxxx ---> 0100011010000xxx          not_l   not.l:	OK, Writing 0943
+                            0100011010010xxx          not_l   not.l:	OK, Writing 0944
+                            0100011010011xxx          not_l   not.l:	OK, Writing 0945
+                            0100011010100xxx          not_l   not.l:	OK, Writing 0946
+                            0100011010101xxx          not_l   not.l:	OK, Writing 0947
+                            0100011010110xxx          not_l   not.l:	OK, Writing 0948
+                            0100011010111000          not_l   not.l:	OK, Writing 0949
+                            0100011010111001          not_l   not.l:	OK, Writing 0950
+
+@0286 0100011011xxxxxx ---> 0100011011000xxx     move_to_sr    move:	OK, Writing 0951
+                            0100011011010xxx     move_to_sr    move:	OK, Writing 0952
+                            0100011011011xxx     move_to_sr    move:	OK, Writing 0953
+                            0100011011100xxx     move_to_sr    move:	OK, Writing 0954
+                            0100011011101xxx     move_to_sr    move:	OK, Writing 0955
+                            0100011011110xxx     move_to_sr    move:	OK, Writing 0956
+                            0100011011111000     move_to_sr    move:	OK, Writing 0957
+                            0100011011111001     move_to_sr    move:	OK, Writing 0958
+                            0100011011111010     move_to_sr    move:	OK, Writing 0959
+                            0100011011111011     move_to_sr    move:	OK, Writing 0960
+                            0100011011111100     move_to_sr    move:	OK, Writing 0961
+
+@0287 0100100000xxxxxx ---> 0100100000000xxx           nbcd    nbcd:	OK, Writing 0962
+                            0100100000010xxx           nbcd    nbcd:	OK, Writing 0963
+                            0100100000011xxx           nbcd    nbcd:	OK, Writing 0964
+                            0100100000100xxx           nbcd    nbcd:	OK, Writing 0965
+                            0100100000101xxx           nbcd    nbcd:	OK, Writing 0966
+                            0100100000110xxx           nbcd    nbcd:	OK, Writing 0967
+                            0100100000111000           nbcd    nbcd:	OK, Writing 0968
+                            0100100000111001           nbcd    nbcd:	OK, Writing 0969
+
+@0288 0100100001xxxxxx ---> 0100100001010xxx            pea     pea:	OK, Writing 0970
+                            0100100001101xxx            pea     pea:	OK, Writing 0971
+                            0100100001110xxx            pea     pea:	OK, Writing 0972
+                            0100100001111000            pea     pea:	OK, Writing 0973
+                            0100100001111001            pea     pea:	OK, Writing 0974
+                            0100100001111011            pea     pea:	OK, Writing 0975
+                            0100100001111100            pea     pea:	OK, Writing 0976
+
+@0289 Not Generated Header (0977-0980)
+@0289 Not Generated Call (0981): 	SetTable(instbl, syntbl, "0100100001000xxx", LR swap, "swap", 0x2007, 0xF000 );   
+
+@0290 0100100010xxxxxx ---> 0100100010010xxx   movem_save_w movem.w:	OK, Writing 0982
+                            0100100010100xxx   movem_save_w movem.w:	OK, Writing 0983
+                            0100100010101xxx   movem_save_w movem.w:	OK, Writing 0984
+                            0100100010110xxx   movem_save_w movem.w:	OK, Writing 0985
+                            0100100010111000   movem_save_w movem.w:	OK, Writing 0986
+                            0100100010111001   movem_save_w movem.w:	OK, Writing 0987
+
+@0291 Not Generated Header (0988-0991)
+@0291 Not Generated Call (0992): 	SetTable(instbl, syntbl, "0100100010000xxx", LR ext_w, "ext.w", 0x2007, 0xF000 );   
+
+@0292 0100100011xxxxxx ---> 0100100011010xxx   movem_save_l movem.l:	OK, Writing 0993
+                            0100100011100xxx   movem_save_l movem.l:	OK, Writing 0994
+                            0100100011101xxx   movem_save_l movem.l:	OK, Writing 0995
+                            0100100011110xxx   movem_save_l movem.l:	OK, Writing 0996
+                            0100100011111000   movem_save_l movem.l:	OK, Writing 0997
+                            0100100011111001   movem_save_l movem.l:	OK, Writing 0998
+
+@0293 Not Generated Header (0999-1002)
+@0293 Not Generated Call (1003): 	SetTable(instbl, syntbl, "0100100011000xxx", LR ext_l, "ext.l", 0x2007, 0xF000 );   
+
+@0294 0100101000xxxxxx ---> 0100101000000xxx          tst_b   tst.b:	OK, Writing 1004
+                            0100101000010xxx          tst_b   tst.b:	OK, Writing 1005
+                            0100101000011xxx          tst_b   tst.b:	OK, Writing 1006
+                            0100101000100xxx          tst_b   tst.b:	OK, Writing 1007
+                            0100101000101xxx          tst_b   tst.b:	OK, Writing 1008
+                            0100101000110xxx          tst_b   tst.b:	OK, Writing 1009
+                            0100101000111000          tst_b   tst.b:	OK, Writing 1010
+                            0100101000111001          tst_b   tst.b:	OK, Writing 1011
+                            0100101000111011          tst_b   tst.b:	OK, Writing 1012
+                            0100101000111100          tst_b   tst.b:	OK, Writing 1013
+
+@0295 0100101001xxxxxx ---> 0100101001000xxx          tst_w   tst.w:	OK, Writing 1014
+                            0100101001010xxx          tst_w   tst.w:	OK, Writing 1015
+                            0100101001011xxx          tst_w   tst.w:	OK, Writing 1016
+                            0100101001100xxx          tst_w   tst.w:	OK, Writing 1017
+                            0100101001101xxx          tst_w   tst.w:	OK, Writing 1018
+                            0100101001110xxx          tst_w   tst.w:	OK, Writing 1019
+                            0100101001111000          tst_w   tst.w:	OK, Writing 1020
+                            0100101001111001          tst_w   tst.w:	OK, Writing 1021
+                            0100101001111011          tst_w   tst.w:	OK, Writing 1022
+                            0100101001111100          tst_w   tst.w:	OK, Writing 1023
+
+@0296 0100101010xxxxxx ---> 0100101010000xxx          tst_l   tst.l:	OK, Writing 1024
+                            0100101010010xxx          tst_l   tst.l:	OK, Writing 1025
+                            0100101010011xxx          tst_l   tst.l:	OK, Writing 1026
+                            0100101010100xxx          tst_l   tst.l:	OK, Writing 1027
+                            0100101010101xxx          tst_l   tst.l:	OK, Writing 1028
+                            0100101010110xxx          tst_l   tst.l:	OK, Writing 1029
+                            0100101010111000          tst_l   tst.l:	OK, Writing 1030
+                            0100101010111001          tst_l   tst.l:	OK, Writing 1031
+                            0100101010111011          tst_l   tst.l:	OK, Writing 1032
+                            0100101010111100          tst_l   tst.l:	OK, Writing 1033
+
+@0297 0100101011xxxxxx ---> 0100101011000xxx            tas     tas:	OK, Writing 1034
+                            0100101011010xxx            tas     tas:	OK, Writing 1035
+                            0100101011011xxx            tas     tas:	OK, Writing 1036
+                            0100101011100xxx            tas     tas:	OK, Writing 1037
+                            0100101011101xxx            tas     tas:	OK, Writing 1038
+                            0100101011110xxx            tas     tas:	OK, Writing 1039
+                            0100101011111000            tas     tas:	OK, Writing 1040
+                            0100101011111001            tas     tas:	OK, Writing 1041
+
+@0298 Not Generated Header (1042-1045)
+@0298 Not Generated Call (1046): 	SetTable(instbl, syntbl, "0100101011111100", LR illegal, "illegal", 0xF000, 0xF000 );   
+
+@0299 0100110010xxxxxx ---> 0100110010010xxx   movem_load_w movem.w:	OK, Writing 1047
+                            0100110010011xxx   movem_load_w movem.w:	OK, Writing 1048
+                            0100110010101xxx   movem_load_w movem.w:	OK, Writing 1049
+                            0100110010110xxx   movem_load_w movem.w:	OK, Writing 1050
+                            0100110010111000   movem_load_w movem.w:	OK, Writing 1051
+                            0100110010111001   movem_load_w movem.w:	OK, Writing 1052
+                            0100110010111011   movem_load_w movem.w:	OK, Writing 1053
+                            0100110010111100   movem_load_w movem.w:	OK, Writing 1054
+
+@0300 0100110011xxxxxx ---> 0100110011010xxx   movem_load_l movem.l:	OK, Writing 1055
+                            0100110011011xxx   movem_load_l movem.l:	OK, Writing 1056
+                            0100110011101xxx   movem_load_l movem.l:	OK, Writing 1057
+                            0100110011110xxx   movem_load_l movem.l:	OK, Writing 1058
+                            0100110011111000   movem_load_l movem.l:	OK, Writing 1059
+                            0100110011111001   movem_load_l movem.l:	OK, Writing 1060
+                            0100110011111011   movem_load_l movem.l:	OK, Writing 1061
+                            0100110011111100   movem_load_l movem.l:	OK, Writing 1062
+
+@0301 Not Generated Header (1063-1066)
+@0301 Not Generated Call (1067): 	SetTable(instbl, syntbl, "010011100100xxxx", LR trap, "trap", 0xA00F, 0xF000 );   
+@0302 Write Non Call (1068): 
+@0303 Write Non Call (1069): #ifndef IE_XL_II
+@0304 Not Generated Call (1070): 	SetTable(instbl, syntbl, "0100111001000000", LR trap0, "trap#0", 0xF000, 0xF000 );   
+@0305 Not Generated Call (1071): 	SetTable(instbl, syntbl, "0100111001000001", LR trap1, "trap#1", 0xF000, 0xF000 );   
+@0306 Not Generated Call (1072): 	SetTable(instbl, syntbl, "0100111001000010", LR trap2, "trap#2", 0xF000, 0xF000 );   
+@0307 Not Generated Call (1073): 	SetTable(instbl, syntbl, "0100111001000011", LR trap3, "trap#3", 0xF000, 0xF000 );   
+@0308 Write Non Call (1074): #endif
+@0309 Write Non Call (1075): 
+@0310 Write Non Call (1076): //	---------------------------------------------------------------------------------------------
+@0311 Write Non Call (1077): //	SetTable(instbl, syntbl, "0100111001000100", LR trap4,			"trap#4",	0xF000,	0xF000 );
+@0312 Write Non Call (1078): //	---------------------------------------------------------------------------------------------
+@0313 Write Non Call (1079): 
+@0314 Not Generated Call (1080): 	SetTable(instbl, syntbl, "0100111001010xxx", LR link, "link", 0x3007, 0xE200 );   
+@0315 Not Generated Call (1081): 	SetTable(instbl, syntbl, "0100111001011xxx", LR unlk, "unlk", 0x3007, 0xF000 );   
+@0316 Not Generated Call (1082): 	SetTable(instbl, syntbl, "0100111001100xxx", LR move_to_usp, "move", 0x3007, 0xF006 );   
+@0317 Not Generated Call (1083): 	SetTable(instbl, syntbl, "0100111001101xxx", LR move_from_usp, "move", 0xF006, 0x3007 );   
+@0318 Not Generated Call (1084): 	SetTable(instbl, syntbl, "0100111001110000", LR reset, "reset", 0xF000, 0xF000 );   
+@0319 Not Generated Call (1085): 	SetTable(instbl, syntbl, "0100111001110001", LR nop, "nop", 0xF000, 0xF000 );   
+@0320 Not Generated Call (1086): 	SetTable(instbl, syntbl, "0100111001110010", LR stop, "stop", 0xF000, 0xF000 );   
+@0321 Not Generated Call (1087): 	SetTable(instbl, syntbl, "0100111001110011", LR rte, "rte", 0xF000, 0xF000 );   
+@0322 Not Generated Call (1088): 	SetTable(instbl, syntbl, "0100111001110101", LR rts, "rts", 0xF000, 0xF000 );   
+@0323 Not Generated Call (1089): 	SetTable(instbl, syntbl, "0100111001110110", LR trapv, "trapv", 0xF000, 0xF000 );   
+@0324 Not Generated Call (1090): 	SetTable(instbl, syntbl, "0100111001110111", LR rtr, "rtr", 0xF000, 0xF000 );   
+
+@0325 0100111010xxxxxx ---> 0100111010010xxx            jsr     jsr:	OK, Writing 1091
+                            0100111010101xxx            jsr     jsr:	OK, Writing 1092
+                            0100111010110xxx            jsr     jsr:	OK, Writing 1093
+                            0100111010111000            jsr     jsr:	OK, Writing 1094
+                            0100111010111001            jsr     jsr:	OK, Writing 1095
+                            0100111010111011            jsr     jsr:	OK, Writing 1096
+                            0100111010111100            jsr     jsr:	OK, Writing 1097
+
+@0326 Not Generated Header (1098-1101)
+@0326 Not Generated Call (1102): 	SetTable(instbl, syntbl, "0100111010111010", LR jsr_displ, "jsr", 0x8000, 0xF000 );   
+
+@0327 0100111011xxxxxx ---> 0100111011010xxx            jmp     jmp:	OK, Writing 1103
+                            0100111011101xxx            jmp     jmp:	OK, Writing 1104
+                            0100111011110xxx            jmp     jmp:	OK, Writing 1105
+                            0100111011111000            jmp     jmp:	OK, Writing 1106
+                            0100111011111001            jmp     jmp:	OK, Writing 1107
+                            0100111011111011            jmp     jmp:	OK, Writing 1108
+                            0100111011111100            jmp     jmp:	OK, Writing 1109
+
+@0328 0101xxx000xxxxxx ---> 0101xxx000000xxx         addq_b  addq.b:	OK, Writing 1110
+                            0101xxx000001xxx         addq_b  addq.b:	OK, Writing 1111
+                            0101xxx000010xxx         addq_b  addq.b:	OK, Writing 1112
+                            0101xxx000011xxx         addq_b  addq.b:	OK, Writing 1113
+                            0101xxx000100xxx         addq_b  addq.b:	OK, Writing 1114
+                            0101xxx000101xxx         addq_b  addq.b:	OK, Writing 1115
+                            0101xxx000110xxx         addq_b  addq.b:	OK, Writing 1116
+                            0101xxx000111000         addq_b  addq.b:	OK, Writing 1117
+                            0101xxx000111001         addq_b  addq.b:	OK, Writing 1118
+
+@0329 0101xxx001xxxxxx ---> 0101xxx001000xxx         addq_w  addq.w:	OK, Writing 1119
+                            0101xxx001001xxx         addq_w  addq.w:	NOT Writing 1120,  In Source Later @0331: 0101xxx001001xxx addq_an       
+                            0101xxx001010xxx         addq_w  addq.w:	OK, Writing 1120
+                            0101xxx001011xxx         addq_w  addq.w:	OK, Writing 1121
+                            0101xxx001100xxx         addq_w  addq.w:	OK, Writing 1122
+                            0101xxx001101xxx         addq_w  addq.w:	OK, Writing 1123
+                            0101xxx001110xxx         addq_w  addq.w:	OK, Writing 1124
+                            0101xxx001111000         addq_w  addq.w:	OK, Writing 1125
+                            0101xxx001111001         addq_w  addq.w:	OK, Writing 1126
+
+@0330 0101xxx010xxxxxx ---> 0101xxx010000xxx         addq_l  addq.l:	OK, Writing 1127
+                            0101xxx010001xxx         addq_l  addq.l:	NOT Writing 1128,  In Source Later @0332: 0101xxx010001xxx addq_an       
+                            0101xxx010010xxx         addq_l  addq.l:	OK, Writing 1128
+                            0101xxx010011xxx         addq_l  addq.l:	OK, Writing 1129
+                            0101xxx010100xxx         addq_l  addq.l:	OK, Writing 1130
+                            0101xxx010101xxx         addq_l  addq.l:	OK, Writing 1131
+                            0101xxx010110xxx         addq_l  addq.l:	OK, Writing 1132
+                            0101xxx010111000         addq_l  addq.l:	OK, Writing 1133
+                            0101xxx010111001         addq_l  addq.l:	OK, Writing 1134
+
+@0331 Not Generated Header (1135-1138)
+@0331 Not Generated Call (1139): 	SetTable(instbl, syntbl, "0101xxx001001xxx", LR addq_an, "addq.w", 0xAE00, 0x3007 );   
+@0332 Not Generated Call (1140): 	SetTable(instbl, syntbl, "0101xxx010001xxx", LR addq_an, "addq.l", 0xAE00, 0x3007 );   
+@0333 Not Generated Call (1141): 	SetTable(instbl, syntbl, "0101100001001xxx", LR addq_4_an, "addq.w", 0xF003, 0x3007 );   
+@0334 Not Generated Call (1142): 	SetTable(instbl, syntbl, "0101100010001xxx", LR addq_4_an, "addq.l", 0xF003, 0x3007 );   
+
+@0335 0101xxxx11xxxxxx ---> 0101xxxx11000xxx            scc     sCC:	OK, Writing 1143
+                            0101xxxx11010xxx            scc     sCC:	OK, Writing 1144
+                            0101xxxx11011xxx            scc     sCC:	OK, Writing 1145
+                            0101xxxx11100xxx            scc     sCC:	OK, Writing 1146
+                            0101xxxx11101xxx            scc     sCC:	OK, Writing 1147
+                            0101xxxx11110xxx            scc     sCC:	OK, Writing 1148
+                            0101xxxx11111000            scc     sCC:	OK, Writing 1149
+                            0101xxxx11111001            scc     sCC:	OK, Writing 1150
+
+@0336 0101000011xxxxxx ---> 0101000011000xxx             st      st:	OK, Writing 1151
+                            0101000011010xxx             st      st:	OK, Writing 1152
+                            0101000011011xxx             st      st:	OK, Writing 1153
+                            0101000011100xxx             st      st:	OK, Writing 1154
+                            0101000011101xxx             st      st:	OK, Writing 1155
+                            0101000011110xxx             st      st:	OK, Writing 1156
+                            0101000011111000             st      st:	OK, Writing 1157
+                            0101000011111001             st      st:	OK, Writing 1158
+
+@0337 0101000111xxxxxx ---> 0101000111000xxx             sf      sf:	OK, Writing 1159
+                            0101000111010xxx             sf      sf:	OK, Writing 1160
+                            0101000111011xxx             sf      sf:	OK, Writing 1161
+                            0101000111100xxx             sf      sf:	OK, Writing 1162
+                            0101000111101xxx             sf      sf:	OK, Writing 1163
+                            0101000111110xxx             sf      sf:	OK, Writing 1164
+                            0101000111111000             sf      sf:	OK, Writing 1165
+                            0101000111111001             sf      sf:	OK, Writing 1166
+
+@0338 0101001011xxxxxx ---> 0101001011000xxx            scc     shi:	OK, Writing 1167
+                            0101001011010xxx            scc     shi:	OK, Writing 1168
+                            0101001011011xxx            scc     shi:	OK, Writing 1169
+                            0101001011100xxx            scc     shi:	OK, Writing 1170
+                            0101001011101xxx            scc     shi:	OK, Writing 1171
+                            0101001011110xxx            scc     shi:	OK, Writing 1172
+                            0101001011111000            scc     shi:	OK, Writing 1173
+                            0101001011111001            scc     shi:	OK, Writing 1174
+
+@0339 0101001111xxxxxx ---> 0101001111000xxx            scc     sls:	OK, Writing 1175
+                            0101001111010xxx            scc     sls:	OK, Writing 1176
+                            0101001111011xxx            scc     sls:	OK, Writing 1177
+                            0101001111100xxx            scc     sls:	OK, Writing 1178
+                            0101001111101xxx            scc     sls:	OK, Writing 1179
+                            0101001111110xxx            scc     sls:	OK, Writing 1180
+                            0101001111111000            scc     sls:	OK, Writing 1181
+                            0101001111111001            scc     sls:	OK, Writing 1182
+
+@0340 0101010011xxxxxx ---> 0101010011000xxx            scc     scc:	OK, Writing 1183
+                            0101010011010xxx            scc     scc:	OK, Writing 1184
+                            0101010011011xxx            scc     scc:	OK, Writing 1185
+                            0101010011100xxx            scc     scc:	OK, Writing 1186
+                            0101010011101xxx            scc     scc:	OK, Writing 1187
+                            0101010011110xxx            scc     scc:	OK, Writing 1188
+                            0101010011111000            scc     scc:	OK, Writing 1189
+                            0101010011111001            scc     scc:	OK, Writing 1190
+
+@0341 0101010111xxxxxx ---> 0101010111000xxx            scc     scs:	OK, Writing 1191
+                            0101010111010xxx            scc     scs:	OK, Writing 1192
+                            0101010111011xxx            scc     scs:	OK, Writing 1193
+                            0101010111100xxx            scc     scs:	OK, Writing 1194
+                            0101010111101xxx            scc     scs:	OK, Writing 1195
+                            0101010111110xxx            scc     scs:	OK, Writing 1196
+                            0101010111111000            scc     scs:	OK, Writing 1197
+                            0101010111111001            scc     scs:	OK, Writing 1198
+
+@0342 0101011011xxxxxx ---> 0101011011000xxx            scc     sne:	OK, Writing 1199
+                            0101011011010xxx            scc     sne:	OK, Writing 1200
+                            0101011011011xxx            scc     sne:	OK, Writing 1201
+                            0101011011100xxx            scc     sne:	OK, Writing 1202
+                            0101011011101xxx            scc     sne:	OK, Writing 1203
+                            0101011011110xxx            scc     sne:	OK, Writing 1204
+                            0101011011111000            scc     sne:	OK, Writing 1205
+                            0101011011111001            scc     sne:	OK, Writing 1206
+
+@0343 0101011111xxxxxx ---> 0101011111000xxx            scc     seq:	OK, Writing 1207
+                            0101011111010xxx            scc     seq:	OK, Writing 1208
+                            0101011111011xxx            scc     seq:	OK, Writing 1209
+                            0101011111100xxx            scc     seq:	OK, Writing 1210
+                            0101011111101xxx            scc     seq:	OK, Writing 1211
+                            0101011111110xxx            scc     seq:	OK, Writing 1212
+                            0101011111111000            scc     seq:	OK, Writing 1213
+                            0101011111111001            scc     seq:	OK, Writing 1214
+
+@0344 0101100011xxxxxx ---> 0101100011000xxx            scc     svc:	OK, Writing 1215
+                            0101100011010xxx            scc     svc:	OK, Writing 1216
+                            0101100011011xxx            scc     svc:	OK, Writing 1217
+                            0101100011100xxx            scc     svc:	OK, Writing 1218
+                            0101100011101xxx            scc     svc:	OK, Writing 1219
+                            0101100011110xxx            scc     svc:	OK, Writing 1220
+                            0101100011111000            scc     svc:	OK, Writing 1221
+                            0101100011111001            scc     svc:	OK, Writing 1222
+
+@0345 0101100111xxxxxx ---> 0101100111000xxx            scc     svs:	OK, Writing 1223
+                            0101100111010xxx            scc     svs:	OK, Writing 1224
+                            0101100111011xxx            scc     svs:	OK, Writing 1225
+                            0101100111100xxx            scc     svs:	OK, Writing 1226
+                            0101100111101xxx            scc     svs:	OK, Writing 1227
+                            0101100111110xxx            scc     svs:	OK, Writing 1228
+                            0101100111111000            scc     svs:	OK, Writing 1229
+                            0101100111111001            scc     svs:	OK, Writing 1230
+
+@0346 0101101011xxxxxx ---> 0101101011000xxx            scc     spl:	OK, Writing 1231
+                            0101101011010xxx            scc     spl:	OK, Writing 1232
+                            0101101011011xxx            scc     spl:	OK, Writing 1233
+                            0101101011100xxx            scc     spl:	OK, Writing 1234
+                            0101101011101xxx            scc     spl:	OK, Writing 1235
+                            0101101011110xxx            scc     spl:	OK, Writing 1236
+                            0101101011111000            scc     spl:	OK, Writing 1237
+                            0101101011111001            scc     spl:	OK, Writing 1238
+
+@0347 0101101111xxxxxx ---> 0101101111000xxx            scc     smi:	OK, Writing 1239
+                            0101101111010xxx            scc     smi:	OK, Writing 1240
+                            0101101111011xxx            scc     smi:	OK, Writing 1241
+                            0101101111100xxx            scc     smi:	OK, Writing 1242
+                            0101101111101xxx            scc     smi:	OK, Writing 1243
+                            0101101111110xxx            scc     smi:	OK, Writing 1244
+                            0101101111111000            scc     smi:	OK, Writing 1245
+                            0101101111111001            scc     smi:	OK, Writing 1246
+
+@0348 0101110011xxxxxx ---> 0101110011000xxx            scc     sge:	OK, Writing 1247
+                            0101110011010xxx            scc     sge:	OK, Writing 1248
+                            0101110011011xxx            scc     sge:	OK, Writing 1249
+                            0101110011100xxx            scc     sge:	OK, Writing 1250
+                            0101110011101xxx            scc     sge:	OK, Writing 1251
+                            0101110011110xxx            scc     sge:	OK, Writing 1252
+                            0101110011111000            scc     sge:	OK, Writing 1253
+                            0101110011111001            scc     sge:	OK, Writing 1254
+
+@0349 0101110111xxxxxx ---> 0101110111000xxx            scc     slt:	OK, Writing 1255
+                            0101110111010xxx            scc     slt:	OK, Writing 1256
+                            0101110111011xxx            scc     slt:	OK, Writing 1257
+                            0101110111100xxx            scc     slt:	OK, Writing 1258
+                            0101110111101xxx            scc     slt:	OK, Writing 1259
+                            0101110111110xxx            scc     slt:	OK, Writing 1260
+                            0101110111111000            scc     slt:	OK, Writing 1261
+                            0101110111111001            scc     slt:	OK, Writing 1262
+
+@0350 0101111011xxxxxx ---> 0101111011000xxx            scc     sgt:	OK, Writing 1263
+                            0101111011010xxx            scc     sgt:	OK, Writing 1264
+                            0101111011011xxx            scc     sgt:	OK, Writing 1265
+                            0101111011100xxx            scc     sgt:	OK, Writing 1266
+                            0101111011101xxx            scc     sgt:	OK, Writing 1267
+                            0101111011110xxx            scc     sgt:	OK, Writing 1268
+                            0101111011111000            scc     sgt:	OK, Writing 1269
+                            0101111011111001            scc     sgt:	OK, Writing 1270
+
+@0351 0101111111xxxxxx ---> 0101111111000xxx            scc     sle:	OK, Writing 1271
+                            0101111111010xxx            scc     sle:	OK, Writing 1272
+                            0101111111011xxx            scc     sle:	OK, Writing 1273
+                            0101111111100xxx            scc     sle:	OK, Writing 1274
+                            0101111111101xxx            scc     sle:	OK, Writing 1275
+                            0101111111110xxx            scc     sle:	OK, Writing 1276
+                            0101111111111000            scc     sle:	OK, Writing 1277
+                            0101111111111001            scc     sle:	OK, Writing 1278
+
+@0352 Not Generated Header (1279-1282)
+@0352 Not Generated Call (1283): 	SetTable(instbl, syntbl, "0101xxxx11001xxx", LR dbcc, "dbcc", 0x2007, 0xE200 );   
+@0353 Not Generated Call (1284): 	SetTable(instbl, syntbl, "0101000011001xxx", LR dbcc, "dbt", 0x2007, 0xE200 );   
+@0354 Not Generated Call (1285): 	SetTable(instbl, syntbl, "0101000111001xxx", LR dbf, "dbf", 0x2007, 0xE200 );   
+@0355 Not Generated Call (1286): 	SetTable(instbl, syntbl, "0101001011001xxx", LR dbcc, "dbhi", 0x2007, 0xE200 );   
+@0356 Not Generated Call (1287): 	SetTable(instbl, syntbl, "0101001111001xxx", LR dbcc, "dbls", 0x2007, 0xE200 );   
+@0357 Not Generated Call (1288): 	SetTable(instbl, syntbl, "0101010011001xxx", LR dbcc, "dbcc", 0x2007, 0xE200 );   
+@0358 Not Generated Call (1289): 	SetTable(instbl, syntbl, "0101010111001xxx", LR dbcc, "dbcs", 0x2007, 0xE200 );   
+@0359 Not Generated Call (1290): 	SetTable(instbl, syntbl, "0101011011001xxx", LR dbcc, "dbne", 0x2007, 0xE200 );   
+@0360 Not Generated Call (1291): 	SetTable(instbl, syntbl, "0101011111001xxx", LR dbcc, "dbeq", 0x2007, 0xE200 );   
+@0361 Not Generated Call (1292): 	SetTable(instbl, syntbl, "0101100011001xxx", LR dbcc, "dbvc", 0x2007, 0xE200 );   
+@0362 Not Generated Call (1293): 	SetTable(instbl, syntbl, "0101100111001xxx", LR dbcc, "dbvs", 0x2007, 0xE200 );   
+@0363 Not Generated Call (1294): 	SetTable(instbl, syntbl, "0101101011001xxx", LR dbcc, "dbpl", 0x2007, 0xE200 );   
+@0364 Not Generated Call (1295): 	SetTable(instbl, syntbl, "0101101111001xxx", LR dbcc, "dbmi", 0x2007, 0xE200 );   
+@0365 Not Generated Call (1296): 	SetTable(instbl, syntbl, "0101110011001xxx", LR dbcc, "dbge", 0x2007, 0xE200 );   
+@0366 Not Generated Call (1297): 	SetTable(instbl, syntbl, "0101110111001xxx", LR dbcc, "dblt", 0x2007, 0xE200 );   
+@0367 Not Generated Call (1298): 	SetTable(instbl, syntbl, "0101111011001xxx", LR dbcc, "dbgt", 0x2007, 0xE200 );   
+@0368 Not Generated Call (1299): 	SetTable(instbl, syntbl, "0101111111001xxx", LR dbcc, "dble", 0x2007, 0xE200 );   
+
+@0369 0101xxx100xxxxxx ---> 0101xxx100000xxx         subq_b  subq.b:	OK, Writing 1300
+                            0101xxx100001xxx         subq_b  subq.b:	OK, Writing 1301
+                            0101xxx100010xxx         subq_b  subq.b:	OK, Writing 1302
+                            0101xxx100011xxx         subq_b  subq.b:	OK, Writing 1303
+                            0101xxx100100xxx         subq_b  subq.b:	OK, Writing 1304
+                            0101xxx100101xxx         subq_b  subq.b:	OK, Writing 1305
+                            0101xxx100110xxx         subq_b  subq.b:	OK, Writing 1306
+                            0101xxx100111000         subq_b  subq.b:	OK, Writing 1307
+                            0101xxx100111001         subq_b  subq.b:	OK, Writing 1308
+
+@0370 0101xxx101xxxxxx ---> 0101xxx101000xxx         subq_w  subq.w:	OK, Writing 1309
+                            0101xxx101001xxx         subq_w  subq.w:	NOT Writing 1310,  In Source Later @0372: 0101xxx101001xxx subq_an       
+                            0101xxx101010xxx         subq_w  subq.w:	OK, Writing 1310
+                            0101xxx101011xxx         subq_w  subq.w:	OK, Writing 1311
+                            0101xxx101100xxx         subq_w  subq.w:	OK, Writing 1312
+                            0101xxx101101xxx         subq_w  subq.w:	OK, Writing 1313
+                            0101xxx101110xxx         subq_w  subq.w:	OK, Writing 1314
+                            0101xxx101111000         subq_w  subq.w:	OK, Writing 1315
+                            0101xxx101111001         subq_w  subq.w:	OK, Writing 1316
+
+@0371 0101xxx110xxxxxx ---> 0101xxx110000xxx         subq_l  subq.l:	OK, Writing 1317
+                            0101xxx110001xxx         subq_l  subq.l:	NOT Writing 1318,  In Source Later @0373: 0101xxx110001xxx subq_an       
+                            0101xxx110010xxx         subq_l  subq.l:	OK, Writing 1318
+                            0101xxx110011xxx         subq_l  subq.l:	OK, Writing 1319
+                            0101xxx110100xxx         subq_l  subq.l:	OK, Writing 1320
+                            0101xxx110101xxx         subq_l  subq.l:	OK, Writing 1321
+                            0101xxx110110xxx         subq_l  subq.l:	OK, Writing 1322
+                            0101xxx110111000         subq_l  subq.l:	OK, Writing 1323
+                            0101xxx110111001         subq_l  subq.l:	OK, Writing 1324
+
+@0372 Not Generated Header (1325-1328)
+@0372 Not Generated Call (1329): 	SetTable(instbl, syntbl, "0101xxx101001xxx", LR subq_an, "subq.w", 0xAE00, 0x3007 );   
+@0373 Not Generated Call (1330): 	SetTable(instbl, syntbl, "0101xxx110001xxx", LR subq_an, "subq.l", 0xAE00, 0x3007 );   
+@0374 Not Generated Call (1331): 	SetTable(instbl, syntbl, "0101100101001xxx", LR subq_4_an, "subq.w", 0xF003, 0x3007 );   
+@0375 Not Generated Call (1332): 	SetTable(instbl, syntbl, "0101100110001xxx", LR subq_4_an, "subq.w", 0xF003, 0x3007 );   
+@0376 Not Generated Call (1333): 	SetTable(instbl, syntbl, "0110xxxxxxxxxxx0", LR bcc_s, "bcc.s", 0x90FF, 0xF000 );   
+@0377 Not Generated Call (1334): 	SetTable(instbl, syntbl, "0110xxxxxxxxxxx1", LR bcc_bad, "bcc_BAD", 0xF000, 0xF000 );   
+@0378 Not Generated Call (1335): 	SetTable(instbl, syntbl, "01100010xxxxxxx0", LR bcc_s, "bhi.s", 0x90FF, 0xF000 );   
+@0379 Not Generated Call (1336): 	SetTable(instbl, syntbl, "01100011xxxxxxx0", LR bcc_s, "bls.s", 0x90FF, 0xF000 );   
+@0380 Not Generated Call (1337): 	SetTable(instbl, syntbl, "01100100xxxxxxx0", LR bccc_s, "bccc.s", 0x90FF, 0xF000 );   
+@0381 Not Generated Call (1338): 	SetTable(instbl, syntbl, "01100101xxxxxxx0", LR bcs_s, "bcs.s", 0x90FF, 0xF000 );   
+@0382 Not Generated Call (1339): 	SetTable(instbl, syntbl, "01100110xxxxxxx0", LR bne_s, "bne.s", 0x90FF, 0xF000 );   
+@0383 Not Generated Call (1340): 	SetTable(instbl, syntbl, "01100111xxxxxxx0", LR beq_s, "beq.s", 0x90FF, 0xF000 );   
+@0384 Not Generated Call (1341): 	SetTable(instbl, syntbl, "01101000xxxxxxx0", LR bcc_s, "bvc.s", 0x90FF, 0xF000 );   
+@0385 Not Generated Call (1342): 	SetTable(instbl, syntbl, "01101001xxxxxxx0", LR bcc_s, "bvs.s", 0x90FF, 0xF000 );   
+@0386 Not Generated Call (1343): 	SetTable(instbl, syntbl, "01101010xxxxxxx0", LR bpl_s, "bpl.s", 0x90FF, 0xF000 );   
+@0387 Not Generated Call (1344): 	SetTable(instbl, syntbl, "01101011xxxxxxx0", LR bmi_s, "bmi.s", 0x90FF, 0xF000 );   
+@0388 Not Generated Call (1345): 	SetTable(instbl, syntbl, "01101100xxxxxxx0", LR bge_s, "bge.s", 0x90FF, 0xF000 );   
+@0389 Not Generated Call (1346): 	SetTable(instbl, syntbl, "01101101xxxxxxx0", LR blt_s, "blt.s", 0x90FF, 0xF000 );   
+@0390 Not Generated Call (1347): 	SetTable(instbl, syntbl, "01101110xxxxxxx0", LR bgt_s, "bgt.s", 0x90FF, 0xF000 );   
+@0391 Not Generated Call (1348): 	SetTable(instbl, syntbl, "01101111xxxxxxx0", LR ble_s, "ble.s", 0x90FF, 0xF000 );   
+@0392 Not Generated Call (1349): 	SetTable(instbl, syntbl, "0110xxxx00000000", LR bcc_l, "bcc.l", 0x90FF, 0xF000 );   
+@0393 Not Generated Call (1350): 	SetTable(instbl, syntbl, "0110001000000000", LR bcc_l, "bhi.s", 0x90FF, 0xF000 );   
+@0394 Not Generated Call (1351): 	SetTable(instbl, syntbl, "0110001100000000", LR bcc_l, "bls.s", 0x90FF, 0xF000 );   
+@0395 Not Generated Call (1352): 	SetTable(instbl, syntbl, "0110010000000000", LR bcc_l, "bccc.s", 0x90FF, 0xF000 );   
+@0396 Not Generated Call (1353): 	SetTable(instbl, syntbl, "0110010100000000", LR bcc_l, "bcs.s", 0x90FF, 0xF000 );   
+@0397 Not Generated Call (1354): 	SetTable(instbl, syntbl, "0110011000000000", LR bne_l, "bne.l", 0x90FF, 0xF000 );   
+@0398 Not Generated Call (1355): 	SetTable(instbl, syntbl, "0110011100000000", LR beq_l, "beq.l", 0x90FF, 0xF000 );   
+@0399 Not Generated Call (1356): 	SetTable(instbl, syntbl, "0110100000000000", LR bcc_l, "bvc.s", 0x90FF, 0xF000 );   
+@0400 Not Generated Call (1357): 	SetTable(instbl, syntbl, "0110100100000000", LR bcc_l, "bvs.s", 0x90FF, 0xF000 );   
+@0401 Not Generated Call (1358): 	SetTable(instbl, syntbl, "0110101000000000", LR bcc_l, "bpl.s", 0x90FF, 0xF000 );   
+@0402 Not Generated Call (1359): 	SetTable(instbl, syntbl, "0110101100000000", LR bcc_l, "bmi.s", 0x90FF, 0xF000 );   
+@0403 Not Generated Call (1360): 	SetTable(instbl, syntbl, "0110110000000000", LR bcc_l, "bge.s", 0x90FF, 0xF000 );   
+@0404 Not Generated Call (1361): 	SetTable(instbl, syntbl, "0110110100000000", LR bcc_l, "blt.s", 0x90FF, 0xF000 );   
+@0405 Not Generated Call (1362): 	SetTable(instbl, syntbl, "0110111000000000", LR bcc_l, "bgt.s", 0x90FF, 0xF000 );   
+@0406 Not Generated Call (1363): 	SetTable(instbl, syntbl, "0110111100000000", LR bcc_l, "ble.s", 0x90FF, 0xF000 );   
+@0407 Not Generated Call (1364): 	SetTable(instbl, syntbl, "01100000xxxxxxx0", LR bra_s, "bra.s", 0x90FF, 0xF000 );   
+@0408 Not Generated Call (1365): 	SetTable(instbl, syntbl, "0110000000000000", LR bra_l, "bra.l", 0x90FF, 0xF000 );   
+@0409 Not Generated Call (1366): 	SetTable(instbl, syntbl, "01100001xxxxxxxx", LR bsr, "bsr", 0x90FF, 0xF000 );   
+@0410 Not Generated Call (1367): 	SetTable(instbl, syntbl, "0111xxx0xxxxxxxx", LR moveq, "moveq", 0xA0FF, 0x2E00 );   
+
+@0411 1000xxx000xxxxxx ---> 1000xxx000000xxx        or_b_dn    or.b:	OK, Writing 1368
+                            1000xxx000010xxx        or_b_dn    or.b:	OK, Writing 1369
+                            1000xxx000011xxx        or_b_dn    or.b:	OK, Writing 1370
+                            1000xxx000100xxx        or_b_dn    or.b:	OK, Writing 1371
+                            1000xxx000101xxx        or_b_dn    or.b:	OK, Writing 1372
+                            1000xxx000110xxx        or_b_dn    or.b:	OK, Writing 1373
+                            1000xxx000111000        or_b_dn    or.b:	OK, Writing 1374
+                            1000xxx000111001        or_b_dn    or.b:	OK, Writing 1375
+                            1000xxx000111010        or_b_dn    or.b:	OK, Writing 1376
+                            1000xxx000111011        or_b_dn    or.b:	OK, Writing 1377
+                            1000xxx000111100        or_b_dn    or.b:	OK, Writing 1378
+
+@0412 1000xxx001xxxxxx ---> 1000xxx001000xxx        or_w_dn    or.w:	OK, Writing 1379
+                            1000xxx001010xxx        or_w_dn    or.w:	OK, Writing 1380
+                            1000xxx001011xxx        or_w_dn    or.w:	OK, Writing 1381
+                            1000xxx001100xxx        or_w_dn    or.w:	OK, Writing 1382
+                            1000xxx001101xxx        or_w_dn    or.w:	OK, Writing 1383
+                            1000xxx001110xxx        or_w_dn    or.w:	OK, Writing 1384
+                            1000xxx001111000        or_w_dn    or.w:	OK, Writing 1385
+                            1000xxx001111001        or_w_dn    or.w:	OK, Writing 1386
+                            1000xxx001111010        or_w_dn    or.w:	OK, Writing 1387
+                            1000xxx001111011        or_w_dn    or.w:	OK, Writing 1388
+                            1000xxx001111100        or_w_dn    or.w:	OK, Writing 1389
+
+@0413 1000xxx010xxxxxx ---> 1000xxx010000xxx        or_l_dn    or.l:	OK, Writing 1390
+                            1000xxx010010xxx        or_l_dn    or.l:	OK, Writing 1391
+                            1000xxx010011xxx        or_l_dn    or.l:	OK, Writing 1392
+                            1000xxx010100xxx        or_l_dn    or.l:	OK, Writing 1393
+                            1000xxx010101xxx        or_l_dn    or.l:	OK, Writing 1394
+                            1000xxx010110xxx        or_l_dn    or.l:	OK, Writing 1395
+                            1000xxx010111000        or_l_dn    or.l:	OK, Writing 1396
+                            1000xxx010111001        or_l_dn    or.l:	OK, Writing 1397
+                            1000xxx010111010        or_l_dn    or.l:	OK, Writing 1398
+                            1000xxx010111011        or_l_dn    or.l:	OK, Writing 1399
+                            1000xxx010111100        or_l_dn    or.l:	OK, Writing 1400
+
+@0414 1000xxx100xxxxxx ---> 1000xxx100010xxx        or_b_ea    or.b:	OK, Writing 1401
+                            1000xxx100011xxx        or_b_ea    or.b:	OK, Writing 1402
+                            1000xxx100100xxx        or_b_ea    or.b:	OK, Writing 1403
+                            1000xxx100101xxx        or_b_ea    or.b:	OK, Writing 1404
+                            1000xxx100110xxx        or_b_ea    or.b:	OK, Writing 1405
+                            1000xxx100111000        or_b_ea    or.b:	OK, Writing 1406
+                            1000xxx100111001        or_b_ea    or.b:	OK, Writing 1407
+
+@0415 1000xxx101xxxxxx ---> 1000xxx101010xxx        or_w_ea    or.w:	OK, Writing 1408
+                            1000xxx101011xxx        or_w_ea    or.w:	OK, Writing 1409
+                            1000xxx101100xxx        or_w_ea    or.w:	OK, Writing 1410
+                            1000xxx101101xxx        or_w_ea    or.w:	OK, Writing 1411
+                            1000xxx101110xxx        or_w_ea    or.w:	OK, Writing 1412
+                            1000xxx101111000        or_w_ea    or.w:	OK, Writing 1413
+                            1000xxx101111001        or_w_ea    or.w:	OK, Writing 1414
+
+@0416 1000xxx110xxxxxx ---> 1000xxx110010xxx        or_l_ea    or.l:	OK, Writing 1415
+                            1000xxx110011xxx        or_l_ea    or.l:	OK, Writing 1416
+                            1000xxx110100xxx        or_l_ea    or.l:	OK, Writing 1417
+                            1000xxx110101xxx        or_l_ea    or.l:	OK, Writing 1418
+                            1000xxx110110xxx        or_l_ea    or.l:	OK, Writing 1419
+                            1000xxx110111000        or_l_ea    or.l:	OK, Writing 1420
+                            1000xxx110111001        or_l_ea    or.l:	OK, Writing 1421
+
+@0417 1000xxx011xxxxxx ---> 1000xxx011000xxx           divu  divu.w:	OK, Writing 1422
+                            1000xxx011010xxx           divu  divu.w:	OK, Writing 1423
+                            1000xxx011011xxx           divu  divu.w:	OK, Writing 1424
+                            1000xxx011100xxx           divu  divu.w:	OK, Writing 1425
+                            1000xxx011101xxx           divu  divu.w:	OK, Writing 1426
+                            1000xxx011110xxx           divu  divu.w:	OK, Writing 1427
+                            1000xxx011111000           divu  divu.w:	OK, Writing 1428
+                            1000xxx011111001           divu  divu.w:	OK, Writing 1429
+                            1000xxx011111010           divu  divu.w:	OK, Writing 1430
+                            1000xxx011111011           divu  divu.w:	OK, Writing 1431
+                            1000xxx011111100           divu  divu.w:	OK, Writing 1432
+
+@0418 Not Generated Header (1433-1436)
+@0418 Not Generated Call (1437): 	SetTable(instbl, syntbl, "1000xxx100000xxx", LR sbcd, "sbcd", 0x2007, 0x2E00 );   
+@0419 Not Generated Call (1438): 	SetTable(instbl, syntbl, "1000xxx100001xxx", LR sbcd, "sbcd", 0x7007, 0x7E00 );   
+
+@0420 1000xxx111xxxxxx ---> 1000xxx111000xxx           divs  divs.w:	OK, Writing 1439
+                            1000xxx111010xxx           divs  divs.w:	OK, Writing 1440
+                            1000xxx111011xxx           divs  divs.w:	OK, Writing 1441
+                            1000xxx111100xxx           divs  divs.w:	OK, Writing 1442
+                            1000xxx111101xxx           divs  divs.w:	OK, Writing 1443
+                            1000xxx111110xxx           divs  divs.w:	OK, Writing 1444
+                            1000xxx111111000           divs  divs.w:	OK, Writing 1445
+                            1000xxx111111001           divs  divs.w:	OK, Writing 1446
+                            1000xxx111111010           divs  divs.w:	OK, Writing 1447
+                            1000xxx111111011           divs  divs.w:	OK, Writing 1448
+                            1000xxx111111100           divs  divs.w:	OK, Writing 1449
+
+@0421 1001xxx000xxxxxx ---> 1001xxx000000xxx       sub_b_dn   sub.b:	OK, Writing 1450
+                            1001xxx000001xxx       sub_b_dn   sub.b:	OK, Writing 1451
+                            1001xxx000010xxx       sub_b_dn   sub.b:	OK, Writing 1452
+                            1001xxx000011xxx       sub_b_dn   sub.b:	OK, Writing 1453
+                            1001xxx000100xxx       sub_b_dn   sub.b:	OK, Writing 1454
+                            1001xxx000101xxx       sub_b_dn   sub.b:	OK, Writing 1455
+                            1001xxx000110xxx       sub_b_dn   sub.b:	OK, Writing 1456
+                            1001xxx000111000       sub_b_dn   sub.b:	OK, Writing 1457
+                            1001xxx000111001       sub_b_dn   sub.b:	OK, Writing 1458
+                            1001xxx000111010       sub_b_dn   sub.b:	OK, Writing 1459
+                            1001xxx000111011       sub_b_dn   sub.b:	OK, Writing 1460
+                            1001xxx000111100       sub_b_dn   sub.b:	OK, Writing 1461
+
+@0422 1001xxx001xxxxxx ---> 1001xxx001000xxx       sub_w_dn   sub.w:	OK, Writing 1462
+                            1001xxx001001xxx       sub_w_dn   sub.w:	OK, Writing 1463
+                            1001xxx001010xxx       sub_w_dn   sub.w:	OK, Writing 1464
+                            1001xxx001011xxx       sub_w_dn   sub.w:	OK, Writing 1465
+                            1001xxx001100xxx       sub_w_dn   sub.w:	OK, Writing 1466
+                            1001xxx001101xxx       sub_w_dn   sub.w:	OK, Writing 1467
+                            1001xxx001110xxx       sub_w_dn   sub.w:	OK, Writing 1468
+                            1001xxx001111000       sub_w_dn   sub.w:	OK, Writing 1469
+                            1001xxx001111001       sub_w_dn   sub.w:	OK, Writing 1470
+                            1001xxx001111010       sub_w_dn   sub.w:	OK, Writing 1471
+                            1001xxx001111011       sub_w_dn   sub.w:	OK, Writing 1472
+                            1001xxx001111100       sub_w_dn   sub.w:	OK, Writing 1473
+
+@0423 1001xxx010xxxxxx ---> 1001xxx010000xxx       sub_l_dn   sub.l:	OK, Writing 1474
+                            1001xxx010001xxx       sub_l_dn   sub.l:	OK, Writing 1475
+                            1001xxx010010xxx       sub_l_dn   sub.l:	OK, Writing 1476
+                            1001xxx010011xxx       sub_l_dn   sub.l:	OK, Writing 1477
+                            1001xxx010100xxx       sub_l_dn   sub.l:	OK, Writing 1478
+                            1001xxx010101xxx       sub_l_dn   sub.l:	OK, Writing 1479
+                            1001xxx010110xxx       sub_l_dn   sub.l:	OK, Writing 1480
+                            1001xxx010111000       sub_l_dn   sub.l:	OK, Writing 1481
+                            1001xxx010111001       sub_l_dn   sub.l:	OK, Writing 1482
+                            1001xxx010111010       sub_l_dn   sub.l:	OK, Writing 1483
+                            1001xxx010111011       sub_l_dn   sub.l:	OK, Writing 1484
+                            1001xxx010111100       sub_l_dn   sub.l:	OK, Writing 1485
+
+@0424 1001xxx100xxxxxx ---> 1001xxx100010xxx       sub_b_ea   sub.b:	OK, Writing 1486
+                            1001xxx100011xxx       sub_b_ea   sub.b:	OK, Writing 1487
+                            1001xxx100100xxx       sub_b_ea   sub.b:	OK, Writing 1488
+                            1001xxx100101xxx       sub_b_ea   sub.b:	OK, Writing 1489
+                            1001xxx100110xxx       sub_b_ea   sub.b:	OK, Writing 1490
+                            1001xxx100111000       sub_b_ea   sub.b:	OK, Writing 1491
+                            1001xxx100111001       sub_b_ea   sub.b:	OK, Writing 1492
+
+@0425 1001xxx101xxxxxx ---> 1001xxx101010xxx       sub_w_ea   sub.w:	OK, Writing 1493
+                            1001xxx101011xxx       sub_w_ea   sub.w:	OK, Writing 1494
+                            1001xxx101100xxx       sub_w_ea   sub.w:	OK, Writing 1495
+                            1001xxx101101xxx       sub_w_ea   sub.w:	OK, Writing 1496
+                            1001xxx101110xxx       sub_w_ea   sub.w:	OK, Writing 1497
+                            1001xxx101111000       sub_w_ea   sub.w:	OK, Writing 1498
+                            1001xxx101111001       sub_w_ea   sub.w:	OK, Writing 1499
+
+@0426 1001xxx110xxxxxx ---> 1001xxx110010xxx       sub_l_ea   sub.l:	OK, Writing 1500
+                            1001xxx110011xxx       sub_l_ea   sub.l:	OK, Writing 1501
+                            1001xxx110100xxx       sub_l_ea   sub.l:	OK, Writing 1502
+                            1001xxx110101xxx       sub_l_ea   sub.l:	OK, Writing 1503
+                            1001xxx110110xxx       sub_l_ea   sub.l:	OK, Writing 1504
+                            1001xxx110111000       sub_l_ea   sub.l:	OK, Writing 1505
+                            1001xxx110111001       sub_l_ea   sub.l:	OK, Writing 1506
+
+@0427 1001xxx011xxxxxx ---> 1001xxx011000xxx       sub_w_an  suba.w:	OK, Writing 1507
+                            1001xxx011001xxx       sub_w_an  suba.w:	OK, Writing 1508
+                            1001xxx011010xxx       sub_w_an  suba.w:	OK, Writing 1509
+                            1001xxx011011xxx       sub_w_an  suba.w:	OK, Writing 1510
+                            1001xxx011100xxx       sub_w_an  suba.w:	OK, Writing 1511
+                            1001xxx011101xxx       sub_w_an  suba.w:	OK, Writing 1512
+                            1001xxx011110xxx       sub_w_an  suba.w:	OK, Writing 1513
+                            1001xxx011111000       sub_w_an  suba.w:	OK, Writing 1514
+                            1001xxx011111001       sub_w_an  suba.w:	OK, Writing 1515
+                            1001xxx011111010       sub_w_an  suba.w:	OK, Writing 1516
+                            1001xxx011111011       sub_w_an  suba.w:	OK, Writing 1517
+                            1001xxx011111100       sub_w_an  suba.w:	OK, Writing 1518
+
+@0428 1001xxx111xxxxxx ---> 1001xxx111000xxx       sub_l_an  suba.l:	OK, Writing 1519
+                            1001xxx111001xxx       sub_l_an  suba.l:	OK, Writing 1520
+                            1001xxx111010xxx       sub_l_an  suba.l:	OK, Writing 1521
+                            1001xxx111011xxx       sub_l_an  suba.l:	OK, Writing 1522
+                            1001xxx111100xxx       sub_l_an  suba.l:	OK, Writing 1523
+                            1001xxx111101xxx       sub_l_an  suba.l:	OK, Writing 1524
+                            1001xxx111110xxx       sub_l_an  suba.l:	OK, Writing 1525
+                            1001xxx111111000       sub_l_an  suba.l:	OK, Writing 1526
+                            1001xxx111111001       sub_l_an  suba.l:	OK, Writing 1527
+                            1001xxx111111010       sub_l_an  suba.l:	OK, Writing 1528
+                            1001xxx111111011       sub_l_an  suba.l:	OK, Writing 1529
+                            1001xxx111111100       sub_l_an  suba.l:	OK, Writing 1530
+
+@0429 Not Generated Header (1531-1534)
+@0429 Not Generated Call (1535): 	SetTable(instbl, syntbl, "1001xxx100000xxx", LR subx_b_r, "subx.b", 0x2007, 0x2E00 );   
+@0430 Not Generated Call (1536): 	SetTable(instbl, syntbl, "1001xxx101000xxx", LR subx_w_r, "subx.w", 0x2007, 0x2E00 );   
+@0431 Not Generated Call (1537): 	SetTable(instbl, syntbl, "1001xxx110000xxx", LR subx_l_r, "subx.l", 0x2007, 0x2E00 );   
+@0432 Not Generated Call (1538): 	SetTable(instbl, syntbl, "1001xxx100001xxx", LR subx_b_m, "subx.b", 0x7007, 0x7E00 );   
+@0433 Not Generated Call (1539): 	SetTable(instbl, syntbl, "1001xxx101001xxx", LR subx_w_m, "subx.w", 0x7007, 0x7E00 );   
+@0434 Not Generated Call (1540): 	SetTable(instbl, syntbl, "1001xxx110001xxx", LR subx_l_m, "subx.l", 0x7007, 0x7E00 );   
+
+@0435 1011xxx000xxxxxx ---> 1011xxx000000xxx          cmp_b   cmp.b:	NOT Writing 1541,  In Source Later @0438: 1011xxx000000xxx cmp_b_dn      
+                            1011xxx000001xxx          cmp_b   cmp.b:	OK, Writing 1541
+                            1011xxx000010xxx          cmp_b   cmp.b:	OK, Writing 1542
+                            1011xxx000011xxx          cmp_b   cmp.b:	OK, Writing 1543
+                            1011xxx000100xxx          cmp_b   cmp.b:	OK, Writing 1544
+                            1011xxx000101xxx          cmp_b   cmp.b:	NOT Writing 1545,  In Source Later @0439: 1011xxx000101xxx cmp_b_dan     
+                            1011xxx000110xxx          cmp_b   cmp.b:	OK, Writing 1545
+                            1011xxx000111000          cmp_b   cmp.b:	OK, Writing 1546
+                            1011xxx000111001          cmp_b   cmp.b:	OK, Writing 1547
+                            1011xxx000111010          cmp_b   cmp.b:	OK, Writing 1548
+                            1011xxx000111011          cmp_b   cmp.b:	OK, Writing 1549
+                            1011xxx000111100          cmp_b   cmp.b:	OK, Writing 1550
+
+@0436 1011xxx001xxxxxx ---> 1011xxx001000xxx          cmp_w   cmp.w:	NOT Writing 1551,  In Source Later @0440: 1011xxx001000xxx cmp_w_dn      
+                            1011xxx001001xxx          cmp_w   cmp.w:	OK, Writing 1551
+                            1011xxx001010xxx          cmp_w   cmp.w:	OK, Writing 1552
+                            1011xxx001011xxx          cmp_w   cmp.w:	OK, Writing 1553
+                            1011xxx001100xxx          cmp_w   cmp.w:	OK, Writing 1554
+                            1011xxx001101xxx          cmp_w   cmp.w:	OK, Writing 1555
+                            1011xxx001110xxx          cmp_w   cmp.w:	OK, Writing 1556
+                            1011xxx001111000          cmp_w   cmp.w:	OK, Writing 1557
+                            1011xxx001111001          cmp_w   cmp.w:	OK, Writing 1558
+                            1011xxx001111010          cmp_w   cmp.w:	OK, Writing 1559
+                            1011xxx001111011          cmp_w   cmp.w:	OK, Writing 1560
+                            1011xxx001111100          cmp_w   cmp.w:	OK, Writing 1561
+
+@0437 1011xxx010xxxxxx ---> 1011xxx010000xxx          cmp_l   cmp.l:	NOT Writing 1562,  In Source Later @0441: 1011xxx010000xxx cmp_l_dn      
+                            1011xxx010001xxx          cmp_l   cmp.l:	OK, Writing 1562
+                            1011xxx010010xxx          cmp_l   cmp.l:	OK, Writing 1563
+                            1011xxx010011xxx          cmp_l   cmp.l:	OK, Writing 1564
+                            1011xxx010100xxx          cmp_l   cmp.l:	OK, Writing 1565
+                            1011xxx010101xxx          cmp_l   cmp.l:	OK, Writing 1566
+                            1011xxx010110xxx          cmp_l   cmp.l:	OK, Writing 1567
+                            1011xxx010111000          cmp_l   cmp.l:	OK, Writing 1568
+                            1011xxx010111001          cmp_l   cmp.l:	OK, Writing 1569
+                            1011xxx010111010          cmp_l   cmp.l:	OK, Writing 1570
+                            1011xxx010111011          cmp_l   cmp.l:	OK, Writing 1571
+                            1011xxx010111100          cmp_l   cmp.l:	OK, Writing 1572
+
+@0438 Not Generated Header (1573-1576)
+@0438 Not Generated Call (1577): 	SetTable(instbl, syntbl, "1011xxx000000xxx", LR cmp_b_dn, "cmp.b", 0x2007, 0x2E00 );   
+@0439 Not Generated Call (1578): 	SetTable(instbl, syntbl, "1011xxx000101xxx", LR cmp_b_dan, "cmp.b", 0x5007, 0x2E00 );   
+@0440 Not Generated Call (1579): 	SetTable(instbl, syntbl, "1011xxx001000xxx", LR cmp_w_dn, "cmp.w", 0x2007, 0x2E00 );   
+@0441 Not Generated Call (1580): 	SetTable(instbl, syntbl, "1011xxx010000xxx", LR cmp_l_dn, "cmp.l", 0x2007, 0x2E00 );   
+
+@0442 1011xxx011xxxxxx ---> 1011xxx011000xxx         cmpa_w  cmpa.w:	OK, Writing 1581
+                            1011xxx011001xxx         cmpa_w  cmpa.w:	OK, Writing 1582
+                            1011xxx011010xxx         cmpa_w  cmpa.w:	OK, Writing 1583
+                            1011xxx011011xxx         cmpa_w  cmpa.w:	OK, Writing 1584
+                            1011xxx011100xxx         cmpa_w  cmpa.w:	OK, Writing 1585
+                            1011xxx011101xxx         cmpa_w  cmpa.w:	OK, Writing 1586
+                            1011xxx011110xxx         cmpa_w  cmpa.w:	OK, Writing 1587
+                            1011xxx011111000         cmpa_w  cmpa.w:	OK, Writing 1588
+                            1011xxx011111001         cmpa_w  cmpa.w:	OK, Writing 1589
+                            1011xxx011111010         cmpa_w  cmpa.w:	OK, Writing 1590
+                            1011xxx011111011         cmpa_w  cmpa.w:	OK, Writing 1591
+                            1011xxx011111100         cmpa_w  cmpa.w:	OK, Writing 1592
+
+@0443 1011xxx111xxxxxx ---> 1011xxx111000xxx         cmpa_l  cmpa.l:	OK, Writing 1593
+                            1011xxx111001xxx         cmpa_l  cmpa.l:	NOT Writing 1594,  In Source Later @0444: 1011xxx111001xxx cmpa_l_an     
+                            1011xxx111010xxx         cmpa_l  cmpa.l:	OK, Writing 1594
+                            1011xxx111011xxx         cmpa_l  cmpa.l:	OK, Writing 1595
+                            1011xxx111100xxx         cmpa_l  cmpa.l:	OK, Writing 1596
+                            1011xxx111101xxx         cmpa_l  cmpa.l:	OK, Writing 1597
+                            1011xxx111110xxx         cmpa_l  cmpa.l:	OK, Writing 1598
+                            1011xxx111111000         cmpa_l  cmpa.l:	OK, Writing 1599
+                            1011xxx111111001         cmpa_l  cmpa.l:	OK, Writing 1600
+                            1011xxx111111010         cmpa_l  cmpa.l:	OK, Writing 1601
+                            1011xxx111111011         cmpa_l  cmpa.l:	OK, Writing 1602
+                            1011xxx111111100         cmpa_l  cmpa.l:	OK, Writing 1603
+
+@0444 Not Generated Header (1604-1607)
+@0444 Not Generated Call (1608): 	SetTable(instbl, syntbl, "1011xxx111001xxx", LR cmpa_l_an, "cmpa.l", 0x3007, 0x3E00 );   
+
+@0445 1011xxx100xxxxxx ---> 1011xxx100000xxx          eor_b   eor.b:	OK, Writing 1609
+                            1011xxx100010xxx          eor_b   eor.b:	OK, Writing 1610
+                            1011xxx100011xxx          eor_b   eor.b:	OK, Writing 1611
+                            1011xxx100100xxx          eor_b   eor.b:	OK, Writing 1612
+                            1011xxx100101xxx          eor_b   eor.b:	OK, Writing 1613
+                            1011xxx100110xxx          eor_b   eor.b:	OK, Writing 1614
+                            1011xxx100111000          eor_b   eor.b:	OK, Writing 1615
+                            1011xxx100111001          eor_b   eor.b:	OK, Writing 1616
+
+@0446 1011xxx101xxxxxx ---> 1011xxx101000xxx          eor_w   eor.w:	OK, Writing 1617
+                            1011xxx101010xxx          eor_w   eor.w:	OK, Writing 1618
+                            1011xxx101011xxx          eor_w   eor.w:	OK, Writing 1619
+                            1011xxx101100xxx          eor_w   eor.w:	OK, Writing 1620
+                            1011xxx101101xxx          eor_w   eor.w:	OK, Writing 1621
+                            1011xxx101110xxx          eor_w   eor.w:	OK, Writing 1622
+                            1011xxx101111000          eor_w   eor.w:	OK, Writing 1623
+                            1011xxx101111001          eor_w   eor.w:	OK, Writing 1624
+
+@0447 1011xxx110xxxxxx ---> 1011xxx110000xxx          eor_l   eor.l:	OK, Writing 1625
+                            1011xxx110010xxx          eor_l   eor.l:	OK, Writing 1626
+                            1011xxx110011xxx          eor_l   eor.l:	OK, Writing 1627
+                            1011xxx110100xxx          eor_l   eor.l:	OK, Writing 1628
+                            1011xxx110101xxx          eor_l   eor.l:	OK, Writing 1629
+                            1011xxx110110xxx          eor_l   eor.l:	OK, Writing 1630
+                            1011xxx110111000          eor_l   eor.l:	OK, Writing 1631
+                            1011xxx110111001          eor_l   eor.l:	OK, Writing 1632
+
+@0448 Not Generated Header (1633-1636)
+@0448 Not Generated Call (1637): 	SetTable(instbl, syntbl, "1011xxx100001xxx", LR cmpm_b, "cmpm.b", 0x6007, 0x6E00 );   
+@0449 Not Generated Call (1638): 	SetTable(instbl, syntbl, "1011xxx101001xxx", LR cmpm_w, "cmpm.w", 0x6007, 0x6E00 );   
+@0450 Not Generated Call (1639): 	SetTable(instbl, syntbl, "1011xxx110001xxx", LR cmpm_l, "cmpm.l", 0x6007, 0x6E00 );   
+
+@0451 1100xxx000xxxxxx ---> 1100xxx000000xxx       and_b_dn   and.b:	OK, Writing 1640
+                            1100xxx000010xxx       and_b_dn   and.b:	OK, Writing 1641
+                            1100xxx000011xxx       and_b_dn   and.b:	OK, Writing 1642
+                            1100xxx000100xxx       and_b_dn   and.b:	OK, Writing 1643
+                            1100xxx000101xxx       and_b_dn   and.b:	OK, Writing 1644
+                            1100xxx000110xxx       and_b_dn   and.b:	OK, Writing 1645
+                            1100xxx000111000       and_b_dn   and.b:	OK, Writing 1646
+                            1100xxx000111001       and_b_dn   and.b:	OK, Writing 1647
+                            1100xxx000111010       and_b_dn   and.b:	OK, Writing 1648
+                            1100xxx000111011       and_b_dn   and.b:	OK, Writing 1649
+                            1100xxx000111100       and_b_dn   and.b:	OK, Writing 1650
+
+@0452 1100xxx001xxxxxx ---> 1100xxx001000xxx       and_w_dn   and.w:	OK, Writing 1651
+                            1100xxx001010xxx       and_w_dn   and.w:	OK, Writing 1652
+                            1100xxx001011xxx       and_w_dn   and.w:	OK, Writing 1653
+                            1100xxx001100xxx       and_w_dn   and.w:	OK, Writing 1654
+                            1100xxx001101xxx       and_w_dn   and.w:	OK, Writing 1655
+                            1100xxx001110xxx       and_w_dn   and.w:	OK, Writing 1656
+                            1100xxx001111000       and_w_dn   and.w:	OK, Writing 1657
+                            1100xxx001111001       and_w_dn   and.w:	OK, Writing 1658
+                            1100xxx001111010       and_w_dn   and.w:	OK, Writing 1659
+                            1100xxx001111011       and_w_dn   and.w:	OK, Writing 1660
+                            1100xxx001111100       and_w_dn   and.w:	OK, Writing 1661
+
+@0453 1100xxx010xxxxxx ---> 1100xxx010000xxx       and_l_dn   and.l:	NOT Writing 1662,  In Source Later @0454: 1100xxx010000xxx and_l_dn_dn   
+                            1100xxx010010xxx       and_l_dn   and.l:	OK, Writing 1662
+                            1100xxx010011xxx       and_l_dn   and.l:	OK, Writing 1663
+                            1100xxx010100xxx       and_l_dn   and.l:	OK, Writing 1664
+                            1100xxx010101xxx       and_l_dn   and.l:	OK, Writing 1665
+                            1100xxx010110xxx       and_l_dn   and.l:	OK, Writing 1666
+                            1100xxx010111000       and_l_dn   and.l:	OK, Writing 1667
+                            1100xxx010111001       and_l_dn   and.l:	OK, Writing 1668
+                            1100xxx010111010       and_l_dn   and.l:	OK, Writing 1669
+                            1100xxx010111011       and_l_dn   and.l:	OK, Writing 1670
+                            1100xxx010111100       and_l_dn   and.l:	OK, Writing 1671
+
+@0454 Not Generated Header (1672-1675)
+@0454 Not Generated Call (1676): 	SetTable(instbl, syntbl, "1100xxx010000xxx", LR and_l_dn_dn, "and.l", 0x2007, 0x2E00 );   
+
+@0455 1100xxx100xxxxxx ---> 1100xxx100010xxx       and_b_ea   and.b:	OK, Writing 1677
+                            1100xxx100011xxx       and_b_ea   and.b:	OK, Writing 1678
+                            1100xxx100100xxx       and_b_ea   and.b:	OK, Writing 1679
+                            1100xxx100101xxx       and_b_ea   and.b:	OK, Writing 1680
+                            1100xxx100110xxx       and_b_ea   and.b:	OK, Writing 1681
+                            1100xxx100111000       and_b_ea   and.b:	OK, Writing 1682
+                            1100xxx100111001       and_b_ea   and.b:	OK, Writing 1683
+
+@0456 1100xxx101xxxxxx ---> 1100xxx101010xxx       and_w_ea   and.w:	OK, Writing 1684
+                            1100xxx101011xxx       and_w_ea   and.w:	OK, Writing 1685
+                            1100xxx101100xxx       and_w_ea   and.w:	OK, Writing 1686
+                            1100xxx101101xxx       and_w_ea   and.w:	OK, Writing 1687
+                            1100xxx101110xxx       and_w_ea   and.w:	OK, Writing 1688
+                            1100xxx101111000       and_w_ea   and.w:	OK, Writing 1689
+                            1100xxx101111001       and_w_ea   and.w:	OK, Writing 1690
+
+@0457 1100xxx110xxxxxx ---> 1100xxx110010xxx       and_l_ea   and.l:	OK, Writing 1691
+                            1100xxx110011xxx       and_l_ea   and.l:	OK, Writing 1692
+                            1100xxx110100xxx       and_l_ea   and.l:	OK, Writing 1693
+                            1100xxx110101xxx       and_l_ea   and.l:	OK, Writing 1694
+                            1100xxx110110xxx       and_l_ea   and.l:	OK, Writing 1695
+                            1100xxx110111000       and_l_ea   and.l:	OK, Writing 1696
+                            1100xxx110111001       and_l_ea   and.l:	OK, Writing 1697
+
+@0458 1100xxx011xxxxxx ---> 1100xxx011000xxx           mulu  mulu.w:	OK, Writing 1698
+                            1100xxx011010xxx           mulu  mulu.w:	OK, Writing 1699
+                            1100xxx011011xxx           mulu  mulu.w:	OK, Writing 1700
+                            1100xxx011100xxx           mulu  mulu.w:	OK, Writing 1701
+                            1100xxx011101xxx           mulu  mulu.w:	OK, Writing 1702
+                            1100xxx011110xxx           mulu  mulu.w:	OK, Writing 1703
+                            1100xxx011111000           mulu  mulu.w:	OK, Writing 1704
+                            1100xxx011111001           mulu  mulu.w:	OK, Writing 1705
+                            1100xxx011111010           mulu  mulu.w:	OK, Writing 1706
+                            1100xxx011111011           mulu  mulu.w:	OK, Writing 1707
+                            1100xxx011111100           mulu  mulu.w:	OK, Writing 1708
+
+@0459 Not Generated Header (1709-1712)
+@0459 Not Generated Call (1713): 	SetTable(instbl, syntbl, "1100xxx100000xxx", LR abcd, "abcd", 0x2007, 0x2E00 );   
+@0460 Not Generated Call (1714): 	SetTable(instbl, syntbl, "1100xxx10000xxxx", LR abcd, "abcd", 0x7007, 0x7E00 );   
+@0461 Not Generated Call (1715): 	SetTable(instbl, syntbl, "1100xxx101000xxx", LR exg_d, "exg_d", 0x2007, 0x2E00 );   
+@0462 Not Generated Call (1716): 	SetTable(instbl, syntbl, "1100xxx101001xxx", LR exg_a, "exg_a", 0x3007, 0x3E00 );   
+@0463 Not Generated Call (1717): 	SetTable(instbl, syntbl, "1100xxx110001xxx", LR exg_ad, "exg_ad", 0x3007, 0x2E00 );   
+
+@0464 1100xxx111xxxxxx ---> 1100xxx111000xxx           muls  muls.w:	OK, Writing 1718
+                            1100xxx111010xxx           muls  muls.w:	OK, Writing 1719
+                            1100xxx111011xxx           muls  muls.w:	OK, Writing 1720
+                            1100xxx111100xxx           muls  muls.w:	OK, Writing 1721
+                            1100xxx111101xxx           muls  muls.w:	OK, Writing 1722
+                            1100xxx111110xxx           muls  muls.w:	OK, Writing 1723
+                            1100xxx111111000           muls  muls.w:	OK, Writing 1724
+                            1100xxx111111001           muls  muls.w:	OK, Writing 1725
+                            1100xxx111111010           muls  muls.w:	OK, Writing 1726
+                            1100xxx111111011           muls  muls.w:	OK, Writing 1727
+                            1100xxx111111100           muls  muls.w:	OK, Writing 1728
+
+@0465 1101xxx000xxxxxx ---> 1101xxx000000xxx       add_b_dn   add.b:	NOT Writing 1729,  In Source Later @0468: 1101xxx000000xxx add_b_dn_dn   
+                            1101xxx000001xxx       add_b_dn   add.b:	OK, Writing 1729
+                            1101xxx000010xxx       add_b_dn   add.b:	OK, Writing 1730
+                            1101xxx000011xxx       add_b_dn   add.b:	OK, Writing 1731
+                            1101xxx000100xxx       add_b_dn   add.b:	OK, Writing 1732
+                            1101xxx000101xxx       add_b_dn   add.b:	OK, Writing 1733
+                            1101xxx000110xxx       add_b_dn   add.b:	OK, Writing 1734
+                            1101xxx000111000       add_b_dn   add.b:	OK, Writing 1735
+                            1101xxx000111001       add_b_dn   add.b:	OK, Writing 1736
+                            1101xxx000111010       add_b_dn   add.b:	OK, Writing 1737
+                            1101xxx000111011       add_b_dn   add.b:	OK, Writing 1738
+                            1101xxx000111100       add_b_dn   add.b:	OK, Writing 1739
+
+@0466 1101xxx001xxxxxx ---> 1101xxx001000xxx       add_w_dn   add.w:	NOT Writing 1740,  In Source Later @0469: 1101xxx001000xxx add_w_dn_dn   
+                            1101xxx001001xxx       add_w_dn   add.w:	OK, Writing 1740
+                            1101xxx001010xxx       add_w_dn   add.w:	OK, Writing 1741
+                            1101xxx001011xxx       add_w_dn   add.w:	OK, Writing 1742
+                            1101xxx001100xxx       add_w_dn   add.w:	OK, Writing 1743
+                            1101xxx001101xxx       add_w_dn   add.w:	OK, Writing 1744
+                            1101xxx001110xxx       add_w_dn   add.w:	OK, Writing 1745
+                            1101xxx001111000       add_w_dn   add.w:	OK, Writing 1746
+                            1101xxx001111001       add_w_dn   add.w:	OK, Writing 1747
+                            1101xxx001111010       add_w_dn   add.w:	OK, Writing 1748
+                            1101xxx001111011       add_w_dn   add.w:	OK, Writing 1749
+                            1101xxx001111100       add_w_dn   add.w:	OK, Writing 1750
+
+@0467 1101xxx010xxxxxx ---> 1101xxx010000xxx       add_l_dn   add.l:	NOT Writing 1751,  In Source Later @0470: 1101xxx010000xxx add_l_dn_dn   
+                            1101xxx010001xxx       add_l_dn   add.l:	OK, Writing 1751
+                            1101xxx010010xxx       add_l_dn   add.l:	OK, Writing 1752
+                            1101xxx010011xxx       add_l_dn   add.l:	OK, Writing 1753
+                            1101xxx010100xxx       add_l_dn   add.l:	OK, Writing 1754
+                            1101xxx010101xxx       add_l_dn   add.l:	OK, Writing 1755
+                            1101xxx010110xxx       add_l_dn   add.l:	OK, Writing 1756
+                            1101xxx010111000       add_l_dn   add.l:	OK, Writing 1757
+                            1101xxx010111001       add_l_dn   add.l:	OK, Writing 1758
+                            1101xxx010111010       add_l_dn   add.l:	OK, Writing 1759
+                            1101xxx010111011       add_l_dn   add.l:	OK, Writing 1760
+                            1101xxx010111100       add_l_dn   add.l:	OK, Writing 1761
+
+@0468 Not Generated Header (1762-1765)
+@0468 Not Generated Call (1766): 	SetTable(instbl, syntbl, "1101xxx000000xxx", LR add_b_dn_dn, "add.b", 0x2007, 0x2E00 );   
+@0469 Not Generated Call (1767): 	SetTable(instbl, syntbl, "1101xxx001000xxx", LR add_w_dn_dn, "add.w", 0x2007, 0x2E00 );   
+@0470 Not Generated Call (1768): 	SetTable(instbl, syntbl, "1101xxx010000xxx", LR add_l_dn_dn, "add.l", 0x2007, 0x2E00 );   
+
+@0471 1101xxx100xxxxxx ---> 1101xxx100010xxx       add_b_ea   add.b:	OK, Writing 1769
+                            1101xxx100011xxx       add_b_ea   add.b:	OK, Writing 1770
+                            1101xxx100100xxx       add_b_ea   add.b:	OK, Writing 1771
+                            1101xxx100101xxx       add_b_ea   add.b:	OK, Writing 1772
+                            1101xxx100110xxx       add_b_ea   add.b:	OK, Writing 1773
+                            1101xxx100111000       add_b_ea   add.b:	OK, Writing 1774
+                            1101xxx100111001       add_b_ea   add.b:	OK, Writing 1775
+                            1101xxx100111010       add_b_ea   add.b:	OK, Writing 1776
+                            1101xxx100111011       add_b_ea   add.b:	OK, Writing 1777
+                            1101xxx100111100       add_b_ea   add.b:	OK, Writing 1778
+
+@0472 1101xxx101xxxxxx ---> 1101xxx101010xxx       add_w_ea   add.w:	OK, Writing 1779
+                            1101xxx101011xxx       add_w_ea   add.w:	OK, Writing 1780
+                            1101xxx101100xxx       add_w_ea   add.w:	OK, Writing 1781
+                            1101xxx101101xxx       add_w_ea   add.w:	OK, Writing 1782
+                            1101xxx101110xxx       add_w_ea   add.w:	OK, Writing 1783
+                            1101xxx101111000       add_w_ea   add.w:	OK, Writing 1784
+                            1101xxx101111001       add_w_ea   add.w:	OK, Writing 1785
+                            1101xxx101111010       add_w_ea   add.w:	OK, Writing 1786
+                            1101xxx101111011       add_w_ea   add.w:	OK, Writing 1787
+                            1101xxx101111100       add_w_ea   add.w:	OK, Writing 1788
+
+@0473 1101xxx110xxxxxx ---> 1101xxx110010xxx       add_l_ea   add.l:	OK, Writing 1789
+                            1101xxx110011xxx       add_l_ea   add.l:	OK, Writing 1790
+                            1101xxx110100xxx       add_l_ea   add.l:	OK, Writing 1791
+                            1101xxx110101xxx       add_l_ea   add.l:	OK, Writing 1792
+                            1101xxx110110xxx       add_l_ea   add.l:	OK, Writing 1793
+                            1101xxx110111000       add_l_ea   add.l:	OK, Writing 1794
+                            1101xxx110111001       add_l_ea   add.l:	OK, Writing 1795
+                            1101xxx110111010       add_l_ea   add.l:	OK, Writing 1796
+                            1101xxx110111011       add_l_ea   add.l:	OK, Writing 1797
+                            1101xxx110111100       add_l_ea   add.l:	OK, Writing 1798
+
+@0474 1101xxx011xxxxxx ---> 1101xxx011000xxx       add_w_an  adda.w:	NOT Writing 1799,  In Source Later @0476: 1101xxx011000xxx add_w_an_dn   
+                            1101xxx011001xxx       add_w_an  adda.w:	OK, Writing 1799
+                            1101xxx011010xxx       add_w_an  adda.w:	OK, Writing 1800
+                            1101xxx011011xxx       add_w_an  adda.w:	OK, Writing 1801
+                            1101xxx011100xxx       add_w_an  adda.w:	OK, Writing 1802
+                            1101xxx011101xxx       add_w_an  adda.w:	OK, Writing 1803
+                            1101xxx011110xxx       add_w_an  adda.w:	OK, Writing 1804
+                            1101xxx011111000       add_w_an  adda.w:	OK, Writing 1805
+                            1101xxx011111001       add_w_an  adda.w:	OK, Writing 1806
+                            1101xxx011111010       add_w_an  adda.w:	OK, Writing 1807
+                            1101xxx011111011       add_w_an  adda.w:	OK, Writing 1808
+                            1101xxx011111100       add_w_an  adda.w:	OK, Writing 1809
+
+@0475 1101xxx111xxxxxx ---> 1101xxx111000xxx       add_l_an  adda.l:	NOT Writing 1810,  In Source Later @0477: 1101xxx111000xxx add_l_an_dn   
+                            1101xxx111001xxx       add_l_an  adda.l:	OK, Writing 1810
+                            1101xxx111010xxx       add_l_an  adda.l:	OK, Writing 1811
+                            1101xxx111011xxx       add_l_an  adda.l:	OK, Writing 1812
+                            1101xxx111100xxx       add_l_an  adda.l:	OK, Writing 1813
+                            1101xxx111101xxx       add_l_an  adda.l:	OK, Writing 1814
+                            1101xxx111110xxx       add_l_an  adda.l:	OK, Writing 1815
+                            1101xxx111111000       add_l_an  adda.l:	OK, Writing 1816
+                            1101xxx111111001       add_l_an  adda.l:	OK, Writing 1817
+                            1101xxx111111010       add_l_an  adda.l:	OK, Writing 1818
+                            1101xxx111111011       add_l_an  adda.l:	OK, Writing 1819
+                            1101xxx111111100       add_l_an  adda.l:	OK, Writing 1820
+
+@0476 Not Generated Header (1821-1824)
+@0476 Not Generated Call (1825): 	SetTable(instbl, syntbl, "1101xxx011000xxx", LR add_w_an_dn, "adda.w", 0x2007, 0x3E00 );   
+@0477 Not Generated Call (1826): 	SetTable(instbl, syntbl, "1101xxx111000xxx", LR add_l_an_dn, "adda.l", 0x2007, 0x3E00 );   
+@0478 Not Generated Call (1827): 	SetTable(instbl, syntbl, "1101xxx100000xxx", LR addx_b_r, "addx.b", 0x2007, 0x2E00 );   
+@0479 Not Generated Call (1828): 	SetTable(instbl, syntbl, "1101xxx101000xxx", LR addx_w_r, "addx.w", 0x2007, 0x2E00 );   
+@0480 Not Generated Call (1829): 	SetTable(instbl, syntbl, "1101xxx110000xxx", LR addx_l_r, "addx.l", 0x2007, 0x2E00 );   
+@0481 Not Generated Call (1830): 	SetTable(instbl, syntbl, "1101xxx100001xxx", LR addx_b_m, "addx.b", 0x7007, 0x7E00 );   
+@0482 Not Generated Call (1831): 	SetTable(instbl, syntbl, "1101xxx101001xxx", LR addx_w_m, "addx.w", 0x7007, 0x7E00 );   
+@0483 Not Generated Call (1832): 	SetTable(instbl, syntbl, "1101xxx110001xxx", LR addx_l_m, "addx.l", 0x7007, 0x7E00 );   
+@0484 Not Generated Call (1833): 	SetTable(instbl, syntbl, "1110xxx000001xxx", LR lsr_b_i, "lsr.b", 0xAE00, 0x2007 );   
+@0485 Not Generated Call (1834): 	SetTable(instbl, syntbl, "1110xxx100001xxx", LR lsl_b_i, "lsl.b", 0xAE00, 0x2007 );   
+@0486 Not Generated Call (1835): 	SetTable(instbl, syntbl, "1110001000001xxx", LR lsr1_b, "lsr.b", 0xF001, 0x2007 );   
+@0487 Not Generated Call (1836): 	SetTable(instbl, syntbl, "1110001100001xxx", LR lsl1_b, "lsl.b", 0xF001, 0x2007 );   
+@0488 Not Generated Call (1837): 	SetTable(instbl, syntbl, "1110xxx001001xxx", LR lsr_w_i, "lsr.w", 0xAE00, 0x2007 );   
+@0489 Not Generated Call (1838): 	SetTable(instbl, syntbl, "1110xxx101001xxx", LR lsl_w_i, "lsl.w", 0xAE00, 0x2007 );   
+@0490 Not Generated Call (1839): 	SetTable(instbl, syntbl, "1110001001001xxx", LR lsr1_w, "lsr.w", 0xF001, 0x2007 );   
+@0491 Not Generated Call (1840): 	SetTable(instbl, syntbl, "1110001101001xxx", LR lsl1_w, "lsl.w", 0xF001, 0x2007 );   
+@0492 Not Generated Call (1841): 	SetTable(instbl, syntbl, "1110xxx010001xxx", LR lsr_l_i, "lsr.l", 0xAE00, 0x2007 );   
+@0493 Not Generated Call (1842): 	SetTable(instbl, syntbl, "1110xxx110001xxx", LR lsl_l_i, "lsl.l", 0xAE00, 0x2007 );   
+@0494 Not Generated Call (1843): 	SetTable(instbl, syntbl, "1110001010001xxx", LR lsr1_l, "lsr.l", 0xF001, 0x2007 );   
+@0495 Not Generated Call (1844): 	SetTable(instbl, syntbl, "1110001110001xxx", LR lsl1_l, "lsl.l", 0xF001, 0x2007 );   
+@0496 Not Generated Call (1845): 	SetTable(instbl, syntbl, "1110010110001xxx", LR lsl2_l, "lsl.l", 0xF002, 0x2007 );   
+@0497 Not Generated Call (1846): 	SetTable(instbl, syntbl, "1110xxx000101xxx", LR lsr_b_r, "lsr.b", 0x2E00, 0x2007 );   
+@0498 Not Generated Call (1847): 	SetTable(instbl, syntbl, "1110xxx100101xxx", LR lsl_b_r, "lsl.b", 0x2E00, 0x2007 );   
+@0499 Not Generated Call (1848): 	SetTable(instbl, syntbl, "1110xxx001101xxx", LR lsr_w_r, "lsr.w", 0x2E00, 0x2007 );   
+@0500 Not Generated Call (1849): 	SetTable(instbl, syntbl, "1110xxx101101xxx", LR lsl_w_r, "lsl.w", 0x2E00, 0x2007 );   
+@0501 Not Generated Call (1850): 	SetTable(instbl, syntbl, "1110xxx010101xxx", LR lsr_l_r, "lsr.l", 0x2E00, 0x2007 );   
+@0502 Not Generated Call (1851): 	SetTable(instbl, syntbl, "1110xxx110101xxx", LR lsl_l_r, "lsl.l", 0x2E00, 0x2007 );   
+@0503 Not Generated Call (1852): 	SetTable(instbl, syntbl, "1110xxx000000xxx", LR asr_b_i, "asr.b", 0xAE00, 0x2007 );   
+@0504 Not Generated Call (1853): 	SetTable(instbl, syntbl, "1110xxx100000xxx", LR asl_b_i, "asl.b", 0xAE00, 0x2007 );   
+@0505 Not Generated Call (1854): 	SetTable(instbl, syntbl, "1110xxx001000xxx", LR asr_w_i, "asr.w", 0xAE00, 0x2007 );   
+@0506 Not Generated Call (1855): 	SetTable(instbl, syntbl, "1110xxx101000xxx", LR asl_w_i, "asl.w", 0xAE00, 0x2007 );   
+@0507 Not Generated Call (1856): 	SetTable(instbl, syntbl, "1110xxx010000xxx", LR asr_l_i, "asr.l", 0xAE00, 0x2007 );   
+@0508 Not Generated Call (1857): 	SetTable(instbl, syntbl, "1110xxx110000xxx", LR asl_l_i, "asl.l", 0xAE00, 0x2007 );   
+@0509 Not Generated Call (1858): 	SetTable(instbl, syntbl, "1110xxx000100xxx", LR asr_b_r, "asr.b", 0x2E00, 0x2007 );   
+@0510 Not Generated Call (1859): 	SetTable(instbl, syntbl, "1110xxx100100xxx", LR asl_b_r, "asl.b", 0x2E00, 0x2007 );   
+@0511 Not Generated Call (1860): 	SetTable(instbl, syntbl, "1110xxx001100xxx", LR asr_w_r, "asr.w", 0x2E00, 0x2007 );   
+@0512 Not Generated Call (1861): 	SetTable(instbl, syntbl, "1110xxx101100xxx", LR asl_w_r, "asl.w", 0x2E00, 0x2007 );   
+@0513 Not Generated Call (1862): 	SetTable(instbl, syntbl, "1110xxx010100xxx", LR asr_l_r, "asr.l", 0x2E00, 0x2007 );   
+@0514 Not Generated Call (1863): 	SetTable(instbl, syntbl, "1110xxx110100xxx", LR asl_l_r, "asl.l", 0x2E00, 0x2007 );   
+@0515 Not Generated Call (1864): 	SetTable(instbl, syntbl, "1110xxx000010xxx", LR roxr_b_i, "roxr.b", 0xAE00, 0x2007 );   
+@0516 Not Generated Call (1865): 	SetTable(instbl, syntbl, "1110xxx100010xxx", LR roxl_b_i, "roxl.b", 0xAE00, 0x2007 );   
+@0517 Not Generated Call (1866): 	SetTable(instbl, syntbl, "1110xxx001010xxx", LR roxr_w_i, "roxr.w", 0xAE00, 0x2007 );   
+@0518 Not Generated Call (1867): 	SetTable(instbl, syntbl, "1110xxx101010xxx", LR roxl_w_i, "roxl.w", 0xAE00, 0x2007 );   
+@0519 Not Generated Call (1868): 	SetTable(instbl, syntbl, "1110xxx010010xxx", LR roxr_l_i, "roxr.l", 0xAE00, 0x2007 );   
+@0520 Not Generated Call (1869): 	SetTable(instbl, syntbl, "1110xxx110010xxx", LR roxl_l_i, "roxl.l", 0xAE00, 0x2007 );   
+@0521 Not Generated Call (1870): 	SetTable(instbl, syntbl, "1110xxx000110xxx", LR roxr_b_r, "roxr.b", 0x2E00, 0x2007 );   
+@0522 Not Generated Call (1871): 	SetTable(instbl, syntbl, "1110xxx100110xxx", LR roxl_b_r, "roxl.b", 0x2E00, 0x2007 );   
+@0523 Not Generated Call (1872): 	SetTable(instbl, syntbl, "1110xxx001110xxx", LR roxr_w_r, "roxr.w", 0x2E00, 0x2007 );   
+@0524 Not Generated Call (1873): 	SetTable(instbl, syntbl, "1110xxx101110xxx", LR roxl_w_r, "roxl.w", 0x2E00, 0x2007 );   
+@0525 Not Generated Call (1874): 	SetTable(instbl, syntbl, "1110xxx010110xxx", LR roxr_l_r, "roxr.l", 0x2E00, 0x2007 );   
+@0526 Not Generated Call (1875): 	SetTable(instbl, syntbl, "1110xxx110110xxx", LR roxl_l_r, "roxl.l", 0x2E00, 0x2007 );   
+@0527 Not Generated Call (1876): 	SetTable(instbl, syntbl, "1110xxx000011xxx", LR ror_b_i, "ror.b", 0xAE00, 0x2007 );   
+@0528 Not Generated Call (1877): 	SetTable(instbl, syntbl, "1110xxx100011xxx", LR rol_b_i, "rol.b", 0xAE00, 0x2007 );   
+@0529 Not Generated Call (1878): 	SetTable(instbl, syntbl, "1110xxx001011xxx", LR ror_w_i, "ror.w", 0xAE00, 0x2007 );   
+@0530 Not Generated Call (1879): 	SetTable(instbl, syntbl, "1110xxx101011xxx", LR rol_w_i, "rol.w", 0xAE00, 0x2007 );   
+@0531 Not Generated Call (1880): 	SetTable(instbl, syntbl, "1110xxx010011xxx", LR ror_l_i, "ror.l", 0xAE00, 0x2007 );   
+@0532 Not Generated Call (1881): 	SetTable(instbl, syntbl, "1110xxx110011xxx", LR rol_l_i, "rol.l", 0xAE00, 0x2007 );   
+@0533 Not Generated Call (1882): 	SetTable(instbl, syntbl, "1110xxx000111xxx", LR ror_b_r, "ror.b", 0x2E00, 0x2007 );   
+@0534 Not Generated Call (1883): 	SetTable(instbl, syntbl, "1110xxx100111xxx", LR rol_b_r, "rol.b", 0x2E00, 0x2007 );   
+@0535 Not Generated Call (1884): 	SetTable(instbl, syntbl, "1110xxx001111xxx", LR ror_w_r, "ror.w", 0x2E00, 0x2007 );   
+@0536 Not Generated Call (1885): 	SetTable(instbl, syntbl, "1110xxx101111xxx", LR rol_w_r, "rol.w", 0x2E00, 0x2007 );   
+@0537 Not Generated Call (1886): 	SetTable(instbl, syntbl, "1110xxx010111xxx", LR ror_l_r, "ror.l", 0x2E00, 0x2007 );   
+@0538 Not Generated Call (1887): 	SetTable(instbl, syntbl, "1110xxx110111xxx", LR rol_l_r, "rol.l", 0x2E00, 0x2007 );   
+
+@0539 1110000011xxxxxx ---> 1110000011010xxx          asr_m     asr:	OK, Writing 1888
+                            1110000011011xxx          asr_m     asr:	OK, Writing 1889
+                            1110000011100xxx          asr_m     asr:	OK, Writing 1890
+                            1110000011101xxx          asr_m     asr:	OK, Writing 1891
+                            1110000011110xxx          asr_m     asr:	OK, Writing 1892
+                            1110000011111000          asr_m     asr:	OK, Writing 1893
+                            1110000011111001          asr_m     asr:	OK, Writing 1894
+
+@0540 1110000111xxxxxx ---> 1110000111010xxx          asl_m     asl:	OK, Writing 1895
+                            1110000111011xxx          asl_m     asl:	OK, Writing 1896
+                            1110000111100xxx          asl_m     asl:	OK, Writing 1897
+                            1110000111101xxx          asl_m     asl:	OK, Writing 1898
+                            1110000111110xxx          asl_m     asl:	OK, Writing 1899
+                            1110000111111000          asl_m     asl:	OK, Writing 1900
+                            1110000111111001          asl_m     asl:	OK, Writing 1901
+
+@0541 1110001011xxxxxx ---> 1110001011010xxx          lsr_m     lsr:	OK, Writing 1902
+                            1110001011011xxx          lsr_m     lsr:	OK, Writing 1903
+                            1110001011100xxx          lsr_m     lsr:	OK, Writing 1904
+                            1110001011101xxx          lsr_m     lsr:	OK, Writing 1905
+                            1110001011110xxx          lsr_m     lsr:	OK, Writing 1906
+                            1110001011111000          lsr_m     lsr:	OK, Writing 1907
+                            1110001011111001          lsr_m     lsr:	OK, Writing 1908
+
+@0542 1110001111xxxxxx ---> 1110001111010xxx          lsl_m     lsl:	OK, Writing 1909
+                            1110001111011xxx          lsl_m     lsl:	OK, Writing 1910
+                            1110001111100xxx          lsl_m     lsl:	OK, Writing 1911
+                            1110001111101xxx          lsl_m     lsl:	OK, Writing 1912
+                            1110001111110xxx          lsl_m     lsl:	OK, Writing 1913
+                            1110001111111000          lsl_m     lsl:	OK, Writing 1914
+                            1110001111111001          lsl_m     lsl:	OK, Writing 1915
+
+@0543 1110010011xxxxxx ---> 1110010011010xxx         roxr_m    roxr:	OK, Writing 1916
+                            1110010011011xxx         roxr_m    roxr:	OK, Writing 1917
+                            1110010011100xxx         roxr_m    roxr:	OK, Writing 1918
+                            1110010011101xxx         roxr_m    roxr:	OK, Writing 1919
+                            1110010011110xxx         roxr_m    roxr:	OK, Writing 1920
+                            1110010011111000         roxr_m    roxr:	OK, Writing 1921
+                            1110010011111001         roxr_m    roxr:	OK, Writing 1922
+
+@0544 1110010111xxxxxx ---> 1110010111010xxx         roxl_m    roxl:	OK, Writing 1923
+                            1110010111011xxx         roxl_m    roxl:	OK, Writing 1924
+                            1110010111100xxx         roxl_m    roxl:	OK, Writing 1925
+                            1110010111101xxx         roxl_m    roxl:	OK, Writing 1926
+                            1110010111110xxx         roxl_m    roxl:	OK, Writing 1927
+                            1110010111111000         roxl_m    roxl:	OK, Writing 1928
+                            1110010111111001         roxl_m    roxl:	OK, Writing 1929
+
+@0545 1110011011xxxxxx ---> 1110011011010xxx          ror_m     ror:	OK, Writing 1930
+                            1110011011011xxx          ror_m     ror:	OK, Writing 1931
+                            1110011011100xxx          ror_m     ror:	OK, Writing 1932
+                            1110011011101xxx          ror_m     ror:	OK, Writing 1933
+                            1110011011110xxx          ror_m     ror:	OK, Writing 1934
+                            1110011011111000          ror_m     ror:	OK, Writing 1935
+                            1110011011111001          ror_m     ror:	OK, Writing 1936
+
+@0546 1110011111xxxxxx ---> 1110011111010xxx          rol_m     rol:	OK, Writing 1937
+                            1110011111011xxx          rol_m     rol:	OK, Writing 1938
+                            1110011111100xxx          rol_m     rol:	OK, Writing 1939
+                            1110011111101xxx          rol_m     rol:	OK, Writing 1940
+                            1110011111110xxx          rol_m     rol:	OK, Writing 1941
+                            1110011111111000          rol_m     rol:	OK, Writing 1942
+                            1110011111111001          rol_m     rol:	OK, Writing 1943
+
+@0547 Not Generated Header (1944-1947)
+@0547 Not Generated Call (1948): 	SetTable(instbl, syntbl, "1010xxxxxxxxxxxx", LR code1010, "a_line", 0xAFFF, 0xF000 );   
+@0548 Not Generated Call (1949): 	SetTable(instbl, syntbl, "1010101010100000", LR InitROM, "ROMINI", 0xF000, 0xF000 );   
+@0549 Not Generated Call (1950): 	SetTable(instbl, syntbl, "1010101010100001", LR MdvIO, "MDVIO", 0xF000, 0xF000 );   
+@0550 Not Generated Call (1951): 	SetTable(instbl, syntbl, "1010101010100010", LR MdvOpen, "MDVO", 0xF000, 0xF000 );   
+@0551 Not Generated Call (1952): 	SetTable(instbl, syntbl, "1010101010100011", LR MdvClose, "MDVC", 0xF000, 0xF000 );   
+@0552 Not Generated Call (1953): 	SetTable(instbl, syntbl, "1010101010100100", LR MdvSlaving, "MDVSL", 0xF000, 0xF000 );   
+@0553 Not Generated Call (1954): 	SetTable(instbl, syntbl, "1010101010100101", LR MdvFormat, "MDVFO", 0xF000, 0xF000 );   
+@0554 Not Generated Call (1955): 	SetTable(instbl, syntbl, "1010101010100110", LR SerIO, "OSERIO", 0xF000, 0xF000 );   
+@0555 Not Generated Call (1956): 	SetTable(instbl, syntbl, "1010101010100111", LR SerOpen, "OSERO", 0xF000, 0xF000 );   
+@0556 Not Generated Call (1957): 	SetTable(instbl, syntbl, "1010101010101000", LR SerClose, "OSERC", 0xF000, 0xF000 );   
+@0557 Not Generated Call (1958): 	SetTable(instbl, syntbl, "1010101010101001", LR SchedulerCmd, "SCHED", 0xF000, 0xF000 );   
+@0558 Not Generated Call (1959): 	SetTable(instbl, syntbl, "1010101010101010", LR DrvIO, "DEVIO", 0xF000, 0xF000 );   
+@0559 Not Generated Call (1960): 	SetTable(instbl, syntbl, "1010101010101011", LR DrvOpen, "DEVO", 0xF000, 0xF000 );   
+@0560 Not Generated Call (1961): 	SetTable(instbl, syntbl, "1010101010101100", LR DrvClose, "DEVC", 0xF000, 0xF000 );   
+@0561 Not Generated Call (1962): 	SetTable(instbl, syntbl, "1010101010101101", LR KbdCmd, "MIPC", 0xF000, 0xF000 );   
+@0562 Not Generated Call (1963): 	SetTable(instbl, syntbl, "1010101010101110", LR PollCmd, "POLL", 0xF000, 0xF000 );   
+@0563 Not Generated Call (1964): 	SetTable(instbl, syntbl, "1010101010101111", LR KBencCmd, "KBENC", 0xF000, 0xF000 );   
+@0564 Not Generated Call (1965): 	SetTable(instbl, syntbl, "1010101010110000", LR BASEXTCmd, "BASXT", 0xF000, 0xF000 );   
+@0565 Not Generated Call (1966): 	SetTable(instbl, syntbl, "1010101010110001", LR devpefio_cmd, "DPF", 0xF000, 0xF000 );   
+@0566 Not Generated Call (1967): 	SetTable(instbl, syntbl, "1010101010110010", LR devpefo_cmd, "DPEFO", 0xF000, 0xF000 );   
+@0567 Not Generated Call (1968): 	SetTable(instbl, syntbl, "1010110111000000", LR UseIPC, "IPC", 0xF000, 0xF000 );   
+@0568 Not Generated Call (1969): 	SetTable(instbl, syntbl, "1010110111000001", LR ReadIPC, "IPCR", 0xF000, 0xF000 );   
+@0569 Not Generated Call (1970): 	SetTable(instbl, syntbl, "1010110111000010", LR WriteIPC, "IPCW", 0xF000, 0xF000 );   
+@0570 Not Generated Call (1971): 	SetTable(instbl, syntbl, "1010110111000111", LR FastStartup, "FSTART", 0xF000, 0xF000 );   
+@0571 Not Generated Call (1972): 	SetTable(instbl, syntbl, "1010110111001000", LR QL_KeyTrans, "KYTRNS", 0xF000, 0xF000 );   
+@0572 Not Generated Call (1973): 	SetTable(instbl, syntbl, "1111xxxxxxxxxxxx", LR code1111, "f_line", 0xAFFF, 0xF000 );   
+@0573 Write Non Call (1974): 	
+@0574 Write Non Call (1975): }
+@0575 Write Non Call (1976): #endif
+@0576 Write Non Call (1977): 
+@0577 Write Non Call (1978): #ifndef IE_XL
+@0578 Write Non Call (1979): void EmulatorTable(Ptr ibuffer, syntab *synbuffer)
+@0579 Write Non Call (1980): {  
+@0580 Write Non Call (1981): 	table=ibuffer;
+@0581 Write Non Call (1982): 	syntable=synbuffer;
+@0582 Write Non Call (1983): 	SetTabEntries(ibuffer, (syntab *)synbuffer);
+@0583 Write Non Call (1984): }
+@0584 Write Non Call (1985): #endif

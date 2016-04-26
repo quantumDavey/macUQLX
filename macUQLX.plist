@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>catalogFiles</key>
+	<array>
+		<dict>
+			<key>path</key>
+			<string>catalog.pbproj</string>
+		</dict>
+	</array>
+	<key>globalOptions</key>
+	<dict>
+		<key>createApplications</key>
+		<false/>
+		<key>createFrameworks</key>
+		<false/>
+		<key>createMondoDynamicLibsTarget</key>
+		<false/>
+		<key>createMondoExeTarget</key>
+		<false/>
+		<key>createMondoStaticLibsTarget</key>
+		<false/>
+		<key>createMondoTarget</key>
+		<false/>
+		<key>emptyProject</key>
+		<false/>
+		<key>ignoreCommonErrors</key>
+		<false/>
+		<key>ignoreOptDebugFlags</key>
+		<false/>
+		<key>importHeaders</key>
+		<true/>
+		<key>inferLibraries</key>
+		<false/>
+		<key>makeAbsolutePaths</key>
+		<false/>
+		<key>mergeArchives</key>
+		<false/>
+		<key>openProject</key>
+		<false/>
+		<key>skipDataCollection</key>
+		<false/>
+		<key>sortTargetsByBuildOrder</key>
+		<false/>
+		<key>useRealTools</key>
+		<false/>
+	</dict>
+	<key>inputFilePath</key>
+	<string>empty.pbproj</string>
+	<key>outputFilePath</key>
+	<string>/Users/callisto/Desktop/uqlx-2008-01-04/MacQL.pbproj</string>
+	<key>proxyToolsDir</key>
+	<string>perl</string>
+	<key>sourceTrees</key>
+	<array>
+		<dict>
+			<key>buildCommand</key>
+			<string>make</string>
+			<key>cleanCommand</key>
+			<string>make clean</string>
+			<key>path</key>
+			<string>/Users/callisto/Desktop/uqlx-2008-01-04</string>
+			<key>shell</key>
+			<string>sh</string>
+		</dict>
+	</array>
+	<key>temporaryFilesDir</key>
+	<string>/Users/callisto/Desktop/uqlx-2008-01-04</string>
+	<key>version</key>
+	<string>1.0.2</string>
+</dict>
+</plist>

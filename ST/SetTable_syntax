@@ -1,0 +1,88 @@
+	// New SetTable Syntax:
+	//
+	// SetTable( theTable, binarymask, function to call, mnemonic, key for source, key for dest )
+	//
+	// All bit field specifiers:
+	//		R:nm 	R=addressing mode
+	//				:nm = field of bits  n to n+m of instruction word  incl counting from right
+	//
+	//	operand mask syntax encoding:
+	//
+	//	ttttmmmmmmmmmmmm	Bitfield definition		t=operand type, m=bitmask for value
+	//	1111000000000iii	Literal string,			iii=index into literal string array:
+	//
+	//	fieldmask			code	mnem	mode	description
+	//
+	//	0000mmmmmmmmmmmm	0xxx	EAMR	ea		EA [MMMRRR] defined by bit 0 to bit 5 + opt extension words
+	//												0x003F "E05"
+	//
+	//	0001mmmmmmmmmmmm	1xxx	EARM	ea		EA [RRRMMM] defined by bit 6 to bit 11 + opt extension words
+	//												0x1FC0 "F65"
+	//
+	//	0010mmmmmmmmmmmm	2xxx	D:nm	direct  Data reg defined by bit n to bit n+m incl:
+	//												0x2007 "D02"
+	//												0x2E00 "D92"
+	//
+	//	0011mmmmmmmmmmmm	3xxx	A:nm	direct  Addr reg defined by bit n to bit n+m incl
+	//												0x3007 "A02"
+	//												0x3E00 "A92"
+	//
+	//	0100mmmmmmmmmmmm	4xxx	a:nm	(An)	address reg indirect
+	//												0x4007 "a02"
+	//												0x4E00 "a92"
+	//
+	//	0101mmmmmmmmmmmm	5x0x	d:nm  d16(An)	An + displacement defined by extword 16 Bit signed
+	//									 			0x5007 "d02"
+	//												0x5E00 "d92"
+	//
+	//	0101mmmmmmmmmmmm	5x1x	d:nm d8(An,Xn)	An + 8bit disp + index register
+	//												defined by extword [0=D,1=A][idx][0=W,1=L][sc][0][signddisp]
+	//									 			0x5017 "d02"
+	//												0x5E10 "d92"
+	//
+	//	0110mmmmmmmmmmmm	6xxx	+:nm	(An)+	address reg indirect with post-increment
+	//												0x6007 "+02"
+	//												0x6E00 "+92"
+	//
+	//	0111mmmmmmmmmmmm	7xxx	-:nm	-(An)	address reg indirect with pre-decrement
+	//												0x7007 "-02"
+	//												0x7E00 "-92"
+	//
+	//	1000mmmmmmmmmmmm	8000	P		d(PC)	16 bit signed displacement from PC
+	//
+	//	1000mmmmmmmmmmmm	8010	P	d8(PC,Xn)	PC + 8 bit dispilacement + index register
+	//												defined by extword [0=D,1=A][idx][0=W,1=L][sc][0][signddisp]
+	//
+	//	1001mmmmmmmmmmmm	9xxx	G		disp	8 bit disp (=0 +16 bit extword, =255 +32 bit extword)
+	//
+	//	1010mmmmmmmmmmmm	Axxx	I:nm	immed	immediate data in instruction
+	//
+	//	1011000000000000	B000	S		ABS S	SRC EA - Absolute short (16 bit Extword)
+	//
+	//	1011000000000001	B001	L		ABS L	SRC EA - Absoulte long (32 bit Extword)
+	//
+	//	1011000100000001	B100	S		ABS L	DEST EA - Absoulte long (32 bit Extword)
+	//
+	//	1011000100000001	B101	L		ABS L	DEST EA - Absoulte long (32 bit Extword)
+	//
+	//	1110000100000000	E100	Extword immed	Byte (Next word, LSB significant only)
+	//												0xE100 "X"
+	//
+	//	1110001000000000	E200	Extword immed	Word (Next word, whole word siginificant)
+	//												0xE200 "XX"
+	//
+	//	1110001100000000	E300	Extword immed	Long (Next 2 words, whole long significant)
+	//												0xE300 "XXXX"
+	//
+	//	1110100000000000	E800	MA-D	immed	Word Register Spec Mask [A7...D0]
+	//
+	//	1110100100000000	E900	MD-A	immed	Word Register Spec Mask [D0...A7]
+	//
+	//	1111000000000iii	F00x	Literal	string	iii=index into literal string array:
+	//													0xF000 "" ""
+	//													0xF001 "#1"
+	//													0xF002 "#2"
+	//													0xF003 "#4"
+	//													0xF004 "CCR"
+	//													0xF005 "SR"
+	//													0xF006 "USP"

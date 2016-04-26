@@ -1,0 +1,3 @@
+/*
+ * (c) UQLX - see COPYRIGHT
+ */

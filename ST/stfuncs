@@ -1,0 +1,92 @@
+void SetTable(void (**otbl)(void), syntab *stbl, char *mask,void (*f)(void), char *mnem, int smask, int dmask)
+{
+	long c;
+	long m,m0;
+   	Cond multiplo=false;
+   	register void (**p)(void);
+	register syntab *q;
+	
+   	short i,c1,c2;
+	
+	if(V4) printf("SetTable: %s, insns %s, *code %x\n",OpCodePtr(mnem),mask,f);
+	
+   	m=0x08000; c=0;
+	
+   	for(i=0;i<16;i++)
+   	{
+		if(mask[i]=='1') c+=m;
+   		if(mask[i]=='x') multiplo=true;
+   		m>>=1;
+   	}
+	
+   	if(!multiplo)
+	{
+		otbl[c]=f;
+		stbl[c].m=OpCodePtr(mnem);
+		stbl[c].s=smask; stbl[c].d=dmask; stbl[c].x=0;
+		return;
+	}
+	
+   	m0=1; i=15; c1=1;
+	
+   	while(mask[i]!='x') { m0<<=1; i--; }
+	
+   	while(mask[i--]=='x') c1<<=1;
+	
+   	while(i&&mask[i]!='x') i--;
+	
+   	if(i)
+   	{
+		c2=2;
+		m=0x08000>>i;
+		while(mask[--i]=='x') c2<<=1;
+		
+	   	while(c2--)
+		{
+			p=otbl+c;
+			q=stbl+c;
+			i=c1;
+			
+			while(i--)
+			{
+				*p=f;
+				q->m=OpCodePtr(mnem);
+				q->s=smask; q->d=dmask; q->x=0;
+				p+=m0;
+				q+=m0;
+			}
+			
+			c+=m;
+		}
+   	}
+   	else
+   	{
+		p=otbl+c;
+		q=stbl+c;
+		
+		while(c1--)
+		{
+			*p=f;
+			q->m=OpCodePtr(mnem);
+			q->s=smask; q->d=dmask; q->x=0;
+			p+=m0;
+			q+=m0;
+		}
+	}
+}
+
+#endif
+
+#ifndef IE_XL
+void SetInvalEntries(void (**instbl)(void), syntab syntbl[], void *code, char *mnemonic, int arg1mask, int arg2mask)
+{
+	long i;
+	
+	for(i=8;i<61440;i++)
+	{
+		instbl[i]= code;
+		syntbl[i].m=(char *)OpCodePtr(mnemonic);
+		syntbl[i].s=arg1mask;syntbl[i].d=arg2mask;syntbl[i].x=0;
+		
+	}
+}
